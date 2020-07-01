@@ -1,0 +1,17 @@
+<% if (alerts.error) {
+  alerts.error.forEach( message => { %>
+    <div style='background: red; color: white'>
+      <%= message %>
+    </div>
+<% }) 
+ } else if (alerts.success) {
+    alerts.success.forEach( message => { %>
+      <div style='background: green; color: white'>
+        <%= message %>
+      </div>
+<% }) 
+} %> 
+<script> 
+  console.log('<%= alerts.error %>')
+  console.log('<%= alerts.success %>')
+</script>
