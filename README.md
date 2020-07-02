@@ -4,7 +4,7 @@
 
 *Quakebook* is the world's first social media network with a community centered around seismic activity.
 
-*Quakebook*'s server collects data from the usgs earthquake API as seismic activity occurs, gives users access to the data in a searchable database, and displays an interactive map of of earthquakes for users to explore. Users can explore the details of a particular earthquake after exploring the results of their search.
+*Quakebook*'s server collects data from the usgs earthquake API as seismic activity occurs, gives users access to the data in a searchable database, and displays an interactive map of of earthquakes for users to explore. Users can explore the details of a particular earthquake after selecting it from the results of their search.
 
 *Quakebook* users can further engage with the *Quakebook community* by creating a free profile that will allow them to interact with other users by commenting on a particular earthquake.
 
@@ -115,12 +115,14 @@ function getData(){
           defaults: {
             //update accordingly
           }
-        }).then( ([earthquake, created]) => {
+        })
+        .then( ([earthquake, created]) => {
           //check if any data has been updated if not created
           if(!created){
             //check feature.properties.status for update
           }
-        }).catch( error => {
+        })
+        .catch( error => {
           // handle error from database
           console.log(error);
         });
@@ -195,7 +197,8 @@ let earthquakeIds = document.getElementById('dataDiv').dataset.earthquakeIds;
     params: {
       search: earthquakeIds //search terms would go here
     }
-  }).then( response => {
+  })
+  .then( response => {
     //make an array of the features sent from server
     geojson = Object.entries(response.data.features);
 
@@ -247,13 +250,16 @@ router.get('/data', (req, res) => {
         where: {
           id: id
         }
-      }).then(foundFeature => {
+      })
+      .then(foundFeature => {
         //push feature to response
         responseObject.features.push(foundFeature)
-      }).catch( error => {
+      })
+      .catch( error => {
         //handle database errors
         errorHandler(error);
-      }).finally( () => {
+      })
+      .finally( () => {
         //send response object back once database operations are complete
         res.send(responseObject);
       });
