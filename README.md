@@ -6,7 +6,7 @@
 
 *Quakebook*'s server collects data from the usgs earthquake API as seismic activity occurs, gives users access to the data in a searchable database, and displays an interactive map of of earthquakes for users to explore. Users can explore the details of a particular earthquake after exploring the results of their search.
 
-*Quakebook* users can further engage with the *Quakebook community* by creating a free profile that will allow them to interact with other users by commenting on particular earthquake.
+*Quakebook* users can further engage with the *Quakebook community* by creating a free profile that will allow them to interact with other users by commenting on a particular earthquake.
 
 ## MVP
 
@@ -52,12 +52,12 @@ GET | / | route hit | render map view/default search | no
 GET | /search | search query | render/redirect map view | no
 GET | /data | data query | send data geoJSON | no
 GET | /details/:earthquakeIndex | request params | render details | no
-|
+||||
 GET | /auth/login | route hit | render login | no
 POST | /auth/login | request body | validate render profile | no
 GET | /auth/register | route hit | render register | no
 POST | /auth/register | request body | create new user render profile | no
-|
+||||
 POST | /details/:earthquakeIndex/comment | request params request body | create new comment redirect /details/:earthquakeIndex | yes
 GET | /users | route hit | render users | yes
 GET | /users/:userId | request params | render user | yes
