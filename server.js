@@ -14,7 +14,7 @@ const methodOverride = require('method-override');
 const chalk = require('chalk');
 const rowdy = require('rowdy-logger');
 const isLoggedIn = require('./middleware/isLoggedIn');
-// want to add link to custom middleware
+const toolbox = require('./private/toolbox');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 //api keys and urls
@@ -34,12 +34,12 @@ const usgsUrls = {
   }
 }
 
-
 // app setup and middlewares
 const app = Express();
 const rowdyResults = rowdy.begin(app);
 app.use(Express.urlencoded({ extended: false }));
 app.use(Express.static(__dirname + '/public'));
+app.use(Express.static(__dirname + '/private'));
 app.set('view engine', 'ejs');
 app.use(ejsLayouts);
 app.use(require('morgan')('dev'));
@@ -73,18 +73,33 @@ app.use(function(req, res, next){
   next();
 });
 
+// controllers
+app.use('/auth', require('./controllers/auth'));
+app.use('/users', require('./controllers/users'));
+
 // ROUTES
 app.get('/', (req, res) => {
   //check is user is logged in
   res.render('index');
 });
 
-app.get('/profile', isLoggedIn, function(req, res){
-  res.render('profile');
-});
-
-// include auth controller
-app.use('/auth', require('./controllers/auth'));
+function getData(){
+  let timeoutUsgsQuery;
+  axios.get(usgsUrls.pastHour.all)
+    .then(function (response) {
+      //check database for features
+    })
+    .catch(function (error) {
+      // handle error from axios
+      toolbox.erroorHandler(error);
+    })
+    .finally(function () {
+      //callback a another query
+      timeoutUsgsQuery = setTimeout(getData, 1000);
+    });
+}
+//uncomment to start api calls
+getData();
 
 // initialize app on port
 let port = process.env.PORT || 3000;

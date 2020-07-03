@@ -23,7 +23,7 @@ router.post('/register', function(req, res) {
     if (created) {
       console.log('User created! 🎉');
       passport.authenticate('local', {
-        successRedirect: '/profile',
+        successRedirect: '/users/profile',
         successFlash: 'Thanks for signing up!'
       })(req, res);
     } else {
@@ -70,7 +70,7 @@ router.post('/login', function(req, res, next) {
       req.flash('success', 'You are validated and logged in.');
       // if success save session and redirect user
       req.session.save(function() {
-        return res.redirect('/profile');
+        return res.redirect('/users/profile');
       });
     })
   })(req, res, next);
