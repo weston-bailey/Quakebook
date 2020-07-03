@@ -7,18 +7,44 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('./config/ppConfig');
 const db = require('./models');
+const axios = require('axios');
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const stringifyBoolean = require('@mapbox/mapbox-sdk/services/service-helpers/stringify-booleans');
+const methodOverride = require('method-override');
+const chalk = require('chalk');
+const rowdy = require('rowdy-logger');
 const isLoggedIn = require('./middleware/isLoggedIn');
 // want to add link to custom middleware
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
+//api keys and urls
+const mapKey = process.env.MAPBOX_TOKEN;
+const usgsUrls = {
+  pastHour: {
+    all: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson',
+    mag1: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_hour.geojson',
+    mag2: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_hour.geojson',
+    mag4: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_hour.geojson'
+  }, 
+  allTime: {
+    all: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson',
+    mag1: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_month.geojson',
+    mag2: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson',
+    mag4: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.geojson'
+  }
+}
+
+
 // app setup and middlewares
 const app = Express();
+const rowdyResults = rowdy.begin(app);
 app.use(Express.urlencoded({ extended: false }));
 app.use(Express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 app.use(ejsLayouts);
 app.use(require('morgan')('dev'));
 app.use(helmet());
+app.use(methodOverride('_method'));
 
 // create new instance of class SequelizeStore
 const sessionStore = new SequelizeStore({
@@ -62,4 +88,7 @@ app.use('/auth', require('./controllers/auth'));
 
 // initialize app on port
 let port = process.env.PORT || 3000;
-app.listen(port, () => {console.log(`listening on port ${port}`) });
+app.listen(port, () => {
+  rowdyResults.print();
+  console.log(chalk.black.bgGreen(` ~~~listening on port: ${port}~~~ `)); 
+});

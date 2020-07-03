@@ -1,8 +1,8 @@
 {
-  "name": "express-auth-boilerplate",
+  "name": "quakebook",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@mapbox/mapbox-sdk": "^0.11.0",
+    "axios": "^0.19.2",
     "bcrypt": "^5.0.0",
     "connect-flash": "^0.1.1",
     "connect-session-sequelize": "^7.0.0",
@@ -20,10 +22,15 @@
     "express-session": "^1.17.1",
     "flash": "^1.1.0",
     "helmet": "^3.23.3",
+    "mapbox": "^1.0.0-beta10",
+    "mapbox-gl": "^1.11.0",
+    "method-override": "^3.0.0",
     "morgan": "^1.10.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "pg": "^8.2.1",
+    "rowdy": "^0.5.0",
+    "rowdy-logger": "^1.0.2",
     "sequelize": "^5.21.13"
   }
 }
