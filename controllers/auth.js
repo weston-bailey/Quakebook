@@ -15,7 +15,8 @@ router.post('/register', function(req, res) {
     where: {
       email: req.body.email
     }, defaults: {
-      name: req.body.name,
+      //todo update lastname bio etc
+      firstName: req.body.name,
       password: req.body.password
     }
   }).then(function([user, created]) {

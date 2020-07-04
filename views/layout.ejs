@@ -9,21 +9,47 @@
 </head>
   <body>
     <header>
-      <nav>
+      <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <!-- navbar is user is logged in -->
         <% if(currentUser) { %>
-          <a href="/auth/logout">Logout</a>
-          <a href="/profile">Profile</a>
+          <a href="/" class="navbar-brand">
+            <img src="images/logo.svg" height="28" alt="Quakebook">
+          </a>
+          <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+    
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav">
+              <a href="#" class="nav-item nav-link disabled" tabindex="-1">disabled</a>
+            </div>
+            <div class="navbar-nav ml-auto">
+              <a href=/profile" class="nav-item nav-link">profile</a>
+              <a href="/auth/logout" class="nav-item nav-link active">logout</a>
+            </div>
+          </div>
+        <!-- nav if user is logged out -->
         <% } else { %>
-          <a href="/auth/register">Register</a>
-          <a href="/auth/login">Login</a>
-        <% } %>
-          
-          
+          <a href="/" class="navbar-brand">
+            <img src="images/logo.svg" height="28" alt="Quakebook">
+          </a>
+          <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+    
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav">
+              <a href="#" class="nav-item nav-link disabled" tabindex="-1">disabled</a>
+            </div>
+            <div class="navbar-nav ml-auto">
+              <a href="/auth/register" class="nav-item nav-link active">register</a>
+              <a href="/auth/login" class="nav-item nav-link active">login</a>
+            </div>
+          </div>
+        <% } %>        
       </nav>
     </header>
     <div class="container">
-      <h1>Authenticating Users 🐳</h1>
-
       <%- include('../views/partials/alerts.ejs') %>
       <%- body %>
     </div>
