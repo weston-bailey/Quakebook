@@ -8,5 +8,6 @@ module.exports = {
     console.log(flash);
     console.log(error);
     console.log(flash);
-  },
+  }
 }
+

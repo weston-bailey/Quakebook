@@ -1,15 +1,26 @@
+<h3>Join the Quakebook communtiy!</h3>
+
 <form action="/auth/register" method="POST">
   <div class="form-group">
       <label for="authEmail">Email</label>
-      <input id="authEmail" class="form-control" type="email" name="email">
+      <input id="authEmail" class="form-control" type="email" name="email" placeholder="email@website.com">
   </div>
   <div class="form-group">
-      <label for="authName">Name</label>
-      <input id="authName" class="form-control" type="text" name="name">
+      <label for="authFirstName">First Name</label>
+      <input id="authFirstName" class="form-control" type="text" name="firstName" placeholder="First Name">
+  </div>
+  <div class="form-group">
+      <label for="authLastName">Last Name</label>
+      <input id="authLastName" class="form-control" type="text" name="lastName" placeholder="Last Name">
   </div>
   <div class="form-group">
       <label for="authPassword">Password</label>
-      <input id="authPassword" class="form-control" type="password" name="password">
+      <input id="authPassword" class="form-control" type="password" name="password" placeholder="********">
   </div>
-  <input class="btn" type="submit">
+  <div class="form-group">
+      <label for="bio">Bio</label>
+      <textarea id="bio" class="form-control" type="password" rows="3" name="bio" placeholder="Tell the Quakebook community about yourself!"></textarea>
+  </div>
+  <!-- todo add pfp input -->
+  <input class="btn btn-dark" type="submit">
 </form>

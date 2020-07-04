@@ -15,11 +15,14 @@ router.post('/register', function(req, res) {
     where: {
       email: req.body.email
     }, defaults: {
-      //todo update lastname bio etc
-      firstName: req.body.name,
+      //todo todo add pfp
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      bio: req.body.bio,
       password: req.body.password
     }
-  }).then(function([user, created]) {
+  })
+  .then(function([user, created]) {
     // if user was created
     if (created) {
       console.log('User created! 🎉');
@@ -32,7 +35,8 @@ router.post('/register', function(req, res) {
       req.flash('error', 'Error: email already exists for user. Try again.');
       res.redirect('/auth/register');
     }
-  }).catch(function(err) {
+  })
+  .catch(function(err) {
     console.log(`Error found. \nMessage: ${err.message}. \nPlease review - ${err}`);
     req.flash('error', err.message);
     res.redirect('/auth/register');
