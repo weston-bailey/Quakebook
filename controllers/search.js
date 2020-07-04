@@ -7,14 +7,10 @@ const flash = require('connect-flash');
 const passport = require('../config/ppConfig');
 
 //todo change to /users/:index/profile
-router.get('/', /*isLoggedIn,*/ function(req, res){
-  res.send('render all users')
-});
-
-//todo change to /users/:index/profile
-router.get('/:userId', /*isLoggedIn,*/ function(req, res){
-  userId = req.params.userId;
-  res.send(`profile for ${userId}`);
+router.get('/', function(req, res){
+  console.log(req.query)
+  res.send('search query and redirect');
+  //redirect to / after search
 });
 
 // export router

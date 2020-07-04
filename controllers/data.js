@@ -6,16 +6,13 @@ const isLoggedIn = require('../middleware/isLoggedIn');
 const flash = require('connect-flash');
 const passport = require('../config/ppConfig');
 
-//todo change to /users/:index/profile
-router.get('/', /*isLoggedIn,*/ function(req, res){
-  res.send('render all users')
+router.get('/', (req, res) => {
+  console.log(req.query);
+  //search db based on req.query
+  //send back features for map
+  res.send('features data from api')
 });
 
-//todo change to /users/:index/profile
-router.get('/:userId', /*isLoggedIn,*/ function(req, res){
-  userId = req.params.userId;
-  res.send(`profile for ${userId}`);
-});
 
 // export router
 module.exports = router;

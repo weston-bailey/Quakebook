@@ -79,12 +79,20 @@ app.use(function(req, res, next){
 
 // controllers
 app.use('/auth', require('./controllers/auth'));
+app.use('/search', require('./controllers/search'));
+app.use('/data', require('./controllers/data'));
+app.use('/details', require('./controllers/details'));
 app.use('/users', require('./controllers/users'));
 
 // ROUTES
 app.get('/', (req, res) => {
   //check is user is logged in
   res.render('index');
+});
+
+//will be deprecated
+app.get('/profile', isLoggedIn, function(req, res){
+  res.render('profile');
 });
 
 function getData(){
