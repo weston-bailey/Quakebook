@@ -103,7 +103,7 @@ function getData(){
     })
     .catch(function (error) {
       // handle error from axios
-      toolbox.erroorHandler(error);
+      toolbox.errorHandler(error);
     })
     .finally(function () {
       //callback a another query
@@ -111,7 +111,7 @@ function getData(){
     });
 }
 //uncomment to start api calls
-getData();
+//getData();
 
 // initialize app on port
 let port = process.env.PORT || 3000;
