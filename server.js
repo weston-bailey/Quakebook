@@ -11,6 +11,8 @@ const axios = require('axios');
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const stringifyBoolean = require('@mapbox/mapbox-sdk/services/service-helpers/stringify-booleans');
 const methodOverride = require('method-override');
+const multer = require('multer');
+const cloudinary = require('cloudinary');
 const chalk = require('chalk');
 const rowdy = require('rowdy-logger');
 const isLoggedIn = require('./middleware/isLoggedIn');
@@ -19,6 +21,7 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 //api keys and urls
 const mapKey = process.env.MAPBOX_TOKEN;
+
 const usgsUrls = {
   pastHour: {
     all: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson',
@@ -37,6 +40,7 @@ const usgsUrls = {
 // app setup and middlewares
 const app = Express();
 const rowdyResults = rowdy.begin(app);
+const uploads = multer({ dest: './uploads' }); //todo factor in upload route
 app.use(Express.urlencoded({ extended: false }));
 app.use(Express.static(__dirname + '/public'));
 app.use(Express.static(__dirname + '/private'));

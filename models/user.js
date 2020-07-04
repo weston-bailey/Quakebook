@@ -1,4 +1,3 @@
-// user model decleration
 'use strict';
 const bcrypt = require('bcrypt');
 
@@ -14,12 +13,21 @@ module.exports = function(sequelize, DataTypes) {
         }
       }
     },
-    name: {
+    firstName: {
       type: DataTypes.STRING,
       validate: {
         len: {
           args: [1, 99],
-          msg: 'Name must be between 1 and 99 characters'
+          msg: 'First Name must be between 1 and 99 characters'
+        }
+      }
+    },
+    lastName: {
+      type: DataTypes.STRING,
+      validate: {
+        len: {
+          args: [1, 99],
+          msg: 'Last Name must be between 1 and 99 characters'
         }
       }
     },
@@ -31,7 +39,10 @@ module.exports = function(sequelize, DataTypes) {
           msg: 'Password is of incorrect length. Double check character number.'
         }
       }
-    }
+    },
+    pfp: DataTypes.STRING,
+    bio: DataTypes.TEXT,
+    defaults: DataTypes.JSON
   }, {
     hooks: {
       // before record creation
@@ -44,7 +55,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   });
   user.associate = function(models) {
-    // TODO: any user associations you want
+    models.user.hasMany(models.comment);
   }
 
   // validPassword definition to validate password at user login
