@@ -10,6 +10,7 @@ const db = require('./models');
 const axios = require('axios');
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const stringifyBoolean = require('@mapbox/mapbox-sdk/services/service-helpers/stringify-booleans');
+const geocodingClient = mbxGeocoding( {accessToken: process.env.MAPBOX_TOKEN});
 const methodOverride = require('method-override');
 const multer = require('multer');
 const cloudinary = require('cloudinary');
@@ -87,7 +88,17 @@ app.use('/users', require('./controllers/users'));
 // ROUTES
 app.get('/', (req, res) => {
   //check is user is logged in
-  res.render('index');
+  geocodingClient.forwardGeocode({ 
+    query: "california"
+   })
+   .send()
+   .then(response => {
+     let match = response.body.features[0];
+     let matchString = JSON.stringify(match);
+     matchString += matchString
+    console.log(matchString);
+     res.render('index', { match, mapKey: process.env.MAPBOX_TOKEN, matchString })
+   })
 });
 
 //will be deprecated

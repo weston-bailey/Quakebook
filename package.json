@@ -24,6 +24,7 @@
     "flash": "^1.1.0",
     "helmet": "^3.23.3",
     "mapbox": "^1.0.0-beta10",
+    "mapbox-geocoding": "^0.1.5",
     "mapbox-gl": "^1.11.0",
     "method-override": "^3.0.0",
     "morgan": "^1.10.0",

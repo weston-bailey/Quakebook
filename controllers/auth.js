@@ -19,15 +19,21 @@ router.post('/register', function(req, res) {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       bio: req.body.bio,
-      password: req.body.password
+      password: req.body.password,
+      defaults: {
+        timeZone: null,
+        mapStyle: null,
+        searchArea: null
+      }
     }
   })
   .then(function([user, created]) {
     // if user was created
+    console.log('🍖', user.id);
     if (created) {
       console.log('User created! 🎉');
       passport.authenticate('local', {
-        successRedirect: '/profile',
+        successRedirect: `/users/${user.id}`,
         successFlash: 'Thanks for signing up!'
       })(req, res);
     } else {

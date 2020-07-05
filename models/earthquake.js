@@ -20,5 +20,8 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     models.earthquake.hasMany(models.comment);
   };
+  earthquake.prototype.searchMagGreaterThan = function(search){
+    return (this.mag > search) ? [true, this.mag, this.place] : false;
+  }
   return earthquake;
 };

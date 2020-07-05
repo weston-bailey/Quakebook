@@ -4,16 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Quakebook</title>
+
   <!-- Bootstrap CSS file -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+  <!-- mapbox CSS file -->
+  <link href="https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.css" rel="stylesheet" />
+  <!-- local styles -->
+  <link rel="stylesheet" type="text/css" href="/css/style.css"/>
 </head>
   <body>
     <header>
       <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-        <!-- navbar is user is logged in -->
+        <!-- navbar if user is logged in -->
         <% if(currentUser) { %>
           <a href="/" class="navbar-brand">
-            <img src="images/logo.svg" height="28" alt="Quakebook">
+            <img src="./public/images/logo.svg" height="28" alt="Quakebook">
           </a>
           <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
@@ -23,7 +28,7 @@
               <a href="#" class="nav-item nav-link disabled" tabindex="-1">disabled</a>
             </div>
             <div class="navbar-nav ml-auto">
-              <a href=/profile" class="nav-item nav-link">profile</a>
+              <a href="/profile" class="nav-item nav-link">profile</a>
               <a href="/auth/logout" class="nav-item nav-link active">logout</a>
             </div>
           </div>
@@ -50,6 +55,7 @@
     </header>
     <div class="container">
       <%- include('../views/partials/alerts.ejs') %>
+      <h1>pink</h1>
       <%- body %>
     </div>
     <!-- jQuery -->

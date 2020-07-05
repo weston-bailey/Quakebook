@@ -7,12 +7,12 @@ const flash = require('connect-flash');
 const passport = require('../config/ppConfig');
 
 
-router.get('/', /*isLoggedIn,*/ function(req, res){
+router.get('/',  isLoggedIn, function(req, res){
   res.send('render all users')
 });
 
 
-router.get('/:userId', /*isLoggedIn,*/ function(req, res){
+router.get('/:userId', isLoggedIn, function(req, res){
   userId = req.params.userId;
   res.send(`profile for ${userId}`);
 });

@@ -1,1 +1,23 @@
 <h1>Login or Register to join our website</h1>
+<!-- the map -->
+<div class="containter">
+  <div id="map"></div>
+</div>
+
+
+<!-- data for local js -->
+<% let latitude = match.center[0]; %>
+<% var longitude = match.center[1]; %>
+<% var mapKey = mapKey; %>
+<div id="dataDiv" 
+data-mapkey=<%= mapKey %>
+data-latitude=<%= latitude %>
+data-longitude=<%= longitude %>>
+</div>
+
+<!-- mapbox js -->
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.js"></script>
+<!-- axios client js -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- local map js -->
+<script src="/js/map.js"></script>

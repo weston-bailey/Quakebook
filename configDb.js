@@ -5,14 +5,32 @@ sequelize model:create --name comment --attributes userId:integer,earthquakeId:i
 
 const axios = require('axios');
 const db = require('./models');
+const toolbox = require('./private/toolbox');
+
+const usgsUrls = {
+  pastHour: {
+    all: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson',
+    mag1: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_hour.geojson',
+    mag2: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_hour.geojson',
+    mag4: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_hour.geojson'
+  }, 
+  allTime: {
+    all: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson',
+    mag1: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_month.geojson',
+    mag2: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson',
+    mag4: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.geojson'
+  }
+}
+
 
 function populateDb(){
 
-  axios.get('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson')
+  axios.get(usgsUrls.allTime.all)
     .then(function (response) {
       //check database for features
       console.log(response.data.features)
       response.data.features.forEach( feature =>{
+        //console.log(feature.properties.geometry.coordinates[0])
         db.earthquake.findOrCreate({
           where: {
             usgsId: feature.id
@@ -28,21 +46,21 @@ function populateDb(){
             tsunami: feature.properties.tsunami,
             sig: feature.properties.sig,
             title: feature.properties.title,
-            latitude: feature.properties.latitude,
-            longitude: feature.properties.longitude,
-            depth: feature.properties.depth
+            latitude: feature.geometry.coordinates[0],
+            longitude: feature.geometry.coordinates[1],
+            depth: feature.geometry.coordinates[2]
           }
         })
         .catch(function (error) {
           // handle error from axios
-          toolbox.erroorHandler(error);
+          toolbox.errorHandler(error);
         })
       })
 
     })
     .catch(function (error) {
       // handle error from axios
-      toolbox.erroorHandler(error);
+      toolbox.errorHandler(error);
     })
 
 }
