@@ -2,7 +2,6 @@
 <!-- the map -->
 <div class="containter" class="position-static">
   <div id="map">
-    <p>text</p>
   </div>
 </div>
 <!-- all content under the map -->
@@ -11,15 +10,15 @@
   <form action="/" method="GET">
     <div class="form-inline" >
       <label for="search-magnitude">Search Based On Magnitude</label>
-      <input id="search-magnitude" class="form-control" type="number" name="mag" placeholder="3">
+      <input id="search-magnitude" class="form-control" type="number" step="1" min="0" name="mag" placeholder="<%= search %> ">
     </div>
     <input class="btn btn-dark" type="submit">
   </form>
   <!-- list group of earthquakes -->
   <%= //result. %> 
   <div class="list-group">
-    <% searchResults.forEach(result => { 
-      let date = new Date(result.time)  %>
+    <% searchResults.forEach(result => { %>
+     <% let date = new Date(result.time)  %>
     <div class="list-group-item">
       <div class="d-flex w-100 justify-content-between">
         <h4> <%= result.place %> </h4>
@@ -38,6 +37,7 @@
 <% let latitude = match.center[0]; %>
 <% let longitude = match.center[1]; %>
 <% let mapkey = mapKey; %>
+
 <div id="dataDiv" 
 data-mapkey=<%= mapKey %>
 data-mag=<%= search %>
@@ -50,4 +50,4 @@ data-longitude=<%= longitude %>>
 <!-- axios client js -->
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <!-- local map js -->
-<script src="/js/map.js"></script>
+<script src="/js/map-search.js"></script>

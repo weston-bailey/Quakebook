@@ -65,4 +65,16 @@ function populateDb(){
 
 }
 
-populateDb();
+//populateDb();
+
+function checkAlerts(){
+  db.earthquake.findAll().then( earthquakes => {
+    earthquakes.forEach( earthquake => {
+      if(earthquake.dataValues.alert === 'orange'){
+        console.log(earthquake.dataValues)
+      }
+    })
+  })
+}
+
+checkAlerts();

@@ -116,7 +116,6 @@ app.get('/', (req, res) => {
       matchString += matchString
       console.log(matchString);
       //transmit earthquakes and the search parameters
-      //console.log(searchResults)
       res.render('index', { match, mapKey: process.env.MAPBOX_TOKEN, searchResults, search, matchString })
     })
     .catch(error => toolbox.errorHandler(error));

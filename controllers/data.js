@@ -10,7 +10,10 @@ const toolbox = require('../private/toolbox');
 const { response } = require('express');
 
 router.get('/', (req, res) => {
+  //incoming search
   let search = req.query.search;
+  //data array to send back
+  let transmitData = [];
   console.log(req.query);
   //for response time test
   console.log('data request recieved, searching database');
@@ -23,7 +26,6 @@ router.get('/', (req, res) => {
   if(search){
     db.earthquake.findAll()
     .then( earthquakes => {
-      let transmitData = [];
       earthquakes.forEach( earthquake => {
         //boolean test for search query
         let searchTest = earthquake.searchMagGreaterThan(search);
@@ -39,6 +41,25 @@ router.get('/', (req, res) => {
     })
     .catch(error => toolbox.errorHandler(error));
   }
+});
+
+router.get('/details', (req, res) => {
+  //id of earthquake to find
+  let search = req.query.search;
+  //data to send back
+  let earthquakeData;
+  db.earthquake.findOne({
+    where: {
+      id: search
+    }
+  })
+  .then( earthquake => {
+    //just being explicit
+    earthquakeData = earthquake;
+    //send data
+    res.send(earthquakeData)
+  })
+  .catch( error => toolbox.errorHandler(error));
 });
 
 

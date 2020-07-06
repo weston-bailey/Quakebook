@@ -31,8 +31,8 @@ function renderMap(){
   mapboxgl.accessToken = mapKey;
     map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v11',
-      // style: 'mapbox://styles/mapbox/satellite-v9',
+      // style: 'mapbox://styles/mapbox/streets-v11',
+      style: 'mapbox://styles/mapbox/satellite-v9',
       center: [latitude, longitude],
       // center: [27.2038, 77.5011],
       zoom: 1

@@ -1,0 +1,100 @@
+
+<!-- the map -->
+<div class="containter" class="position-static">
+  <div id="map">
+  </div>
+</div>
+<!-- all content under the map -->
+<div class="under-map">
+  <!-- details for earthquake -->
+  <%= //earthquake. %> 
+  <% let date = new Date(earthquake.time)  %>
+  <div class="d-flex flex-column">
+    <div class="d-flex w-100 justify-content-between">
+      <div class="containter">
+        <h4> <%= earthquake.place %> </h4>
+      </div>
+    </div>
+      <div class="d-flex w-100 justify-content-between">
+      <div class="containter">
+        <small> <%= date %> </small>
+      </div>
+    </div>
+    <div class="d-flex w-100 justify-content-between">
+      <div class="containter">
+        <h5>Mag:</h5>
+        <h6><%= earthquake.mag %></h6>
+      </div>
+      <div class="containter">
+        <h5>Depth:</h5>
+        <h6><%= earthquake.depth %>km</h6>
+      </div>
+      <div class="containter">
+        <h5>Latitude:</h6>
+        <h6><%= earthquake.latitude %></h6>
+      </div>
+      <div class="containter">
+        <h5>Longitude:</h5>
+        <h6><%= earthquake.longitude %></h6>
+      </div>
+    </div>
+    <% if(earthquake.alert === null) { %>
+      <div class="d-flex w-100 justify-content-between">
+        <h6>No alerts issued for this earthquake</h6>
+      </div>
+  <% } else if (earthquake.alert === "green") { %>
+    <div class="d-flex w-100 justify-content-between">
+      <h5><i class="fa fa-warning"></i>This earthquake was issued an alert level of green </h5>
+    </div>
+  <% } else if (earthquake.alert === "yellow") { %>
+    <div class="d-flex w-100 justify-content-between">
+      <h5><i class="fa fa-warning"></i>This earthquake was issued an alert level of yellow </h5>
+    </div>
+  <% } else if (earthquake.alert === "orange") { %>
+    <div class="d-flex w-100 justify-content-between">
+      <h5><i class="fa fa-warning"></i>This earthquake was issued an alert level of orange </h5>
+    </div>
+  <% } else if (earthquake.alert === "red") { %>
+    <div class="d-flex w-100 justify-content-between">
+      <h5><i class="fa fa-warning"></i>This earthquake was issued an alert level of red </h5>
+    </div>
+  <% } %>
+  </div>
+  <!-- comments if user is logged out -->
+  <% if(!currentUser) { %>
+    <div class="d-flex w-100">
+      <p><a href="/auth/register">Register</a> or <a href="/auth/login">Login</a> to join in with the Quakebook community and comment on this earthquake!</p>
+    </div>
+  <!-- comments if user is logged in -->
+  <% } else { %>
+    <!-- comment list -->
+  <div class="list-group">
+    <% //comments.forEach(comment => { %>
+      <div class="list-group-item">
+        <div class="d-flex w-100 justify-content-between">
+        
+        </div>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<!-- data for local js -->
+
+<% let latitude = earthquake.latitude; %>
+<%  let longitude = earthquake.longitude; %>
+<% let mapkey = mapKey; %>
+
+<div id="dataDiv" 
+data-mapkey=<%= mapKey %>
+data-id=<%= earthquake.id %>
+data-latitude=<%= latitude %>
+data-longitude=<%= longitude  %>>
+</div>
+
+<!-- mapbox js -->
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.js"></script>
+<!-- axios client js -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- local map js -->
+<script src="/js/map-details.js"></script>
