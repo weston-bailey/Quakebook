@@ -3,14 +3,17 @@ window.addEventListener('DOMContentLoaded', () => { renderMap(); });
 let latitude = document.getElementById('dataDiv').dataset.latitude;
 let longitude = document.getElementById('dataDiv').dataset.longitude;
 let mapKey = document.getElementById('dataDiv').dataset.mapkey;
+//search result only magnitude 
+let mag = document.getElementById('dataDiv').dataset.mag;
 // let jsonData = document.getElementById('dataDiv').dataset.test4;
 //for the mapbox
 let map;
 
 // console.log(matchCenter0);
 // console.log(matchCenter1);
-console.log(mapKey);
+//console.log(mapKey);
 // console.log(jsonData.length);
+console.log(mag)
 
 function getMethods(obj){
   let methods = [];
@@ -32,7 +35,7 @@ function renderMap(){
       // style: 'mapbox://styles/mapbox/satellite-v9',
       center: [latitude, longitude],
       // center: [27.2038, 77.5011],
-      zoom: 5
+      zoom: 1
   });
   // fetch data after map load
   map.on('load', function() {
@@ -46,7 +49,7 @@ function fetchData(){
     method: 'get',
     url: '/data',
     params: {
-      search: 'anything'
+      search: mag
     }
   })
   .then( response => {

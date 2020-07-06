@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     models.earthquake.hasMany(models.comment);
   };
   earthquake.prototype.searchMagGreaterThan = function(search){
-    return (this.mag > search) ? [true, this.mag, this.place] : false;
+    return (this.mag > search) ? true : false;
   }
   return earthquake;
 };

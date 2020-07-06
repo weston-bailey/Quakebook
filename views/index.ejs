@@ -1,16 +1,46 @@
-<h1>Login or Register to join our website</h1>
-<!-- the map -->
-<div class="containter">
-  <div id="map"></div>
-</div>
 
+<!-- the map -->
+<div class="containter" class="position-static">
+  <div id="map">
+    <p>text</p>
+  </div>
+</div>
+<!-- all content under the map -->
+<div class="under-map">
+  <!-- search form TODO change to input group -->
+  <form action="/" method="GET">
+    <div class="form-inline" >
+      <label for="search-magnitude">Search Based On Magnitude</label>
+      <input id="search-magnitude" class="form-control" type="number" name="mag" placeholder="3">
+    </div>
+    <input class="btn btn-dark" type="submit">
+  </form>
+  <!-- list group of earthquakes -->
+  <%= //result. %> 
+  <div class="list-group">
+    <% searchResults.forEach(result => { 
+      let date = new Date(result.time)  %>
+    <div class="list-group-item">
+      <div class="d-flex w-100 justify-content-between">
+        <h4> <%= result.place %> </h4>
+        <small> <%= date %> </small>
+        </div>
+        <h5> <%= result.mag %>  </h5>
+      <a href="/details/<%=result.id%> ">
+        <p>details</p>
+      </a>
+    </div>        
+  <% }); %>
+  </div>
+</div>
 
 <!-- data for local js -->
 <% let latitude = match.center[0]; %>
-<% var longitude = match.center[1]; %>
-<% var mapKey = mapKey; %>
+<% let longitude = match.center[1]; %>
+<% let mapkey = mapKey; %>
 <div id="dataDiv" 
 data-mapkey=<%= mapKey %>
+data-mag=<%= search %>
 data-latitude=<%= latitude %>
 data-longitude=<%= longitude %>>
 </div>

@@ -87,18 +87,41 @@ app.use('/users', require('./controllers/users'));
 
 // ROUTES
 app.get('/', (req, res) => {
-  //check is user is logged in
-  geocodingClient.forwardGeocode({ 
-    query: "california"
-   })
-   .send()
-   .then(response => {
-     let match = response.body.features[0];
-     let matchString = JSON.stringify(match);
-     matchString += matchString
-    console.log(matchString);
-     res.render('index', { match, mapKey: process.env.MAPBOX_TOKEN, matchString })
-   })
+  //just magnitude rn
+  let search = parseInt(req.query.mag)
+  //array of search results
+  let searchResults = [];
+  //handle blank searches
+  if(!search){
+    search = 3;
+  }
+  //
+  db.earthquake.findAll()
+  .then(earthquakes => {
+    earthquakes.forEach( earthquake => {
+      //check search method against db
+      let searchTest = earthquake.searchMagGreaterThan(search);
+      if(searchTest){ 
+        searchResults.push(earthquake.dataValues);
+      }
+    })
+    //set up map after db operations
+    geocodingClient.forwardGeocode({ 
+      query: "california"
+    })
+    .send()
+    .then(response => {
+      let match = response.body.features[0];
+      let matchString = JSON.stringify(match);
+      matchString += matchString
+      console.log(matchString);
+      //transmit earthquakes and the search parameters
+      //console.log(searchResults)
+      res.render('index', { match, mapKey: process.env.MAPBOX_TOKEN, searchResults, search, matchString })
+    })
+    .catch(error => toolbox.errorHandler(error));
+  })
+  .catch(error => toolbox.errorHandler(error));
 });
 
 //will be deprecated

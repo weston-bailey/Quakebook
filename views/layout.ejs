@@ -9,7 +9,26 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
   <!-- mapbox CSS file -->
   <link href="https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.css" rel="stylesheet" />
-  <!-- local styles -->
+  <style>
+    /* mapbox style */
+    #map { 
+      position: absolute; 
+      top: 10%; 
+      bottom: 0%; 
+      left: 2%; 
+      width: 96%; 
+      height: 80%;
+    }
+    /* div under map */
+    .under-map{
+      position: absolute; 
+      top: 92%; 
+      bottom: 0%; 
+      left: 2%; 
+      width: 96%; 
+    }
+    </style>
+    <!-- local styles -->
   <link rel="stylesheet" type="text/css" href="/css/style.css"/>
 </head>
   <body>
@@ -25,7 +44,7 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav">
-              <a href="#" class="nav-item nav-link disabled" tabindex="-1">disabled</a>
+              <a href="#" class="nav-item nav-link disabled" tabindex="-1">disabled item</a>
             </div>
             <div class="navbar-nav ml-auto">
               <a href="/profile" class="nav-item nav-link">profile</a>
@@ -55,7 +74,6 @@
     </header>
     <div class="container">
       <%- include('../views/partials/alerts.ejs') %>
-      <h1>pink</h1>
       <%- body %>
     </div>
     <!-- jQuery -->
