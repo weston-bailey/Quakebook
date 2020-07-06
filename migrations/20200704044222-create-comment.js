@@ -14,6 +14,9 @@ module.exports = {
       earthquakeId: {
         type: Sequelize.INTEGER
       },
+      userName: {
+        type: Sequelize.STRING,
+      },
       text: {
         type: Sequelize.TEXT
       },

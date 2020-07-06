@@ -10,7 +10,7 @@
   <form action="/" method="GET">
     <div class="form-inline" >
       <label for="search-magnitude">Search Based On Magnitude</label>
-      <input id="search-magnitude" class="form-control" type="number" step="1" min="0" name="mag" placeholder="<%= search %> ">
+      <input id="search-magnitude" class="form-control" type="number" step="1" min="0" name="mag" value="<%= search || 3 %>">
     </div>
     <input class="btn btn-dark" type="submit">
   </form>

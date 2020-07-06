@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const comment = sequelize.define('comment', {
     userId: DataTypes.INTEGER,
     earthquakeId: DataTypes.INTEGER,
+    userName: DataTypes.STRING,
     text: DataTypes.TEXT
   }, {});
   comment.associate = function(models) {
