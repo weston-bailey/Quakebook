@@ -23,6 +23,7 @@
     "express-session": "^1.17.1",
     "flash": "^1.1.0",
     "helmet": "^3.23.3",
+    "json-beautify": "^1.1.1",
     "mapbox": "^1.0.0-beta10",
     "mapbox-geocoding": "^0.1.5",
     "mapbox-gl": "^1.11.0",

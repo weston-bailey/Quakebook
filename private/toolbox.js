@@ -8,6 +8,13 @@ module.exports = {
     console.log(flash);
     console.log(error);
     console.log(flash);
+  },
+  //visible log
+  log: function(message){
+    let flash = (`~~~~👾👾👾👾👾👾👾👾👾👾👾${chalk.black.bgGreen(`LOG`)}👾👾👾👾👾👾👾👾👾👾👾~~~~`);
+    console.log(flash);
+    console.log(message);
+    console.log(flash);
   }
 }
 

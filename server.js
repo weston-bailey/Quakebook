@@ -41,7 +41,7 @@ const usgsUrls = {
 // app setup and middlewares
 const app = Express();
 const rowdyResults = rowdy.begin(app);
-const uploads = multer({ dest: './uploads' }); //todo factor in upload route
+const uploads = multer({ dest: './uploads' }); 
 app.use(Express.urlencoded({ extended: false }));
 app.use(Express.static(__dirname + '/public'));
 app.use(Express.static(__dirname + '/private'));

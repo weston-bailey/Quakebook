@@ -3,7 +3,7 @@
     <% userData.forEach( user => { %>
     <div class="col-sm-4 py-2">
       <div class="card">
-        <img src="../<%= user.pfp %>" class="card-img-top" alt="<%= user.fullName %>'s profile picture">
+        <img src="<%= user.pfp %>" class="card-img-top" alt="<%= user.fullName %>'s profile picture">
         <div class="card-body">
           <h5 class="card-title"><%= user.fullName %></h5>
           <p class="card-text"><%= user.bio %></p>
