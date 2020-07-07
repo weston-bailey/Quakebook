@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="row">
+    <% userData.forEach( user => { %>
+    <div class="col-sm-4 py-2">
+      <div class="card">
+        <img src="<%= user.pfp %>" class="card-img-top" alt="<%= user.fullName %>'s profile picture'">
+        <div class="card-body">
+          <h5 class="card-title"><%= user.fullName %></h5>
+          <p class="card-text"><%= user.bio %></p>
+          <a href="/users/<%= user.id %>" class="btn btn-dark stretched-link">View Profile</a>
+        </div>
+        <!-- incase I want to add a foot in the future -->
+        <!-- <div class="card-footer">
+          <small class="text-muted">User since: <%= //user.createdAt%></small>
+        </div> -->
+    </div>
+  </div>
+  <% }) %>
+  </div>
+</div>

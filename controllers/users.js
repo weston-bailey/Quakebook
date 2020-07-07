@@ -7,8 +7,17 @@ const flash = require('connect-flash');
 const passport = require('../config/ppConfig');
 
 
-router.get('/',  isLoggedIn, function(req, res){
-  res.send('render all users')
+router.get('/', isLoggedIn, function(req, res){
+  // user data to send
+  let userData = [];
+  //find every user
+  db.user.findAll().then( users => {
+    users.forEach(user => {
+      userData.push(user.getPublicData())
+    })
+    console.log(userData)
+    res.render('users/users', { userData })
+  })
 });
 
 

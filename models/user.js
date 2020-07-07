@@ -1,5 +1,6 @@
 'use strict';
 const bcrypt = require('bcrypt');
+const { PositionOptions } = require('mapbox-gl');
 
 // declare user model format
 module.exports = function(sequelize, DataTypes) {
@@ -71,6 +72,16 @@ module.exports = function(sequelize, DataTypes) {
   user.prototype.getFullName = function() {
     return `${this.firstName} ${this.lastName}`
   }
-  
+  //get only public data on user
+  user.prototype.getPublicData = function(){
+    return {
+      id: this.id,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      fullName: `${this.firstName} ${this.lastName}`,
+      pfp: this.pfp,
+      bio: this.bio
+    }   
+  } 
   return user;
 };

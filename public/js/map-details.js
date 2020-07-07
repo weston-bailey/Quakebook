@@ -63,6 +63,5 @@ function fetchData(){
     .setLngLat([detail.latitude, detail.longitude])
     .setPopup(popup)
     .addTo(map);
-
   })
 }

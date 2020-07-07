@@ -17,7 +17,7 @@
     </div>
       <div class="d-flex w-100 justify-content-between">
       <div class="containter">
-        <small> <%= date %> </small>
+        <small class="text-muted"> <%= date %> </small>
       </div>
     </div>
     <div class="d-flex w-100 justify-content-between">
@@ -80,7 +80,7 @@
         <div class="list-group-item">
           <div class="d-flex w-100 justify-content-between">
               <h6> <a href="/users/<%= comment.userId %>"> <%= comment.userName %> </a> said:</h6>
-              <small><%= comment.createdAt %></small>
+              <small class="text-muted"><%= comment.createdAt %></small>
           </div>        
           <p><%= comment.text %></p>
         </div>
