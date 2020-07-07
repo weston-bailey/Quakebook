@@ -1,0 +1,25 @@
+<div class="card">
+  <div class="row no-gutters">
+    <div class="col-sm-5" style="background: #868e96;">
+      <img src="../<%= userData.pfp %>" class="card-img-top h-100" alt="<%= userData.fullName %>'s profile picture">
+    </div>
+    <div class="col-sm-7">
+      <div class="card-body">
+        <h2 class="card-title"><%= userData.fullName %></h2>
+        <p class="card-text"><%= userData.bio %></p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container"></div>
+<h3><%= userData.firstName %>'s comments:</h3>
+<div class="list-group">
+  <% userData.comments.forEach(comment => { %>
+    <div class="list-group-item">
+      <div class="d-flex w-100 justify-content-between">
+          <h6> <%= comment.userName %> said about <a href="/details/<%= comment.earthquakeId %>"><%= comment.earthquakeId %></a></h6>
+          <small class="text-muted"><%= comment.createdAt %></small>
+      </div>        
+      <p><%= comment.text %></p>
+    </div>
+  <% }) %>

@@ -66,7 +66,7 @@ function populateDb(){
 
 }
 
-//populateDb();
+populateDb();
 
 function checkAlerts(){
   db.earthquake.findAll().then( earthquakes => {
@@ -142,4 +142,4 @@ function makeUsers(){
   })
 }
 
-makeUsers()
+//makeUsers()
