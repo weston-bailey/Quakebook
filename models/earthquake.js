@@ -47,7 +47,6 @@ module.exports = (sequelize, DataTypes) => {
       let timeCheck = toolbox.getTimeRange(terms.time.type);
       (this.time > timeCheck) ? result = true : result = false; 
     }
-
     return result;
   }
   return earthquake;

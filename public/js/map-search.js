@@ -3,6 +3,7 @@ window.addEventListener('DOMContentLoaded', () => { renderMap(); });
 let data = document.getElementById('dataDiv').dataset;
 //for the mapbox
 let map;
+//build out search terms object
 let searchTerms = {
   mag: {
     type: data.magtype,
@@ -11,6 +12,13 @@ let searchTerms = {
   time: {
     type: data.timetype
   }
+}
+//make a nice looking string out of an epoch timestamp
+function localTimeFormat(timeStamp){
+  let months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ];
+  let days = [ 'Sun', 'Mon','Tue', 'Wed', 'Thu', 'Fri','Sat' ];
+  let date = new Date(timeStamp);
+  return `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()} ${date.getFullYear()} ${date.getHours() % 12}:${date.getMinutes()} ${date.getHours() > 12 ? 'pm' : 'am'}`;
 }
 
 //make the mapbox after DOM content loaded
@@ -27,10 +35,10 @@ function renderMap(){
   });
   // fetch data after map load
   map.on('load', function() {
-    fetchData()
+    fetchData();
   });
 }
-
+//send search terms back to server to get data for map
 function fetchData(){
   let earthquakes = [];
   axios({
@@ -40,31 +48,20 @@ function fetchData(){
   })
   .then( response => {
     earthquakes = Object.entries(response.data);
-    // for(let key in response.data){
-    //   earthquakes.push(key);
-    // }
-    console.log(typeof earthquakes)
+
     //for making points on the map
     earthquakes.forEach(( marker, index) => {
-      //console.log('called')
-      let time = new Date(marker[1].time);
-  
-      // let div = document.createElement('div');
-      // div.innerHTML =       
-      // `<h3>${index} ${marker[1].place} </h3> <br />
-      // <b> magnitude: ${marker[1].mag} </b> <br />
-      // <i> time: ${time} <i> <br />`;
-      // document.body.appendChild(div);
-  
+
       let el = document.createElement('img');
       el.class = 'marker';
       el.src = '/img/mapbox-icon.png';
       el.style.width = '2vw';
   
-      var popup = new mapboxgl.Popup({ offset: 25 }).setText(
-        `${index} ${marker[1].place} \n
-        magnitude: ${marker[1].mag} \n
-        time: ${time} \n`
+      let popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+        `<h6>${marker[1].place} </h6> <br />
+        <p> <b> mag: ${marker[1].mag} </b> <br />
+        <i> ${localTimeFormat(marker[1].time)} </i> <br /> 
+        <a href=/details/${marker[1].id} >Details</a> </p>`
       );
   
       new mapboxgl.Marker(el)

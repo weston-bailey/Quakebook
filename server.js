@@ -7,43 +7,22 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('./config/ppConfig');
 const db = require('./models');
-const axios = require('axios');
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const stringifyBoolean = require('@mapbox/mapbox-sdk/services/service-helpers/stringify-booleans');
 const geocodingClient = mbxGeocoding( {accessToken: process.env.MAPBOX_TOKEN});
 const methodOverride = require('method-override');
-const multer = require('multer');
-const cloudinary = require('cloudinary');
 const chalk = require('chalk');
 const rowdy = require('rowdy-logger');
-const isLoggedIn = require('./middleware/isLoggedIn');
 const toolbox = require('./private/toolbox');
 const usgsApiService = require('./private/usgsApiService');
-const { objectIsEmpty } = require('./private/toolbox');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 //api keys and urls
 const mapKey = process.env.MAPBOX_TOKEN;
 
-const usgsUrls = {
-  pastHour: {
-    all: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson',
-    mag1: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_hour.geojson',
-    mag2: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_hour.geojson',
-    mag4: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_hour.geojson'
-  }, 
-  allTime: {
-    all: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson',
-    mag1: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_month.geojson',
-    mag2: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson',
-    mag4: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.geojson'
-  }
-}
-
 // app setup and middlewares
 const app = Express();
 const rowdyResults = rowdy.begin(app);
-const uploads = multer({ dest: './uploads' }); 
 app.use(Express.urlencoded({ extended: false }));
 app.use(Express.static(__dirname + '/public'));
 app.use(Express.static(__dirname + '/private'));
@@ -89,7 +68,7 @@ app.use('/users', require('./controllers/users'));
 
 // ROUTES
 app.get('/', (req, res) => {
-  //just magnitude rn
+  //create search term arguments object from req body
   let searchTerms = {
     mag: {
       type: req.query.magType,
@@ -99,11 +78,11 @@ app.get('/', (req, res) => {
       type: req.query.timeType
     }
   }
-  //array of search results
+  //array of search results to be sent back 
   let searchResults = [];
   
-  //handle blank searches
-  if(objectIsEmpty(req.query)){
+  //handle blank searches (user just landed on page)
+  if(toolbox.objectIsEmpty(req.query)){
     searchTerms = {
       mag: {
         type: 'greaterThan',
@@ -126,24 +105,26 @@ app.get('/', (req, res) => {
       }
     })
     //set up map after db operations
+   let match = { center: [ -119.699375153073, 37.0743595873 ] };
+   res.render('index', { match, mapKey: process.env.MAPBOX_TOKEN, searchResults, searchTerms });
+    /* not needing geocoding right now
     geocodingClient.forwardGeocode({ 
       query: "california"
     })
     .send()
     .then(response => {
       let match = response.body.features[0];
-      let matchString = JSON.stringify(match);
-      matchString += matchString
-      //console.log(matchString);
+      console.log(match)
       //transmit earthquakes and the search parameters
-      res.render('index', { match, mapKey: process.env.MAPBOX_TOKEN, searchResults, searchTerms, matchString })
+      res.render('index', { match, mapKey: process.env.MAPBOX_TOKEN, searchResults, searchTerms })
     })
     .catch(error => toolbox.errorHandler(error));
+    */
   })
   .catch(error => toolbox.errorHandler(error));
 });
 
-//uncomment to start api calls
+//start api calls
 usgsApiService.getData(usgsApiService.urls.pastHour.all, 1000);
 usgsApiService.getData(usgsApiService.urls.allTime.all, toolbox.mSec.min * 10);
 
