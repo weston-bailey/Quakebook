@@ -1,20 +1,22 @@
-//handy functions and data
 const chalk = require('chalk');
+
 //export utility funcitons
 module.exports = {
   //visible errors
-  errorHandler: function(error){
-    let flash = chalk.black.bgRed(`~~~~🔥🔥🔥🔥🔥🔥🔥error🔥🔥🔥🔥🔥🔥🔥~~~~`);
-    console.log(flash);
-    console.log(error);
-    console.log(flash);
+  errorHandler: function(){
+    console.log(`${chalk.black.bgRed(`~~~~`)}🔥🔥🔥🔥🔥🔥🔥🔥🔥${chalk.black.bgRed(`BEGIN ERROR`)}🔥🔥🔥🔥🔥🔥🔥🔥🔥${chalk.black.bgRed(`~~~~`)}`);
+    for (let i = 0; i < arguments.length; i++) {
+      console.log(arguments[i]);
+    }
+    console.log(`${chalk.black.bgRed(`~~~~`)}🔥🔥🔥🔥🔥🔥🔥🔥🔥${chalk.black.bgRed(`END ERROR`)}🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥${chalk.black.bgRed(`~~~~`)}`);
   },
   //visible log
-  log: function(message){
-    let flash = (`~~~~👾👾👾👾👾👾👾👾👾👾👾${chalk.black.bgGreen(`LOG`)}👾👾👾👾👾👾👾👾👾👾👾~~~~`);
-    console.log(flash);
-    console.log(message);
-    console.log(flash);
+  log: function(){
+    console.log((`~~~~👾👾👾👾👾👾👾👾👾👾👾${chalk.black.bgGreen(`BEGIN LOG`)}👾👾👾👾👾👾👾👾👾👾👾~~~~`));
+    for (let i = 0; i < arguments.length; i++) {
+      console.log(arguments[i]);
+    }
+    console.log((`~~~~👾👾👾👾👾👾👾👾👾👾👾${chalk.black.bgGreen(`END LOG`)}👾👾👾👾👾👾👾👾👾👾👾👾~~~~`));
   },
   //return true is object is has not contents
   objectIsEmpty: function(obj) {

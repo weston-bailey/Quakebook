@@ -18,6 +18,7 @@ const chalk = require('chalk');
 const rowdy = require('rowdy-logger');
 const isLoggedIn = require('./middleware/isLoggedIn');
 const toolbox = require('./private/toolbox');
+const usgsApiService = require('./private/usgsApiService');
 const { objectIsEmpty } = require('./private/toolbox');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
@@ -142,86 +143,9 @@ app.get('/', (req, res) => {
   .catch(error => toolbox.errorHandler(error));
 });
 
-function getData(url, callbackTime){
-  //console.log('called', url, callbackTime);
-  let timeoutUsgsQuery;
-  axios.get(url)
-    .then(function (response) {
-      //check database for features
-      response.data.features.forEach( feature =>{
-        //console.log(feature.properties.geometry.coordinates[0])
-        db.earthquake.findOrCreate({
-          where: {
-            usgsId: feature.id
-          }, defaults: {
-            usgsId: feature.id,
-            mag: feature.properties.mag,
-            place: feature.properties.place,
-            time: feature.properties.time,
-            url: feature.properties.url,
-            felt: feature.properties.felt,
-            alert: feature.properties.alert,
-            status: feature.properties.status,
-            tsunami: feature.properties.tsunami,
-            sig: feature.properties.sig,
-            title: feature.properties.title,
-            latitude: feature.geometry.coordinates[0],
-            longitude: feature.geometry.coordinates[1],
-            depth: feature.geometry.coordinates[2]
-          }
-        })
-        .then(([earthquake, created]) => {
-          //update the database if the status has changed
-          if(!created){
-            if(earthquake.status != feature.properties.status){
-              earthquake.update({
-                mag: feature.properties.mag,
-                place: feature.properties.place,
-                time: feature.properties.time,
-                url: feature.properties.url,
-                felt: feature.properties.felt,
-                alert: feature.properties.alert,
-                status: feature.properties.status,
-                tsunami: feature.properties.tsunami,
-                sig: feature.properties.sig,
-                title: feature.properties.title,
-                latitude: feature.geometry.coordinates[0],
-                longitude: feature.geometry.coordinates[1],
-                depth: feature.geometry.coordinates[2]
-              })
-              .then( updated => {
-                toolbox.log(`existing earthquake updated in the database!`);
-                toolbox.log(earthquake.dataValues);
-              })
-              //error from update
-              .catch( error => toolbox.errorHandler(error));
-            }
-          }
-          if(created){
-            toolbox.log(`new earthquake added to the database!`);
-            toolbox.log(earthquake.dataValues);
-          }
-        })
-        .catch(function (error) {
-          // error from creation
-          toolbox.errorHandler(error);
-        })
-      })
-    })
-    .catch(function (error) {
-      // handle error from axios
-      toolbox.errorHandler(error);
-      //continue callbacks even if there is an error
-      timeoutUsgsQuery = setTimeout( () => getData(url, callbackTime), callbackTime);
-    })
-    .finally(function () {
-    //callback a another query
-    timeoutUsgsQuery = setTimeout( () => getData(url, callbackTime), callbackTime);
-  })
-}
 //uncomment to start api calls
-getData(usgsUrls.pastHour.all, 1000);
-getData(usgsUrls.allTime.all, toolbox.mSec.hour);
+usgsApiService.getData(usgsApiService.urls.pastHour.all, 1000);
+usgsApiService.getData(usgsApiService.urls.allTime.all, toolbox.mSec.min * 10);
 
 // initialize app on port
 let port = process.env.PORT || 3000;
