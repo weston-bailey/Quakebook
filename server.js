@@ -88,7 +88,6 @@ app.use('/users', require('./controllers/users'));
 
 // ROUTES
 app.get('/', (req, res) => {
-  toolbox.log(req.query.timeType)
   //just magnitude rn
   let searchTerms = {
     mag: {
@@ -101,13 +100,13 @@ app.get('/', (req, res) => {
   }
   //array of search results
   let searchResults = [];
-
+  
   //handle blank searches
   if(objectIsEmpty(req.query)){
     searchTerms = {
       mag: {
         type: 'greaterThan',
-        value: 3
+        value: 3.5
       },
       time: {
         type: 'lastMonth'

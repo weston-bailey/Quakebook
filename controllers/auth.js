@@ -23,14 +23,15 @@ router.post('/register', uploads.single('profilePic'), function(req, res) {
   //pfp for database
   let pfp;
   //check for file on request, otherwise use defualt pfp
-  !req.file ? pfpUpload = '../img/defualt-pfp.svg' : pfpUpload = req.file.path;
+  !req.file ? pfpUpload = 'public/img/defualt-pfp.svg' : pfpUpload = req.file.path;
   //contact cloudinary
+  console.log(pfpUpload)
   cloudinary.uploader.upload(pfpUpload, result => {
     // return a rendered page w/ cloudinary link to formatted image
     let cloudId = result.public_id;
     pfp = `https://res.cloudinary.com/dkchpbore/image/upload/${cloudId}.png`; 
     //get rid of uploaded img
-    if(pfpUpload != '../img/defualt-pfp.svg'){
+    if(pfpUpload != 'public/img/defualt-pfp.svg'){
       fs.unlink(pfpUpload, (error) =>{
         if (error) toolbox.errorHandler(error);
         console.log(`${pfpUpload} Deleted!`);

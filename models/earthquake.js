@@ -43,8 +43,10 @@ module.exports = (sequelize, DataTypes) => {
         result = true;
     }
     //time
-    let timeCheck = toolbox.getTimeRange(terms.time.type);
-    (this.time > timeCheck) ? result = true : result = false; 
+    if(result){
+      let timeCheck = toolbox.getTimeRange(terms.time.type);
+      (this.time > timeCheck) ? result = true : result = false; 
+    }
 
     return result;
   }

@@ -46,7 +46,7 @@ function fetchData(){
     console.log(typeof earthquakes)
     //for making points on the map
     earthquakes.forEach(( marker, index) => {
-      console.log('called')
+      //console.log('called')
       let time = new Date(marker[1].time);
   
       // let div = document.createElement('div');

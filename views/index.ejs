@@ -19,7 +19,7 @@
           <option value="lessThan" <%if(searchTerms.mag.type === "lessThan") { %> selected  <% } %>>Less Than</option>
           <option value="all" <%if(searchTerms.mag.type === "all") { %> selected  <% } %>>All</option>
         </select>
-        <input id="search-magnitude" class="form-control" type="number" step=".1" min="0" name="magValue" value="<%= searchTerms.mag.value || 3 %>">
+        <input id="search-magnitude" class="form-control" type="number" step=".1" min="0" name="magValue" value="<%= searchTerms.mag.value || 3.5 %>">
       </div>
       <div class="form-inline container">
       <!-- search by  date -->
