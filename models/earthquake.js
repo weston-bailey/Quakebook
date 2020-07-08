@@ -23,5 +23,26 @@ module.exports = (sequelize, DataTypes) => {
   earthquake.prototype.searchMagGreaterThan = function(search){
     return (this.mag > search) ? true : false;
   }
+  earthquake.prototype.search = function(terms){
+    let result = false;
+    //magnitude
+    switch(terms.mag.type){
+      case 'all':
+        result = true;
+        break;
+      case 'greaterThan':
+        result = (this.mag > terms.mag.value) ? true : false;
+        break;
+      case 'equalTo':
+        result = (this.mag == terms.mag.value) ? true : false;
+        break;
+      case 'lessThan':
+        result = (this.mag < terms.mag.value) ? true : false;
+        break;
+      default:
+        result = true;
+    }
+    return result;
+  }
   return earthquake;
 };

@@ -18,6 +18,7 @@ const chalk = require('chalk');
 const rowdy = require('rowdy-logger');
 const isLoggedIn = require('./middleware/isLoggedIn');
 const toolbox = require('./private/toolbox');
+const { objectIsEmpty } = require('./private/toolbox');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 //api keys and urls
@@ -88,19 +89,31 @@ app.use('/users', require('./controllers/users'));
 // ROUTES
 app.get('/', (req, res) => {
   //just magnitude rn
-  let search = parseInt(req.query.mag)
+  let searchTerms = {
+    mag: {
+      type: req.query.magType,
+      value: req.query.magValue
+    }
+  }
   //array of search results
   let searchResults = [];
+
   //handle blank searches
-  if(!search){
-    search = 3;
+  if(objectIsEmpty(req.query)){
+    searchTerms = {
+      mag: {
+        type: 'greaterThan',
+        value: 3
+      }
+    } 
   }
-  //
+
+  //search database
   db.earthquake.findAll()
   .then(earthquakes => {
     earthquakes.forEach( earthquake => {
       //check search method against db
-      let searchTest = earthquake.searchMagGreaterThan(search);
+      let searchTest = earthquake.search(searchTerms);
       if(searchTest){ 
         searchResults.push(earthquake.dataValues);
       }
@@ -114,9 +127,9 @@ app.get('/', (req, res) => {
       let match = response.body.features[0];
       let matchString = JSON.stringify(match);
       matchString += matchString
-      console.log(matchString);
+      //console.log(matchString);
       //transmit earthquakes and the search parameters
-      res.render('index', { match, mapKey: process.env.MAPBOX_TOKEN, searchResults, search, matchString })
+      res.render('index', { match, mapKey: process.env.MAPBOX_TOKEN, searchResults, searchTerms, matchString })
     })
     .catch(error => toolbox.errorHandler(error));
   })

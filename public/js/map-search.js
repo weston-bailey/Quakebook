@@ -1,20 +1,16 @@
 window.addEventListener('DOMContentLoaded', () => { renderMap(); });
-
-let latitude = document.getElementById('dataDiv').dataset.latitude;
-let longitude = document.getElementById('dataDiv').dataset.longitude;
-let mapKey = document.getElementById('dataDiv').dataset.mapkey;
-//search result only magnitude 
-let mag = document.getElementById('dataDiv').dataset.mag;
-// let jsonData = document.getElementById('dataDiv').dataset.test4;
+//all the data from the server
+let data = document.getElementById('dataDiv').dataset;
 //for the mapbox
 let map;
+let searchTerms = {
+  mag: {
+    type: data.magtype,
+    value: data.magvalue
+  }
+}
 
-// console.log(matchCenter0);
-// console.log(matchCenter1);
-//console.log(mapKey);
-// console.log(jsonData.length);
-console.log(mag)
-
+let mag = 7;
 function getMethods(obj){
   let methods = [];
   for (let prop in obj) {        
@@ -28,12 +24,12 @@ function getMethods(obj){
 //make the mapbox after DOM content loaded
 function renderMap(){
   //make a new mapbox
-  mapboxgl.accessToken = mapKey;
+  mapboxgl.accessToken = data.mapkey;
     map = new mapboxgl.Map({
       container: 'map',
       // style: 'mapbox://styles/mapbox/streets-v11',
       style: 'mapbox://styles/mapbox/satellite-v9',
-      center: [latitude, longitude],
+      center: [data.latitude, data.longitude],
       // center: [27.2038, 77.5011],
       zoom: 1
   });
@@ -48,9 +44,7 @@ function fetchData(){
   axios({
     method: 'get',
     url: '/data',
-    params: {
-      search: mag
-    }
+    params: { searchTerms }
   })
   .then( response => {
     earthquakes = Object.entries(response.data);

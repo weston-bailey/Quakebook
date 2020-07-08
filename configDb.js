@@ -91,85 +91,6 @@ function checkAlerts(){
 
 //checkAlerts();
 
-let mockUsers = [
-  {
-    firstName: 'Jon',
-    lastName: 'person',
-    bio: 'im just here for the free donuts'
-  },
-  {
-    firstName: 'Sally',
-    lastName: 'person',
-    bio: 'i love earthquakes'
-  },
-  {
-    firstName: 'abraham',
-    lastName: 'lincoln',
-    bio: 'lmao just a coincidence, im not the former president'
-  },
-  {
-    firstName: 'russian',
-    lastName: 'bot',
-    bio: 'vote trump'
-  },
-  {
-    firstName: 'a magic talking dog',
-    lastName: 'McBarkerson',
-    bio: 'woof woof lmao jk i can talk'
-  },
-  {
-    firstName: 'Super',
-    lastName: 'great person',
-    bio: 'im the best!!!!!!'
-  },
-  {
-    firstName: 'super',
-    lastName: 'awful person',
-    bio: 'im the worst!!!!!!!!!!11'
-  },
-  {
-    firstName: 'a regular dog',
-    lastName: 'McBarkface',
-    bio: 'woof woof woof grrrrrrr'
-  },
-]
-
-function makeUsers(){
-  mockUsers.forEach( (user, index) =>{
-    db.user.findOrCreate({
-      where: {
-        firstName: user.firstName
-      },
-      defaults: {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        bio: user.bio,
-        pfp: "img/defualt-pfp.svg",
-        password: 'password',
-        email: `tester${index}@test.com`
-      }
-    })
-    .catch( error => toolbox.errorHandler(error));
-  })
-}
-
-//makeUsers()
-
-function pfp(){
-  db.user.findAll().then( users => {
-    users.forEach(user => {
-      db.user.update({
-        pfp: '../img/defualt-pfp.svg',
-      }, {
-        where: {
-          email: user.dataValues.email
-        }
-      })
-    })
-  })
-}
-//pfp();
-
 function getUsers(){
   let userData = [];
   axios.get('https://randomuser.me/api/?results=100', {
@@ -205,5 +126,45 @@ function getUsers(){
   });
 }
 
-getUsers();
+//getUsers();
 
+function searchTest(search){
+  //data array to send back
+  let transmitData = [];
+  console.log('data request recieved, searching database');
+  let responseTimeout;
+  let responseInc = 0;
+  responseTimeout = setInterval( () => {
+    responseInc += 1;
+  }, 1);
+  //check if there even is a search
+  db.earthquake.findAll()
+  .then( earthquakes => {
+    earthquakes.forEach( earthquake => {
+      //boolean test for search query
+      let searchTest = earthquake.search(search);
+      if(searchTest){ 
+        transmitData.push(earthquake);
+      }
+    })
+    console.log(transmitData);
+    //for response time test
+    clearTimeout(responseTimeout);
+    console.log('data response time:', responseInc);
+    //tranmist data
+  })
+  .catch(error => toolbox.errorHandler(error));
+  
+}
+//search terms object
+let searchTerms = {
+  //magnitude search terms
+  mag: {
+    //'greaterThan', 'equalTo' 'lessThan', 'all'
+    type: 'greaterThan', 
+    //magnitude value to test
+    value: 7
+  }
+}
+
+searchTest(searchTerms);

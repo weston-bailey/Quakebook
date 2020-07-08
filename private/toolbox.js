@@ -15,6 +15,14 @@ module.exports = {
     console.log(flash);
     console.log(message);
     console.log(flash);
+  },
+  //return true is object is has not contents
+  objectIsEmpty: function(obj) {
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
   }
 }
 

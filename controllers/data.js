@@ -11,10 +11,9 @@ const { response } = require('express');
 
 router.get('/', (req, res) => {
   //incoming search
-  let search = req.query.search;
+  let searchTerms = JSON.parse(req.query.searchTerms);
   //data array to send back
   let transmitData = [];
-  console.log(req.query);
   //for response time test
   console.log('data request recieved, searching database');
   let responseTimeout;
@@ -22,25 +21,23 @@ router.get('/', (req, res) => {
   responseTimeout = setInterval( () => {
     responseInc += 1;
   }, 1);
-  //check if there even is a search
-  if(search){
-    db.earthquake.findAll()
-    .then( earthquakes => {
-      earthquakes.forEach( earthquake => {
-        //boolean test for search query
-        let searchTest = earthquake.searchMagGreaterThan(search);
-        if(searchTest){ 
-          transmitData.push(earthquake);
-        }
-      })
-      //for response time test
-      clearTimeout(responseTimeout);
-      console.log('data response time:', responseInc);
-      //tranmist data
-      res.send(transmitData);
+  //search database
+  db.earthquake.findAll()
+  .then( earthquakes => {
+    earthquakes.forEach( earthquake => {
+      //boolean test for search query
+      let searchTest = earthquake.search(searchTerms);
+      if(searchTest){ 
+        transmitData.push(earthquake);
+      }
     })
-    .catch(error => toolbox.errorHandler(error));
-  }
+    //for response time test
+    clearTimeout(responseTimeout);
+    console.log('data response time:', responseInc);
+    //tranmist data
+    res.send(transmitData);
+  })
+  .catch(error => toolbox.errorHandler(error));
 });
 
 router.get('/details', (req, res) => {

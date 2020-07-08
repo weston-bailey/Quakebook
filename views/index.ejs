@@ -10,7 +10,13 @@
   <form action="/" method="GET">
     <div class="form-inline" >
       <label for="search-magnitude">Search Based On Magnitude</label>
-      <input id="search-magnitude" class="form-control" type="number" step="1" min="0" name="mag" value="<%= search || 3 %>">
+      <select class="custom-select" name="magType">
+      <option value="greaterThan" <%if(!searchTerms.mag.type || searchTerms.mag.type === "greaterThan") {%> selected  <% } %> >Greater Than</option>
+        <option value="equalTo"  <%if(searchTerms.mag.type === "equalTo") { %> selected  <% } %>>Equal To</option>
+        <option value="lessThan" <%if(searchTerms.mag.type === "lessThan") { %> selected  <% } %>>Less Than</option>
+        <option value="all" <%if(searchTerms.mag.type === "all") { %> selected  <% } %>>All</option>
+    </select>
+      <input id="search-magnitude" class="form-control" type="number" step=".1" min="0" name="magValue" value="<%= searchTerms.mag.value || 3 %>">
     </div>
     <input class="btn btn-dark" type="submit">
   </form>
@@ -34,15 +40,12 @@
 </div>
 
 <!-- data for local js -->
-<% let latitude = match.center[0]; %>
-<% let longitude = match.center[1]; %>
-<% let mapkey = mapKey; %>
-
 <div id="dataDiv" 
 data-mapkey=<%= mapKey %>
-data-mag=<%= search %>
-data-latitude=<%= latitude %>
-data-longitude=<%= longitude %>>
+data-magvalue=<%= searchTerms.mag.value %>
+data-magtype=<%= searchTerms.mag.type %>
+data-latitude=<%= match.center[0]; %>
+data-longitude=<%= match.center[1]; %>>
 </div>
 
 <!-- mapbox js -->
