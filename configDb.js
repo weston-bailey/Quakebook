@@ -161,10 +161,18 @@ let searchTerms = {
   //magnitude search terms
   mag: {
     //'greaterThan', 'equalTo' 'lessThan', 'all'
-    type: 'greaterThan', 
+    type: 'all', 
     //magnitude value to test
     value: 7
+  }, 
+  time: {
+    type: 'lastHour'
   }
 }
 
 searchTest(searchTerms);
+
+let date = new Date('7/7/2020')
+let time = new Date()
+// console.log(time.getTime())
+// toolbox.log(date.getTime())

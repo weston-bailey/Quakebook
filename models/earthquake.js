@@ -1,4 +1,7 @@
 'use strict';
+
+const toolbox = require("../private/toolbox");
+
 module.exports = (sequelize, DataTypes) => {
   const earthquake = sequelize.define('earthquake', {
     usgsId: DataTypes.STRING,
@@ -20,9 +23,6 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     models.earthquake.hasMany(models.comment);
   };
-  earthquake.prototype.searchMagGreaterThan = function(search){
-    return (this.mag > search) ? true : false;
-  }
   earthquake.prototype.search = function(terms){
     let result = false;
     //magnitude
@@ -42,6 +42,10 @@ module.exports = (sequelize, DataTypes) => {
       default:
         result = true;
     }
+    //time
+    let timeCheck = toolbox.getTimeRange(terms.time.type);
+    (this.time > timeCheck) ? result = true : result = false; 
+
     return result;
   }
   return earthquake;

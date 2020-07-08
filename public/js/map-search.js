@@ -7,18 +7,10 @@ let searchTerms = {
   mag: {
     type: data.magtype,
     value: data.magvalue
+  }, 
+  time: {
+    type: data.timetype
   }
-}
-
-let mag = 7;
-function getMethods(obj){
-  let methods = [];
-  for (let prop in obj) {        
-      if (typeof obj[prop] == "function" && obj.hasOwnProperty(prop)) {
-          methods.push(prop);
-      }
-  }
-  return methods;
 }
 
 //make the mapbox after DOM content loaded

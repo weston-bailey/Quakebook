@@ -88,11 +88,15 @@ app.use('/users', require('./controllers/users'));
 
 // ROUTES
 app.get('/', (req, res) => {
+  toolbox.log(req.query.timeType)
   //just magnitude rn
   let searchTerms = {
     mag: {
       type: req.query.magType,
       value: req.query.magValue
+    }, 
+    time: {
+      type: req.query.timeType
     }
   }
   //array of search results
@@ -104,6 +108,9 @@ app.get('/', (req, res) => {
       mag: {
         type: 'greaterThan',
         value: 3
+      },
+      time: {
+        type: 'lastMonth'
       }
     } 
   }
@@ -136,28 +143,66 @@ app.get('/', (req, res) => {
   .catch(error => toolbox.errorHandler(error));
 });
 
-//will be deprecated
-app.get('/profile', isLoggedIn, function(req, res){
-  res.render('profile');
-});
-
 function getData(){
   let timeoutUsgsQuery;
+  let inc = 0;
+  let newEarthquakes = [];
   axios.get(usgsUrls.pastHour.all)
     .then(function (response) {
       //check database for features
+      response.data.features.forEach( feature =>{
+        //console.log(feature.properties.geometry.coordinates[0])
+        db.earthquake.findOrCreate({
+          where: {
+            usgsId: feature.id
+          }, defaults: {
+            usgsId: feature.id,
+            mag: feature.properties.mag,
+            place: feature.properties.place,
+            time: feature.properties.time,
+            url: feature.properties.url,
+            felt: feature.properties.felt,
+            alert: feature.properties.alert,
+            status: feature.properties.status,
+            tsunami: feature.properties.tsunami,
+            sig: feature.properties.sig,
+            title: feature.properties.title,
+            latitude: feature.geometry.coordinates[0],
+            longitude: feature.geometry.coordinates[1],
+            depth: feature.geometry.coordinates[2]
+          }
+        })
+        .then((earthquake, created) => {
+          if(created){
+            inc++;
+            newEarthquakes.push(earthquake.dataValues)
+          }
+        })
+        .catch(function (error) {
+          // handle error from axios
+          toolbox.errorHandler(error);
+        })
+      })
     })
     .catch(function (error) {
       // handle error from axios
       toolbox.errorHandler(error);
     })
-    .finally(function () {
-      //callback a another query
-      timeoutUsgsQuery = setTimeout(getData, 1000);
-    });
+  .finally(function () {
+    //callback a another query
+    timeoutUsgsQuery = setTimeout(getData, 1000);
+    if (inc) {
+      toolbox.log(`${inc} new earthquakes added to the database`);
+      newEarthquakes.forEach( earthquake => {
+        toolbox.log(earthquake);
+      })
+      inc = 0;
+      newEarthquakes = [];
+    }
+  })
 }
 //uncomment to start api calls
-//getData();
+getData();
 
 // initialize app on port
 let port = process.env.PORT || 3000;
