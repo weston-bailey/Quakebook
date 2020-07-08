@@ -142,11 +142,10 @@ app.get('/', (req, res) => {
   .catch(error => toolbox.errorHandler(error));
 });
 
-function getData(){
+function getData(url, callbackTime){
+  //console.log('called', url, callbackTime);
   let timeoutUsgsQuery;
-  let inc = 0;
-  let newEarthquakes = [];
-  axios.get(usgsUrls.pastHour.all)
+  axios.get(url)
     .then(function (response) {
       //check database for features
       response.data.features.forEach( feature =>{
@@ -171,14 +170,40 @@ function getData(){
             depth: feature.geometry.coordinates[2]
           }
         })
-        .then((earthquake, created) => {
+        .then(([earthquake, created]) => {
+          //update the database if the status has changed
+          if(!created){
+            if(earthquake.status != feature.properties.status){
+              earthquake.update({
+                mag: feature.properties.mag,
+                place: feature.properties.place,
+                time: feature.properties.time,
+                url: feature.properties.url,
+                felt: feature.properties.felt,
+                alert: feature.properties.alert,
+                status: feature.properties.status,
+                tsunami: feature.properties.tsunami,
+                sig: feature.properties.sig,
+                title: feature.properties.title,
+                latitude: feature.geometry.coordinates[0],
+                longitude: feature.geometry.coordinates[1],
+                depth: feature.geometry.coordinates[2]
+              })
+              .then( updated => {
+                toolbox.log(`existing earthquake updated in the database!`);
+                toolbox.log(earthquake.dataValues);
+              })
+              //error from update
+              .catch( error => toolbox.errorHandler(error));
+            }
+          }
           if(created){
-            inc++;
-            newEarthquakes.push(earthquake.dataValues)
+            toolbox.log(`new earthquake added to the database!`);
+            toolbox.log(earthquake.dataValues);
           }
         })
         .catch(function (error) {
-          // handle error from axios
+          // error from creation
           toolbox.errorHandler(error);
         })
       })
@@ -186,22 +211,17 @@ function getData(){
     .catch(function (error) {
       // handle error from axios
       toolbox.errorHandler(error);
+      //continue callbacks even if there is an error
+      timeoutUsgsQuery = setTimeout( () => getData(url, callbackTime), callbackTime);
     })
-  .finally(function () {
+    .finally(function () {
     //callback a another query
-    timeoutUsgsQuery = setTimeout(getData, 1000);
-    if (inc) {
-      toolbox.log(`${inc} new earthquakes added to the database`);
-      newEarthquakes.forEach( earthquake => {
-        toolbox.log(earthquake);
-      })
-      inc = 0;
-      newEarthquakes = [];
-    }
+    timeoutUsgsQuery = setTimeout( () => getData(url, callbackTime), callbackTime);
   })
 }
 //uncomment to start api calls
-getData();
+getData(usgsUrls.pastHour.all, 1000);
+getData(usgsUrls.allTime.all, toolbox.mSec.hour);
 
 // initialize app on port
 let port = process.env.PORT || 3000;

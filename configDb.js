@@ -25,10 +25,9 @@ const usgsUrls = {
 
 
 function populateDb(){
-  let inc = 0;
-  let newEeathquakes = [];
   axios.get(usgsUrls.allTime.all)
     .then(function (response) {
+      toolbox.log(`${response.data.features.length} features sent from usgs`)
       //check database for features
       response.data.features.forEach( feature =>{
         //console.log(feature.properties.geometry.coordinates[0])
@@ -52,10 +51,45 @@ function populateDb(){
             depth: feature.geometry.coordinates[2]
           }
         })
-        .then((earthquake, created) => {
+        .then(([earthquake, created]) => {
+          if(!created){
+            if(earthquake.status != feature.properties.status){
+              console.log(`${earthquake.title} has a different status than was expected! \nthe database shows a status of ${earthquake.status} but the usgs has a status of ${feature.properties.status} \n`);
+              if(feature.id != earthquake.usgsId) console.log(`usgs id was changed to ${feature.id}`)
+              if(feature.properties.mag != earthquake.mag) console.log(`magnitude was changed from ${earthquake.mag} to ${feature.properties.mag}`)
+              if(feature.properties.place != earthquake.place) console.log(`place was changed from ${earthquake.place} to ${feature.properties.place}`)
+              if(feature.properties.time != earthquake.time) console.log(`time was changed from ${earthquake.time} to ${feature.properties.time}`)
+              if(feature.properties.url != earthquake.url) console.log(`url was changed from ${earthquake.url} to ${feature.properties.url}`)
+              if(feature.properties.felt != earthquake.felt) console.log(`felt was changed from ${earthquake.felt} to ${feature.properties.felt}`)
+              if(feature.properties.alert != earthquake.alert) console.log(`alert was changed from ${earthquake.alert} to ${feature.properties.alert}`)
+              if(feature.properties.tsunami != earthquake.tsunami) console.log(`tsunami was changed from ${earthquake.tsunami} to ${feature.properties.tsunami}`)
+              if(feature.properties.sig != earthquake.sig) console.log(`sig was changed from ${earthquake.sig} to ${feature.properties.sig}`)
+              if(feature.properties.title != earthquake.title) console.log(`title was changed from ${earthquake.title} to ${feature.properties.title}`)
+              if(feature.geometry.coordinates[0] != earthquake.latitude) console.log(`latitude was changed from ${earthquake.latitude} to ${feature.geometry.coordinates[0]}`)
+              if(feature.geometry.coordinates[1] != earthquake.longitude) console.log(`longitude was changed from ${earthquake.longitude} to ${feature.geometry.coordinates[1]}`)
+              if(feature.geometry.coordinates[2] != earthquake.depth) console.log(`depth was changed from ${earthquake.depth} to ${feature.geometry.coordinates[2]}`)
+              console.log('\n')
+            }
+            earthquake.update({
+                mag: feature.properties.mag,
+                place: feature.properties.place,
+                time: feature.properties.time,
+                url: feature.properties.url,
+                felt: feature.properties.felt,
+                alert: feature.properties.alert,
+                status: feature.properties.status,
+                tsunami: feature.properties.tsunami,
+                sig: feature.properties.sig,
+                title: feature.properties.title,
+                latitude: feature.geometry.coordinates[0],
+                longitude: feature.geometry.coordinates[1],
+                depth: feature.geometry.coordinates[2]
+              })
+              .catch( error => toolbox.errorHandler(error));
+          }
           if(created){
-            inc++;
-            newEeathquakes.push(earthquake.dataValues)
+            toolbox.log(earthquake);
+            toolbox.log(`new earthquake added to the database!`);
           }
         })
         .catch(function (error) {
@@ -69,15 +103,11 @@ function populateDb(){
       toolbox.errorHandler(error);
     })
     .finally( () => {
-      newEeathquakes.forEach( earthquake => {
-        console.log(earthquake);
-      });
-      console.log(`${inc} new earthquakes added to the database`);
-      inc = 0;
+
     })
 }
 
-//populateDb();
+populateDb();
 
 function checkAlerts(){
   db.earthquake.findAll().then( earthquakes => {
@@ -170,7 +200,7 @@ let searchTerms = {
   }
 }
 
-searchTest(searchTerms);
+//searchTest(searchTerms);
 
 let date = new Date('7/7/2020')
 let time = new Date()
