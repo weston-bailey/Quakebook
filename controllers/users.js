@@ -16,7 +16,6 @@ router.get('/', isLoggedIn, function(req, res){
     users.forEach(user => {
       userData.push(user.getPublicData());
     })
-    console.log(userData)
     res.render('users/users', { userData });
   })
   .catch(error => toolbox.errorHandler(error));
@@ -36,9 +35,15 @@ router.get('/:userId', isLoggedIn, function(req, res){
     //update user data to transmit and make and array for comments
     userData = user.getPublicData();
     userData.comments = [];
-    console.log(userData)
-    user.getComments().then( comments => {
+    user.getComments({
+      include: [db.earthquake]
+    }).then( comments => {
       comments.forEach( comment => {
+        // make a pretty date
+        let created = new Date(comment.dataValues.createdAt);
+        comment.dataValues.localTime = toolbox.localTimeFormat(created.getTime());
+        // get earthquake title
+        comment.dataValues.earthquakeTitle = comment.earthquake.dataValues.place;
         userData.comments.push(comment.dataValues)
       });
       res.render('users/profile', { userData })

@@ -53,7 +53,6 @@ app.use(passport.session());
 app.use(flash());
 
 app.use(function(req, res, next){
-  console.log('called')
   res.locals.alerts = req.flash();
   res.locals.currentUser = req.user;
 
@@ -62,7 +61,6 @@ app.use(function(req, res, next){
 
 // controllers
 app.use('/auth', require('./controllers/auth'));
-app.use('/search', require('./controllers/search'));
 app.use('/data', require('./controllers/data'));
 app.use('/details', require('./controllers/details'));
 app.use('/users', require('./controllers/users'));
@@ -128,8 +126,8 @@ app.get('/', (req, res) => {
 
 
 //start api calls
-usgsApiService.getData(usgsApiService.urls.pastHour.all, 1000);
-usgsApiService.getData(usgsApiService.urls.allTime.all, toolbox.mSec.min * 10);
+//usgsApiService.getData(usgsApiService.urls.pastHour.all, 1000);
+//usgsApiService.getData(usgsApiService.urls.allTime.all, toolbox.mSec.min * 10);
 
 // initialize app on port
 let port = process.env.PORT || 3000;

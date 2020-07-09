@@ -17,8 +17,8 @@
   <% userData.comments.forEach(comment => { %>
     <div class="list-group-item">
       <div class="d-flex w-100 justify-content-between">
-          <h6> <%= comment.userName %> said about <a href="/details/<%= comment.earthquakeId %>"><%= comment.earthquakeId %></a></h6>
-          <small class="text-muted"><%= comment.createdAt %></small>
+          <h6> <%= comment.userName %> said about <a href="/details/<%= comment.earthquakeId %>"><%= comment.earthquakeTitle %></a></h6>
+          <small class="text-muted"><%= comment.localTime %></small>
       </div>        
       <p><%= comment.text %></p>
     </div>

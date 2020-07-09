@@ -66,8 +66,9 @@ router.post('/register', uploads.single('profilePic'), function(req, res) {
         })(req, res);
       } else {
         console.log('User email already exists 🛑.');
-        req.flash('error', 'Error: email already exists for user. Try again.');
-        res.redirect('/auth/register');
+        req.flash('error', 'Error: email already exists for user. Try again.')
+        //setTimeout( () => { res.redirect('/auth/register'); }, 5000)
+        res.redirect('/auth/register')
       }
     })
     .catch(function(err) {
@@ -97,6 +98,7 @@ router.post('/login', function(req, res, next) {
     //   });
     // }
     if (!user) {
+      console.log('not user')
       req.flash('error', 'incorrect id/password');
       return res.redirect('/auth/login');
   }
