@@ -53,6 +53,7 @@ app.use(passport.session());
 app.use(flash());
 
 app.use(function(req, res, next){
+  console.log('called')
   res.locals.alerts = req.flash();
   res.locals.currentUser = req.user;
 
@@ -101,6 +102,7 @@ app.get('/', (req, res) => {
       //check search method against db
       let searchTest = earthquake.search(searchTerms);
       if(searchTest){ 
+        earthquake.dataValues.localTime = toolbox.localTimeFormat(earthquake.dataValues.time);
         searchResults.push(earthquake.dataValues);
       }
     })
@@ -123,6 +125,7 @@ app.get('/', (req, res) => {
   })
   .catch(error => toolbox.errorHandler(error));
 });
+
 
 //start api calls
 usgsApiService.getData(usgsApiService.urls.pastHour.all, 1000);

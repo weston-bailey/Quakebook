@@ -16,9 +16,17 @@ let searchTerms = {
 //make a nice looking string out of an epoch timestamp
 function localTimeFormat(timeStamp){
   let months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ];
-  let days = [ 'Sun', 'Mon','Tue', 'Wed', 'Thu', 'Fri','Sat' ];
+  let days = [ 'Sun', 'Mon','Tue', 'Wed', 'Thu', 'Fri', 'Sat' ];
   let date = new Date(timeStamp);
-  return `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()} ${date.getFullYear()} ${date.getHours() % 12}:${date.getMinutes()} ${date.getHours() > 12 ? 'pm' : 'am'}`;
+  let hour = (function() {
+    let makeHour = date.getHours() % 12;
+    return makeHour === 0 ? 12 : makeHour;
+  })();
+  let min =  (function() {
+    let makeMin = date.getMinutes();
+    return makeMin < 10 ? `0${makeMin}` : makeMin;
+  })();
+  return `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()} ${date.getFullYear()} ${hour}:${min} ${date.getHours() > 12 ? 'pm' : 'am'}`;
 }
 
 //make the mapbox after DOM content loaded

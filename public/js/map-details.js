@@ -1,29 +1,35 @@
 
 window.addEventListener('DOMContentLoaded', () => { renderMap(); });
-
-let latitude = document.getElementById('dataDiv').dataset.latitude;
-let longitude = document.getElementById('dataDiv').dataset.longitude;
-let mapKey = document.getElementById('dataDiv').dataset.mapkey;
-//only need the id of one earthquake
-let id = document.getElementById('dataDiv').dataset.id;
+//all the data from the server
+let data = document.getElementById('dataDiv').dataset;
 //for the mapbox
 let map;
 
-console.log(latitude);
-console.log(longitude);
-console.log(mapKey);
-
-console.log(id)
+//make a nice looking string out of an epoch timestamp
+function localTimeFormat(timeStamp){
+  let months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ];
+  let days = [ 'Sun', 'Mon','Tue', 'Wed', 'Thu', 'Fri', 'Sat' ];
+  let date = new Date(timeStamp);
+  let hour = (function() {
+    let makeHour = date.getHours() % 12;
+    return makeHour === 0 ? 12 : makeHour;
+  })();
+  let min =  (function() {
+    let makeMin = date.getMinutes();
+    return makeMin < 10 ? `0${makeMin}` : makeMin;
+  })();
+  return `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()} ${date.getFullYear()} ${hour}:${min} ${date.getHours() > 12 ? 'pm' : 'am'}`;
+}
 
 //make the mapbox after DOM content loaded
 function renderMap(){
   //make a new mapbox
-  mapboxgl.accessToken = mapKey;
+  mapboxgl.accessToken = data.mapkey;
     map = new mapboxgl.Map({
       container: 'map',
       // style: 'mapbox://styles/mapbox/streets-v11',
       style: 'mapbox://styles/mapbox/satellite-v9',
-      center: [latitude, longitude],
+      center: [data.latitude, data.longitude],
       // center: [27.2038, 77.5011],
       zoom: 5
   });
@@ -33,30 +39,27 @@ function renderMap(){
   });
 }
 
+//send search terms back to server to get data for map
 function fetchData(){
-  let earthquakes = [];
   axios({
     method: 'get',
     url: '/data/details',
     params: {
-      search: id
+      search: data.id
     }
   })
   .then( response => {
     detail = response.data;
-    console.log(detail)
-
-    let time = new Date(detail.time);
 
     let el = document.createElement('img');
     el.class = 'marker';
     el.src = '/img/mapbox-icon.png';
     el.style.width = '4vw';
 
-    var popup = new mapboxgl.Popup({ offset: 25 }).setText(
-      `${detail.place} \n
-      magnitude: ${detail.mag} \n
-      time: ${time} \n`
+    var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+      `<h6>${detail.place} </h6> <br />
+      <p> <b> mag: ${detail.mag} </b> <br />
+      <i> ${localTimeFormat(detail.time)} </i> <br /> `
     );
 
     new mapboxgl.Marker(el)

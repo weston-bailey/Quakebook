@@ -1,10 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../models');
-// import middleware
-const isLoggedIn = require('../middleware/isLoggedIn');
-const flash = require('connect-flash');
-const passport = require('../config/ppConfig');
+const toolbox = require('../private/toolbox');
 
 router.get('/', (req, res) => {
   res.send('hit');
@@ -30,7 +27,8 @@ router.post('/:earthquakeIndex/comment', (req, res) => {
       where: {
         id: userId
       }
-    }).then( user =>{
+    })
+    .then( user =>{
       //get user's full name
       fullName = user.getFullName();
       //create a comment
@@ -38,29 +36,18 @@ router.post('/:earthquakeIndex/comment', (req, res) => {
         text: text,    
         userId: userId,
         userName: fullName
-    })
-    })
-
+      });
+    });
   }).catch(error => errorHandler(error));
   //make comment for this event in databse, redirect to details
   res.redirect(`/details/${earthquakeIndex}`);
 });
 
 router.get('/:earthquakeIndex', (req, res) => {
-  //render details
-  //console.log('user: ', req.user);
-  //to send over non-sensitive user data
   let userData;
   if(req.user){
-    //console.log(user.getFullName())
-    userData = {
-      id: req.user.id,
-      firstName: req.user.dataValues.firstName,
-      lastName: req.user.dataValues.lastName,
-      pfp: req.user.dataValues.pfp,
-      defaults: req.user.dataValues.defaults
-    }
-  } 
+    userData = req.user.getPublicData();
+  }
   //index of detail earthquake
   let earthquakeIndex = req.params.earthquakeIndex;
   //to send back comments
@@ -71,24 +58,23 @@ router.get('/:earthquakeIndex', (req, res) => {
     }
   })
   .then( earthquake => {
+    //make a pretty date
+    earthquake.dataValues.localTime = toolbox.localTimeFormat(earthquake.dataValues.time);
     //find associated comments
     earthquake.getComments().then( comments => {
       //push comments to comment data array
       comments.forEach( comment => {
-        //TODO add username to comment model
+        //make the created time pretty
+        let created = new Date(comment.dataValues.createdAt);
+        comment.dataValues.localTime = toolbox.localTimeFormat(created.getTime());
         commentData.push(comment.dataValues);
       })
       res.render('details/details', { userData, earthquake: earthquake.dataValues, comments: commentData, mapKey: process.env.MAPBOX_TOKEN })
     })
-    //send data
-    //(earthquake.dataValues)
 
   })
   .catch( error => toolbox.errorHandler(error));
-  //res.send(`details for ${earthquakeIndex}`);
 });
-
-
 
 // export router
 module.exports = router;
