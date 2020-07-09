@@ -1,0 +1,10 @@
+/* if its not a link, make it one! */
+.make-link{
+  color: -webkit-link;
+  text-decoration: underline;
+  cursor: auto;
+}
+
+.make-link:active {
+  color: -webkit-activelink;
+}

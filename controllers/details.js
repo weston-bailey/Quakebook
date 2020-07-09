@@ -83,7 +83,8 @@ router.post('/:earthquakeIndex/comment', (req, res) => {
 router.put('/:earthquakeIndex/comment/:commentIndex/edit', (req, res) => {
   let earthquakeIndex = req.params.earthquakeIndex;
   let commentIndex = req.params.commentIndex;
-  res.send(`<h2>editing comment ${commentIndex} on earthquake ${earthquakeIndex}</h2>`);
+  let text = req.body.text;
+  res.send(`<h2>editing comment ${commentIndex} on earthquake ${earthquakeIndex}</h2> <br /> <p>${text}<p>`);
 });
 
 // deleting a comment

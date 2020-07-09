@@ -62,8 +62,8 @@ router.post('/register', uploads.single('profilePic'), function(req, res) {
       if (created) {
         console.log('User created! 🎉');
         passport.authenticate('local', {
-          // successRedirect: `/users/${user.id}`,
-          successRedirect: lastPage,
+          successRedirect: `/users/${user.id}`,
+          // successRedirect: lastPage,
           successFlash: 'Thanks for signing up!'
         })(req, res);
       } else {

@@ -74,7 +74,7 @@ module.exports = {
       let makeMin = date.getMinutes();
       return makeMin < 10 ? `0${makeMin}` : makeMin;
     })();
-    return `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()} ${date.getFullYear()} ${hour}:${min} ${date.getHours() > 12 ? 'pm' : 'am'}`;
+    return `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()} ${date.getFullYear()} ${hour}:${min} ${date.getHours() >= 12 ? 'pm' : 'am'}`;
   }
 }
 
