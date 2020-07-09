@@ -8,16 +8,18 @@ const cloudinary = require('cloudinary');
 const toolbox = require('../private/toolbox');
 const fs = require('fs');
 
-
 const uploads = multer({ dest: './uploads' }); 
 
 // register get route
 router.get('/register', function(req, res) {
   res.render('auth/register');
+
 })
 
 // register post route
 router.post('/register', uploads.single('profilePic'), function(req, res) {
+  //if user is successful on signup
+  //let lastPage = req.headers.referer;
   //uploaded pfp
   let pfpUpload;
   //pfp for database
@@ -61,7 +63,8 @@ router.post('/register', uploads.single('profilePic'), function(req, res) {
       if (created) {
         console.log('User created! 🎉');
         passport.authenticate('local', {
-          successRedirect: `/users/${user.id}`,
+          // successRedirect: `/users/${user.id}`,
+          successRedirect: lastPage,
           successFlash: 'Thanks for signing up!'
         })(req, res);
       } else {

@@ -126,8 +126,8 @@ app.get('/', (req, res) => {
 
 
 //start api calls
-//usgsApiService.getData(usgsApiService.urls.pastHour.all, 1000);
-//usgsApiService.getData(usgsApiService.urls.allTime.all, toolbox.mSec.min * 10);
+//usgsApiService.getData(usgsApiService.urls.pastHour.all, toolbox.mSec.min);
+//usgsApiService.getData(usgsApiService.urls.allTime.all, toolbox.mSec.hour);
 
 // initialize app on port
 let port = process.env.PORT || 3000;

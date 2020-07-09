@@ -53,5 +53,11 @@ router.get('/:userId', isLoggedIn, function(req, res){
   .catch(error => toolbox.errorHandler(error));
 });
 
+//editing user
+router.put('/:userId/edit', (req, res) => {
+  let userId = req.params.userId;
+  res.send(`<h2>editing user ${userId}'s profile`);
+});
+
 // export router
 module.exports = router;

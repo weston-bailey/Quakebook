@@ -3,10 +3,46 @@ const router = express.Router();
 const db = require('../models');
 const toolbox = require('../private/toolbox');
 
+//go home
 router.get('/', (req, res) => {
-  res.send('hit');
-})
+  res.redirect('/');
+});
 
+//display details
+router.get('/:earthquakeIndex', (req, res) => {
+  let userData;
+  if(req.user){
+    userData = req.user.getPublicData();
+  }
+  //index of detail earthquake
+  let earthquakeIndex = req.params.earthquakeIndex;
+  //to send back comments
+  let commentData = [];
+  db.earthquake.findOne({
+    where: {
+      id: earthquakeIndex
+    }
+  })
+  .then( earthquake => {
+    //make a pretty date
+    earthquake.dataValues.localTime = toolbox.localTimeFormat(earthquake.dataValues.time);
+    //find associated comments
+    earthquake.getComments().then( comments => {
+      //push comments to comment data array
+      comments.forEach( comment => {
+        //make the created time pretty
+        let created = new Date(comment.dataValues.createdAt);
+        comment.dataValues.localTime = toolbox.localTimeFormat(created.getTime());
+        commentData.push(comment.dataValues);
+      })
+      res.render('details/details', { userData, earthquake: earthquake.dataValues, comments: commentData, mapKey: process.env.MAPBOX_TOKEN })
+    })
+
+  })
+  .catch( error => toolbox.errorHandler(error));
+});
+
+// making a comment
 router.post('/:earthquakeIndex/comment', (req, res) => {
   //the id of the earthquake
   let earthquakeIndex = req.params.earthquakeIndex;
@@ -43,37 +79,41 @@ router.post('/:earthquakeIndex/comment', (req, res) => {
   res.redirect(`/details/${earthquakeIndex}`);
 });
 
-router.get('/:earthquakeIndex', (req, res) => {
-  let userData;
-  if(req.user){
-    userData = req.user.getPublicData();
-  }
-  //index of detail earthquake
+// editing a comment
+router.put('/:earthquakeIndex/comment/:commentIndex/edit', (req, res) => {
   let earthquakeIndex = req.params.earthquakeIndex;
-  //to send back comments
-  let commentData = [];
-  db.earthquake.findOne({
-    where: {
-      id: earthquakeIndex
-    }
-  })
-  .then( earthquake => {
-    //make a pretty date
-    earthquake.dataValues.localTime = toolbox.localTimeFormat(earthquake.dataValues.time);
-    //find associated comments
-    earthquake.getComments().then( comments => {
-      //push comments to comment data array
-      comments.forEach( comment => {
-        //make the created time pretty
-        let created = new Date(comment.dataValues.createdAt);
-        comment.dataValues.localTime = toolbox.localTimeFormat(created.getTime());
-        commentData.push(comment.dataValues);
-      })
-      res.render('details/details', { userData, earthquake: earthquake.dataValues, comments: commentData, mapKey: process.env.MAPBOX_TOKEN })
-    })
+  let commentIndex = req.params.commentIndex;
+  res.send(`<h2>editing comment ${commentIndex} on earthquake ${earthquakeIndex}</h2>`);
+});
 
-  })
-  .catch( error => toolbox.errorHandler(error));
+// deleting a comment
+router.delete('/:earthquakeIndex/comment/:commentIndex/delete', (req, res) => {
+  let earthquakeIndex = req.params.earthquakeIndex;
+  let commentIndex = req.params.commentIndex;
+  res.send(`<h2>deleting comment ${commentIndex} on earthquake ${earthquakeIndex}</h2>`);
+});
+
+// adding a reply
+router.post('/:earthquakeIndex/comment/:commentIndex/reply', (req, res) => {
+  let earthquakeIndex = req.params.earthquakeIndex;
+  let commentIndex = req.params.commentIndex;
+  res.send(`<h2>making reply on comment ${commentIndex} on earthquake ${earthquakeIndex}</h2>`);
+});
+
+// editing a reply
+router.put('/:earthquakeIndex/comment/:commentIndex/reply/:replyIndex/edit', (req, res) => {
+  let earthquakeIndex = req.params.earthquakeIndex;
+  let commentIndex = req.params.commentIndex;
+  let replyIndex = req.params.replyIndex;
+  res.send(`<h2>editing reply ${replyIndex} on comment ${commentIndex} on earthquake ${earthquakeIndex}</h2>`);
+});
+
+// delete a reply
+router.delete('/:earthquakeIndex/comment/:commentIndex/reply/:replyIndex/delete', (req, res) => {
+  let earthquakeIndex = req.params.earthquakeIndex;
+  let commentIndex = req.params.commentIndex;
+  let replyIndex = req.params.replyIndex;
+  res.send(`<h2>deleting reply ${replyIndex} on comment ${commentIndex} on earthquake ${earthquakeIndex}</h2>`);
 });
 
 // export router
