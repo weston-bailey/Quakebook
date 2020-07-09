@@ -1,6 +1,5 @@
 'use strict';
 const bcrypt = require('bcrypt');
-const { PositionOptions } = require('mapbox-gl');
 
 // declare user model format
 module.exports = function(sequelize, DataTypes) {
