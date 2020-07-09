@@ -21,7 +21,6 @@ router.get('/', isLoggedIn, function(req, res){
   .catch(error => toolbox.errorHandler(error));
 });
 
-
 router.get('/:userId', isLoggedIn, function(req, res){
   userId = req.params.userId;
   //user data to transmit

@@ -13,8 +13,7 @@ const uploads = multer({ dest: './uploads' });
 // register get route
 router.get('/register', function(req, res) {
   res.render('auth/register');
-
-})
+});
 
 // register post route
 router.post('/register', uploads.single('profilePic'), function(req, res) {
