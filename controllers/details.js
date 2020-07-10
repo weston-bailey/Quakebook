@@ -104,7 +104,16 @@ router.put('/:earthquakeIndex/comment/:commentIndex/edit', (req, res) => {
 router.delete('/:earthquakeIndex/comment/:commentIndex/delete', (req, res) => {
   let earthquakeIndex = req.params.earthquakeIndex;
   let commentIndex = req.params.commentIndex;
-  res.send(`<h2>deleting comment ${commentIndex} on earthquake ${earthquakeIndex}</h2>`);
+  db.comment.destroy({
+    where: {
+      id: commentIndex
+    }
+  })
+  .then( () => {
+    res.redirect(`/details/${earthquakeIndex}`)
+  })
+  .catch( error => errorHandler('/details/:earthquakeIndex/comment/:commentIndex/delete', 'db.delete', error));
+  //res.send(`<h2>deleting comment ${commentIndex} on earthquake ${earthquakeIndex}</h2>`);
 });
 
 // adding a reply
