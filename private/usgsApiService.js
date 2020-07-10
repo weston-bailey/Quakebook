@@ -74,7 +74,7 @@ function getData(url, callbackTime){
                   depth: feature.geometry.coordinates[2]
                 })
                 .then( updated => {
-                  toolbox.log(`existing earthquake updated in the database!`, `from url: ${url}`, `callback to usgs rescheduled in: ${callbackTime}ms`, earthquake.dataValues);
+                  toolbox.log(`existing earthquake updated in the database!`, `from url: ${url}`, earthquake.dataValues);
                 })
                 //error from update
                 .catch( error => { 
@@ -84,7 +84,7 @@ function getData(url, callbackTime){
               }
             }
             if(created){
-              toolbox.log(`new earthquake added to the database!`, `from url: ${url}`, `callback to usgs rescheduled in: ${callbackTime}ms`, earthquake.dataValues);
+              toolbox.log(`new earthquake added to the database!`, `from url: ${url}`, earthquake.dataValues);
             }
           })
           //error from create
