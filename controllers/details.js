@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models');
 const toolbox = require('../private/toolbox');
-const { errorHandler } = require('../private/toolbox');
 
 //go home
 router.get('/', (req, res) => {
@@ -75,7 +74,7 @@ router.post('/:earthquakeIndex/comment', (req, res) => {
         userName: fullName
       });
     });
-  }).catch(error => errorHandler(error));
+  }).catch(error => toolbox.errorHandler(error));
   //make comment for this event in databse, redirect to details
   res.redirect(`/details/${earthquakeIndex}`);
 });
@@ -95,9 +94,7 @@ router.put('/:earthquakeIndex/comment/:commentIndex/edit', (req, res) => {
   .then( () => {
     res.redirect(`/details/${earthquakeIndex}`)
   })
-  .catch( error => errorHandler('/details/:earthquakeIndex/comment/:commentIndex/edit', 'db.update', error));
-  // console.log(req.body)
-  // res.send(`<h2>editing comment ${commentIndex} on earthquake ${earthquakeIndex}</h2> <br /> <p>${text}<p>`);
+  .catch( error => toolbox.errorHandler('/details/:earthquakeIndex/comment/:commentIndex/edit', 'db.update', error));
 });
 
 // deleting a comment
@@ -112,8 +109,7 @@ router.delete('/:earthquakeIndex/comment/:commentIndex/delete', (req, res) => {
   .then( () => {
     res.redirect(`/details/${earthquakeIndex}`)
   })
-  .catch( error => errorHandler('/details/:earthquakeIndex/comment/:commentIndex/delete', 'db.delete', error));
-  //res.send(`<h2>deleting comment ${commentIndex} on earthquake ${earthquakeIndex}</h2>`);
+  .catch( error => toolbox.errorHandler('/details/:earthquakeIndex/comment/:commentIndex/delete', 'db.delete', error));
 });
 
 // adding a reply

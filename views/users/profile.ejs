@@ -1,17 +1,18 @@
 <div class="card">
   <div class="row no-gutters">
+    <!-- begin testing... -->
     <div class="col-sm-5" style="background-image: url(<%= userData.pfp %>); height: auto; width: auto; max-height: 200px; max-width: 200px; background-repeat: no-repeat; background-size: contain, cover;">
-      <div class="d-flex w-100 flex-row-reverse">
+      <!-- <div class="d-flex w-100 flex-row-reverse">
         <ul class="list-inline">
           <li class="list-inline-item"> 
             <button type="button" style="opacity:.5" class="btn btn-warning" href="#pfp-edit" class="" data-toggle="tab">New</button>
           </li>
         </ul>
-      </div>
+      </div> -->
     </div>
+    <!-- end testing... -->
     <div class="col-sm-7">
       <div class="card-body">
-        <!-- begin testing... -->
         <% if(currentUser.id === userData.id) { %>
           <h2 class="card-title"> Hi <%= userData.fullName %></h2>
             <div class="tab-content">

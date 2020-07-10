@@ -53,13 +53,23 @@ router.get('/:userId', isLoggedIn, function(req, res){
 });
 
 //editing user
-router.put('/:userId/edit', (req, res) => {
+router.put('/:userId/edit', isLoggedIn, (req, res) => {
   let userId = req.params.userId;
   let edit;
   if(req.body.bioTextEdit){
-    edit = req.body.bioTextEdit
+    edit = req.body.bioTextEdit;
+    db.user.update({
+      bio: edit,
+    }, {
+      where: {
+        id: userId
+      }
+    })
+    .then(() => {
+      res.redirect(`/users/${userId}`)
+    })
+    .catch( error => toolbox.errorHandler('/users//:userId/edit', 'db.user.update', error))
   }
-  res.send(`<h2>editing user ${userId}'s profile</h2> <br /> <p> ${edit} </p>`);
 });
 
 // export router
