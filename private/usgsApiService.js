@@ -27,7 +27,6 @@ module.exports = {
 
 //get data from usgs at specified intervals
 function getData(url, callbackTime){
-    toolbox.log('called', url, callbackTime);
     let timeoutUsgsQuery;
     axios.get(url)
       .then(function (response) {
@@ -74,14 +73,14 @@ function getData(url, callbackTime){
                   depth: feature.geometry.coordinates[2]
                 })
                 .then( updated => {
-                  toolbox.log(`existing earthquake updated in the database!`, earthquake.dataValues);
+                  toolbox.log(`existing earthquake updated in the database!`, url, callbackTime, earthquake.dataValues);
                 })
                 //error from update
                 .catch( error => toolbox.errorHandler(error));
               }
             }
             if(created){
-              toolbox.log(`new earthquake added to the database!`, earthquake.dataValues);
+              toolbox.log(`new earthquake added to the database!`, url, callbackTime, earthquake.dataValues);
             }
           })
           .catch(function (error) {
