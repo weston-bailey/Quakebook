@@ -1,1 +1,67 @@
-<h3>im here</h3>
+<!-- reply list -->
+<!-- <div class="container w-75"> -->
+  <div class="list-group w-75">
+    <% comment.replies.forEach(reply => { %>
+      <!-- User made this reply. -->
+      <% if(currentUser.id === reply.userId) { %>
+        <!-- reply show tab -->
+        <div class="list-group-item">
+          <div class="d-flex w-100 justify-content-between">
+              <h6> <a href="/users/<%= reply.userId %>"> You </a> replied:</h6>
+              <small class="text-muted"><%= reply.localTime %></small>
+          </div>        
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="reply-show-<%= reply.id %>">
+            <div class="container">
+              <p><%= reply.text %></p>
+            </div>
+            <!-- nested tab controls -->
+            <div class="d-flex w-100 flex-row-reverse">
+              <ul class="list-inline">
+                <li class="list-inline-item"> 
+                  <button type="button" class="btn btn-warning" href="#reply-edit-<%= reply.id %>" class="" data-toggle="tab">Edit</button>
+                </li>
+                <li class="list-inline-item"> 
+                  <form id="delete-form-<%= reply.id %>" method="POST" action="/details/<%= earthquake.id %>/reply/<%= reply.id %>/delete/?_method=DELETE"></form>
+                  <button type="button" class="btn btn-danger" onclick="document.getElementById('delete-form-<%= reply.id %>').submit();" >Delete</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- reply edit tab -->
+          <div class="tab-pane fade" id="reply-edit-<%= reply.id %>">
+            <form method="POST" action="/details/<%= earthquake.id %>/reply/<%= reply.id %>/edit/?_method=PUT">
+              <textarea id="replyTextEdit" type="text" rows="3" class="form-control" name="replyTextEdit" ><%= reply.text %></textarea>
+              <div class="d-flex w-100 justify-content-between">
+                <input class="btn btn-dark" type="submit">
+                <button type="button" class="btn btn-dark" href="#reply-show-<%= reply.id %>" class="" data-toggle="tab">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- reply from a different user-->
+      <% } else { %>
+      <div class="list-group-item">
+        <div class="d-flex w-100 justify-content-between">
+            <h6> <a href="/users/<%= reply.userId %>"> <%= reply.userName %> </a> replied: </h6>
+            <small class="text-muted"><%= reply.localTime %></small>
+        </div>      
+        <div class="container">  
+          <p><%= reply.text %></p>
+        </div>
+      </div>
+      <% }  %>
+    <!--  end testing... -->
+  <% }) %>
+<!-- comment form -->
+<form id="reply-form-<%= comment.id %>" method="POST" action="/details/<%= earthquake.id %>/comment/<%= comment.id %>/reply" method="POST">
+  <div class="form-group">
+    <label for="text">Hi <%= userData.firstName %>, type your reply below:</label>
+    <textarea type="text" class="form-control" id="text" name="text" required></textarea>
+    <input class="btn btn-dark" type="submit">
+  </div>
+  </form>
+</div>
+
+<!-- </div> -->

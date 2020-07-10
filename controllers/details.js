@@ -25,30 +25,31 @@ router.get('/:earthquakeIndex', (req, res) => {
     include: [db.comment, db.reply]
   })
   .then( (earthquake, comments) => {
-    console.log(earthquake, comments)
-  })
-  db.earthquake.findOne({
-    where: {
-      id: earthquakeIndex
-    }
-  })
-  .then( earthquake => {
-    //make a pretty date
-    earthquake.dataValues.localTime = toolbox.localTimeFormat(earthquake.dataValues.time);
-    //find associated comments
-    earthquake.getComments().then( comments => {
-      //push comments to comment data array
-      comments.forEach( comment => {
-        //make the created time pretty
-        let created = new Date(comment.dataValues.createdAt);
-        comment.dataValues.localTime = toolbox.localTimeFormat(created.getTime());
-        commentData.push(comment.dataValues);
+    console.log(earthquake.replies)
+    //format the data here to avoid squidiebois later
+    earthquake.comments.forEach(comment => {
+      //make the created time pretty
+      let commentCreated = new Date(comment.dataValues.createdAt);
+      comment.dataValues.localTime = toolbox.localTimeFormat(commentCreated.getTime());
+      //make array in comment object for associated replies
+      comment.dataValues.replies = [];
+      //find the associated replies
+      earthquake.replies.forEach( reply => {
+        //we have a winner!
+        if(reply.dataValues.commentId === comment.dataValues.id){
+        //make the created time pretty...again
+        let replyCreated = new Date(reply.dataValues.createdAt);
+        reply.dataValues.localTime = toolbox.localTimeFormat(replyCreated.getTime());
+        // push it
+        comment.dataValues.replies.push(reply.dataValues);
+        }
       })
-      res.render('details/details', { userData, earthquake: earthquake.dataValues, comments: commentData, mapKey: process.env.MAPBOX_TOKEN })
+      //i like to push it
+      commentData.push(comment.dataValues);
     })
-
+    res.render('details/details', { userData, earthquake: earthquake.dataValues, comments: commentData, mapKey: process.env.MAPBOX_TOKEN })
   })
-  .catch( error => toolbox.errorHandler(error));
+  .catch( error => toolbox.errorHandler('/:earthquakeIndex', 'db.earthquake.findone', error))
 });
 
 // making a comment
@@ -81,11 +82,16 @@ router.post('/:earthquakeIndex/comment', (req, res) => {
         text: text,    
         userId: userId,
         userName: fullName
-      });
-    });
-  }).catch(error => toolbox.errorHandler(error));
-  //make comment for this event in databse, redirect to details
-  res.redirect(`/details/${earthquakeIndex}`);
+      })
+      .then( () =>{
+        //make comment for this event in databse, redirect to details
+        res.redirect(`/details/${earthquakeIndex}`);
+      })
+      .catch(error => toolbox.errorHandler(error));
+    })
+    .catch(error => toolbox.errorHandler(error));
+  })
+  .catch(error => toolbox.errorHandler(error));
 });
 
 // editing a comment
@@ -125,7 +131,40 @@ router.delete('/:earthquakeIndex/comment/:commentIndex/delete', (req, res) => {
 router.post('/:earthquakeIndex/comment/:commentIndex/reply', (req, res) => {
   let earthquakeIndex = req.params.earthquakeIndex;
   let commentIndex = req.params.commentIndex;
-  res.send(`<h2>making reply on comment ${commentIndex} on earthquake ${earthquakeIndex}</h2>`);
+  let userId = req.user.dataValues.id;
+  let text = req.body.text;
+  console.log(userId)
+  db.comment.findOne({
+    where: {
+      id: commentIndex
+    }
+  })
+  .then(comment =>{
+    //get user's full name
+    let fullName;
+    db.user.findOne({
+      where: {
+        id: userId
+      }
+    })
+    .then( user =>{
+      //get user's full name
+      fullName = user.getFullName();
+      user.createReply({
+        commentId: commentIndex,
+        text: text,    
+        userId: userId,
+        userName: fullName,
+        earthquakeId: earthquakeIndex
+      })
+      .then( () => {
+        res.redirect(`/details/${earthquakeIndex}`);
+      })
+      .catch(error => toolbox.errorHandler(error));
+    })
+    .catch(error => toolbox.errorHandler(error));
+  })
+  .catch(error => toolbox.errorHandler(error));
 });
 
 // editing a reply

@@ -11,11 +11,12 @@
         <label for="text">Hi <%= userData.firstName %>, type your comment below:</label>
         <textarea type="text" class="form-control" id="text" name="text" required></textarea>
         <input class="btn btn-dark" type="submit">
+      </div>
       </form>
     <!-- comment list -->
     <div class="list-group">
       <% comments.forEach(comment => { %>
-        <!-- begin testing... -->
+        <!-- user made the comment -->
         <% if(currentUser.id === comment.userId) { %>
           <!-- comment show tab -->
           <div class="list-group-item">
@@ -38,11 +39,6 @@
                     <form id="delete-form-<%= comment.id %>" method="POST" action="/details/<%= earthquake.id %>/comment/<%= comment.id %>/delete/?_method=DELETE"></form>
                     <button type="button" class="btn btn-danger" onclick="document.getElementById('delete-form-<%= comment.id %>').submit();" >Delete</button>
                   </li>
-                  <li class="list-inline-item">
-                    <!-- TODO make accordian for reply -->
-                    <form id="reply-form-<%= comment.id %>" method="POST" action="/details/<%= earthquake.id %>/comment/<%= comment.id %>/reply"></form>
-                    <button type="button" class="btn btn-dark" onclick="document.getElementById('reply-form-<%= comment.id %>').submit();" >Reply</button>
-                  </li>
                 </ul>
               </div>
             </div>
@@ -57,7 +53,9 @@
               </form>
             </div>
           </div>
-          <%- include('reply'); %>
+          <div class="container d-flex w-100 flex-row-start">
+            <%- include('reply', { comment: comment }); %>
+          </div>
         </div>
         <!-- comment from a different user-->
         <% } else { %>
@@ -78,11 +76,12 @@
               </li>
             </ul>
           </div>
-          <%- include('reply'); %>
+          <!--  end testing... -->
+          <div class="container d-flex w-100 flex-row-start">
+            <%- include('reply', { comment: comment }); %>
+          </div>
         </div>
-        <% }  %>
-      <!--  end testing... -->
+          <% }  %>
+     <% }) %>
     </div>
-      <% }) %>
-    <% } %>
-</div>
+  <% } %>
