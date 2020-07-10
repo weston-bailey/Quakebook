@@ -35,6 +35,7 @@
     "pg": "^8.2.1",
     "rowdy": "^0.5.0",
     "rowdy-logger": "^1.0.2",
-    "sequelize": "^5.21.13"
+    "sequelize": "^5.21.13",
+    "sequelize-cli": "^6.2.0"
   }
 }

@@ -24,7 +24,7 @@ router.get('/:earthquakeIndex', (req, res) => {
     },
     include: [db.comment, db.reply]
   })
-  .then( (earthquake, comments) => {
+  .then( (earthquake) => {
     //format the data here to avoid squidiebois later
     earthquake.comments.forEach(comment => {
       //make the created time pretty
@@ -86,11 +86,11 @@ router.post('/:earthquakeIndex/comment', (req, res) => {
         //make comment for this event in databse, redirect to details
         res.redirect(`/details/${earthquakeIndex}`);
       })
-      .catch(error => toolbox.errorHandler(error));
+      .catch(error => toolbox.errorHandler('/:earthquakeIndex/comment', 'db.earthquake.createComment', error));
     })
-    .catch(error => toolbox.errorHandler(error));
+    .catch(error => toolbox.errorHandler('/:earthquakeIndex/comment', 'db.user.findOne', error));
   })
-  .catch(error => toolbox.errorHandler(error));
+  .catch(error => toolbox.errorHandler('/:earthquakeIndex/comment', 'db.earthquake.findOne', error));
 });
 
 // editing a comment
