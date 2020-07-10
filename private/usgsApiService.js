@@ -27,7 +27,7 @@ module.exports = {
 
 //get data from usgs at specified intervals
 function getData(url, callbackTime){
-    //console.log('called', url, callbackTime);
+    toolbox.log('called', url, callbackTime);
     let timeoutUsgsQuery;
     axios.get(url)
       .then(function (response) {
