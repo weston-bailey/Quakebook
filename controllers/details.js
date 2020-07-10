@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models');
 const toolbox = require('../private/toolbox');
+const { errorHandler } = require('../private/toolbox');
 
 //go home
 router.get('/', (req, res) => {
@@ -83,8 +84,20 @@ router.post('/:earthquakeIndex/comment', (req, res) => {
 router.put('/:earthquakeIndex/comment/:commentIndex/edit', (req, res) => {
   let earthquakeIndex = req.params.earthquakeIndex;
   let commentIndex = req.params.commentIndex;
-  let text = req.body.text;
-  res.send(`<h2>editing comment ${commentIndex} on earthquake ${earthquakeIndex}</h2> <br /> <p>${text}<p>`);
+  let text = req.body.commentTextEdit;
+  db.comment.update({
+    text: text
+  }, {
+    where: {
+      id: commentIndex
+    }
+  })
+  .then( () => {
+    res.redirect(`/details/${earthquakeIndex}`)
+  })
+  .catch( error => errorHandler('/details/:earthquakeIndex/comment/:commentIndex/edit', 'db.update', error));
+  // console.log(req.body)
+  // res.send(`<h2>editing comment ${commentIndex} on earthquake ${earthquakeIndex}</h2> <br /> <p>${text}<p>`);
 });
 
 // deleting a comment

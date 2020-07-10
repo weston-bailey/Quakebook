@@ -110,7 +110,7 @@
             <!-- comment edit tab -->
             <div class="tab-pane fade" id="comment-edit-<%= comment.id %>">
               <form method="POST" action="/details/<%= earthquake.id %>/comment/<%= comment.id %>/edit/?_method=PUT">
-                <input id="edit" type="text" rows="3" class="form-control" id="text" name="text" value="<%= comment.text %>">
+                <textarea id="commentTextEdit" type="text" rows="3" class="form-control" name="commentTextEdit" ><%= comment.text %></textarea>
                 <div class="d-flex w-100 justify-content-between">
                   <input class="btn btn-dark" type="submit">
                   <button type="button" class="btn btn-dark" href="#comment-show-<%= comment.id %>" class="" data-toggle="tab">Cancel</button>

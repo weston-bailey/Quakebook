@@ -1,25 +1,85 @@
 <div class="card">
   <div class="row no-gutters">
-    <div class="col-sm-5" style="background: #868e96;">
-      <img src="<%= userData.pfp %>" class="card-img-top h-100" alt="<%= userData.fullName %>'s profile picture">
+    <div class="col-sm-5" style="background-image: url(<%= userData.pfp %>); height: auto; width: auto; max-height: 200px; max-width: 200px; background-repeat: no-repeat; background-size: contain, cover;">
+      <div class="d-flex w-100 flex-row-reverse">
+        <ul class="list-inline">
+          <li class="list-inline-item"> 
+            <button type="button" style="opacity:.5" class="btn btn-warning" href="#pfp-edit" class="" data-toggle="tab">New</button>
+          </li>
+        </ul>
+      </div>
     </div>
     <div class="col-sm-7">
       <div class="card-body">
-        <h2 class="card-title"><%= userData.fullName %></h2>
-        <p class="card-text"><%= userData.bio %></p>
+        <!-- begin testing... -->
+        <% if(currentUser.id === userData.id) { %>
+          <h2 class="card-title"> Hi <%= userData.fullName %></h2>
+            <div class="tab-content">
+              <div class="tab-pane fade show active" id="bio-show">
+              <div class="container">
+                <p class="card-text"><%= userData.bio %></p>
+              </div>
+              <!-- nested tab controls -->
+              <div class="d-flex w-100 flex-row-reverse">
+                <ul class="list-inline">
+                  <li class="list-inline-item"> 
+                    <button type="button" class="btn btn-warning" href="#bio-edit" class="" data-toggle="tab">Edit</button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="bio-edit">
+              <form method="POST" action="/users/<%= currentUser.id %>/edit/?_method=PUT">
+                <textarea id="bioTextEdit" type="text" rows="5" class="form-control" name="bioTextEdit" ><%= userData.bio %></textarea>
+                <div class="d-flex w-100 justify-content-between">
+                  <input class="btn btn-dark" type="submit">
+                  <button type="button" class="btn btn-dark" href="#bio-show" class="" data-toggle="tab">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <% } else { %>
+            <h2 class="card-title"><%= userData.fullName %></h2>
+            <p class="card-text"><%= userData.bio %></p>
+            <% } %>
       </div>
     </div>
+    
   </div>
 </div>
-<div class="container"></div>
-<h3><%= userData.firstName %>'s comments:</h3>
-<div class="list-group">
-  <% userData.comments.forEach(comment => { %>
-    <div class="list-group-item">
-      <div class="d-flex w-100 justify-content-between">
-          <h6> <%= comment.userName %> said about <a href="/details/<%= comment.earthquakeId %>"><%= comment.earthquakeTitle %></a></h6>
-          <small class="text-muted"><%= comment.localTime %></small>
-      </div>        
-      <p><%= comment.text %></p>
-    </div>
-  <% }) %>
+  <hr class="my-3"/>
+<div class="container">
+<% if(currentUser.id === userData.id) { %>
+  <div class="container">
+    <h3>Your comments:</h3>
+  </div>
+  <div class="list-group">
+    <% userData.comments.forEach(comment => { %>
+      <div class="list-group-item">
+        <div class="d-flex w-100 justify-content-between">
+            <h6> <%= comment.userName %> said about <a href="/details/<%= comment.earthquakeId %>"><%= comment.earthquakeTitle %></a></h6>
+            <small class="text-muted"><%= comment.localTime %></small>
+        </div>
+        <div class="container">        
+          <p><%= comment.text %></p>
+        </div>
+      </div>
+    <% }) %>
+<% } else { %>
+  <div class="container">
+    <h3><%= userData.firstName %>'s comments:</h3>
+  </div>
+  <div class="list-group">
+    <% userData.comments.forEach(comment => { %>
+      <div class="list-group-item">
+        <div class="d-flex w-100 justify-content-between">
+            <h6> <%= comment.userName %> said about <a href="/details/<%= comment.earthquakeId %>"><%= comment.earthquakeTitle %></a></h6>
+            <small class="text-muted"><%= comment.localTime %></small>
+        </div>      
+        <div class="container">          
+          <p><%= comment.text %></p>
+        </div>
+      </div>
+    <% }) %>
+<% } %>
+<form>

@@ -51,11 +51,11 @@
       <div class="d-flex w-100 justify-content-between">
         <h4> <%= result.place %> </h4>
         <small class="text-muted"> <%= result.localTime %> </small>
-        </div>
-        <h5> <%= result.mag %>  </h5>
-      <a href="/details/<%=result.id%> ">
-        <p>details</p>
-      </a>
+      </div>
+      <div class="d-flex w-100 justify-content-between">
+        <h5> Magnitude: <%= result.mag %>  </h5>
+        <a class="btn btn-dark" href="/details/<%=result.id%> ">Details</a>
+      </div>        
     </div>        
   <% }); %>
   </div>

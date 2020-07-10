@@ -55,7 +55,11 @@ router.get('/:userId', isLoggedIn, function(req, res){
 //editing user
 router.put('/:userId/edit', (req, res) => {
   let userId = req.params.userId;
-  res.send(`<h2>editing user ${userId}'s profile`);
+  let edit;
+  if(req.body.bioTextEdit){
+    edit = req.body.bioTextEdit
+  }
+  res.send(`<h2>editing user ${userId}'s profile</h2> <br /> <p> ${edit} </p>`);
 });
 
 // export router
