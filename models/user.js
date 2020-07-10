@@ -56,6 +56,7 @@ module.exports = function(sequelize, DataTypes) {
   });
   user.associate = function(models) {
     models.user.hasMany(models.comment);
+    models.user.hasMany(models.reply);
   }
   // validPassword definition to validate password at user login
   user.prototype.validPassword = function(passwordTyped) {

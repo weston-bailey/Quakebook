@@ -11,6 +11,9 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER
       },
+      earthquakeId: {
+        type: Sequelize.INTEGER
+      },
       commentId: {
         type: Sequelize.INTEGER
       },

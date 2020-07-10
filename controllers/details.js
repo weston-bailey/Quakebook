@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require('../models');
 const toolbox = require('../private/toolbox');
 
-//go home
+//go home theres nothing
 router.get('/', (req, res) => {
   res.redirect('/');
 });
@@ -18,6 +18,15 @@ router.get('/:earthquakeIndex', (req, res) => {
   let earthquakeIndex = req.params.earthquakeIndex;
   //to send back comments
   let commentData = [];
+  db.earthquake.findOne({
+    where: {
+      id: earthquakeIndex
+    },
+    include: [db.comment, db.reply]
+  })
+  .then( (earthquake, comments) => {
+    console.log(earthquake, comments)
+  })
   db.earthquake.findOne({
     where: {
       id: earthquakeIndex

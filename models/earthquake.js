@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
   earthquake.associate = function(models) {
     // associations can be defined here
     models.earthquake.hasMany(models.comment);
+    models.earthquake.hasMany(models.reply);
   };
   earthquake.prototype.search = function(terms){
     let result = false;

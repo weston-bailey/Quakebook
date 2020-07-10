@@ -1,7 +1,7 @@
 /*
 sequelize model:create --name earthquake --attributes usgsId:string,mag:float,place:string,time:float,url:string,felt:integer,alert:string,status:string,tsunami:integer,sig:integer,title:string,latitude:float,longitude:float,depth:float
 sequelize model:create --name comment --attributes userId:integer,earthquakeId:integer,userName:string,text:text
-sequelize model:create --name reply --attributes userId:integer,commentId:integer,userName:string,text:text
+sequelize model:create --name reply --attributes userId:integer,earthquakeId:integer,commentId:integer,userName:string,text:text
 */
 
 const axios = require('axios');
