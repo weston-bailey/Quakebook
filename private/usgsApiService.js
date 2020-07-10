@@ -27,6 +27,7 @@ module.exports = {
 
 //get data from usgs at specified intervals
 function getData(url, callbackTime){
+    //for callback
     let timeoutUsgsQuery;
     axios.get(url)
       .then(function (response) {
@@ -73,29 +74,29 @@ function getData(url, callbackTime){
                   depth: feature.geometry.coordinates[2]
                 })
                 .then( updated => {
-                  toolbox.log(`existing earthquake updated in the database!`, `from url: ${url}`, `callback to usgs rescheduled in: ${callbackTime}`, earthquake.dataValues);
+                  toolbox.log(`existing earthquake updated in the database!`, `from url: ${url}`, `callback to usgs rescheduled in: ${callbackTime}ms`, earthquake.dataValues);
                 })
                 //error from update
                 .catch( error => { 
-                  toolbox.errorHandler('getData()', 'db.earthquake.update()', `from url: ${url}`, `callback to usgs rescheduled in: ${callbackTime}`, error);
+                  toolbox.errorHandler('getData()', 'db.earthquake.update()', `from url: ${url}`, `callback to usgs rescheduled in: ${callbackTime}ms`, error);
                   timeoutUsgsQuery = setTimeout( () => getData(url, callbackTime), callbackTime);
                 });
               }
             }
             if(created){
-              toolbox.log(`new earthquake added to the database!`, url, callbackTime, earthquake.dataValues);
+              toolbox.log(`new earthquake added to the database!`, `from url: ${url}`, `callback to usgs rescheduled in: ${callbackTime}ms`, earthquake.dataValues);
             }
           })
           //error from create
           .catch( error => { 
-            toolbox.errorHandler('getData()', 'db.earthquake.create()', `from url: ${url}`, `callback to usgs rescheduled in: ${callbackTime}`, error);
+            toolbox.errorHandler('getData()', 'db.earthquake.create()', `from url: ${url}`, `callback to usgs rescheduled in: ${callbackTime}ms`, error);
             timeoutUsgsQuery = setTimeout( () => getData(url, callbackTime), callbackTime);
           });
         });
       })
       //error from usgs api
       .catch( error => { 
-        toolbox.errorHandler('getData()', 'axios.get()', `from url: ${url}`, `callback to usgs rescheduled in: ${callbackTime}`, error);
+        toolbox.errorHandler('getData()', 'axios.get()', `from url: ${url}`, `callback to usgs rescheduled in: ${callbackTime}ms`, error);
         timeoutUsgsQuery = setTimeout( () => getData(url, callbackTime), callbackTime);
       })
       .finally(function () {
