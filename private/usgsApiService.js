@@ -76,23 +76,26 @@ function getData(url, callbackTime){
                   toolbox.log(`existing earthquake updated in the database!`, `from url: ${url}`, `callback to usgs rescheduled in: ${callbackTime}`, earthquake.dataValues);
                 })
                 //error from update
-                .catch( error => toolbox.errorHandler(error));
+                .catch( error => { 
+                  toolbox.errorHandler('getData()', 'db.earthquake.update()', `from url: ${url}`, `callback to usgs rescheduled in: ${callbackTime}`, error);
+                  timeoutUsgsQuery = setTimeout( () => getData(url, callbackTime), callbackTime);
+                });
               }
             }
             if(created){
               toolbox.log(`new earthquake added to the database!`, url, callbackTime, earthquake.dataValues);
             }
           })
-          .catch(function (error) {
-            // error from creation
-            toolbox.errorHandler(error);
-          })
-        })
+          //error from create
+          .catch( error => { 
+            toolbox.errorHandler('getData()', 'db.earthquake.create()', `from url: ${url}`, `callback to usgs rescheduled in: ${callbackTime}`, error);
+            timeoutUsgsQuery = setTimeout( () => getData(url, callbackTime), callbackTime);
+          });
+        });
       })
-      .catch(function (error) {
-        // handle error from axios
-        toolbox.errorHandler(error);
-        //continue callbacks even if there is an error
+      //error from usgs api
+      .catch( error => { 
+        toolbox.errorHandler('getData()', 'axios.get()', `from url: ${url}`, `callback to usgs rescheduled in: ${callbackTime}`, error);
         timeoutUsgsQuery = setTimeout( () => getData(url, callbackTime), callbackTime);
       })
       .finally(function () {
