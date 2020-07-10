@@ -4,19 +4,19 @@ const chalk = require('chalk');
 module.exports = {
   //visible errors
   errorHandler: function(){
-    console.log(`${chalk.black.bgRed(`~~~~`)}🔥🔥🔥🔥🔥🔥🔥🔥🔥${chalk.black.bgRed(`BEGIN ERROR`)}🔥🔥🔥🔥🔥🔥🔥🔥🔥${chalk.black.bgRed(`~~~~`)}`);
+    console.log(`${chalk.black.bgRed.bold(`ლ(ಠ益ಠლ)`)}🔥🔥🔥🔥🔥🔥🔥🔥🔥${chalk.red.bold(`BEGIN ERROR`)}🔥🔥🔥🔥🔥🔥🔥🔥🔥${chalk.black.bgRed.bold(`ლ(ಠ益ಠლ)`)}`);
     for (let i = 0; i < arguments.length; i++) {
       console.log(arguments[i]);
     }
-    console.log(`${chalk.black.bgRed(`~~~~`)}🔥🔥🔥🔥🔥🔥🔥🔥🔥${chalk.black.bgRed(`END ERROR`)}🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥${chalk.black.bgRed(`~~~~`)}`);
+    console.log(`${chalk.black.bgRed.bold(`ლ(ಠ益ಠლ)`)}🔥🔥🔥🔥🔥🔥🔥🔥🔥${chalk.red.bold(`END ERROR`)}🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥${chalk.black.bgRed.bold(`ლ(ಠ益ಠლ)`)}`);
   },
   //visible log
   log: function(){
-    console.log((`~~~~👾👾👾👾👾👾👾👾👾👾👾${chalk.black.bgGreen(`BEGIN LOG`)}👾👾👾👾👾👾👾👾👾👾👾~~~~`));
+    console.log((`${chalk.black.bgGreen.bold(`└[∵┌]└[ ∵ ]┘[┐∵]┘`)}👾👾👾👾👾👾👾👾👾👾👾${chalk.green.bold(`BEGIN LOG`)}👾👾👾👾👾👾👾👾👾👾👾${chalk.black.bgGreen.bold(`└[∵┌]└[ ∵ ]┘[┐∵]┘`)}`));
     for (let i = 0; i < arguments.length; i++) {
       console.log(arguments[i]);
     }
-    console.log((`~~~~👾👾👾👾👾👾👾👾👾👾👾${chalk.black.bgGreen(`END LOG`)}👾👾👾👾👾👾👾👾👾👾👾👾~~~~`));
+    console.log((`${chalk.black.bgGreen.bold(`└[∵┌]└[ ∵ ]┘[┐∵]┘`)}👾👾👾👾👾👾👾👾👾👾👾${chalk.green.bold(`END LOG`)}👾👾👾👾👾👾👾👾👾👾👾👾${chalk.black.bgGreen.bold(`└[∵┌]└[ ∵ ]┘[┐∵]┘`)}`));
   },
   //return true is object is has not contents
   objectIsEmpty: function(obj) {

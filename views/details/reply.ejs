@@ -22,7 +22,7 @@
                   <button type="button" class="btn btn-warning" href="#reply-edit-<%= reply.id %>" class="" data-toggle="tab">Edit</button>
                 </li>
                 <li class="list-inline-item"> 
-                  <form id="delete-form-<%= reply.id %>" method="POST" action="/details/<%= earthquake.id %>/reply/<%= reply.id %>/delete/?_method=DELETE"></form>
+                  <form id="delete-form-<%= reply.id %>" method="POST" action="/details/<%= earthquake.id %>/comment/<%= comment.id %>/reply/<%= reply.id %>/delete/?_method=DELETE"></form>
                   <button type="button" class="btn btn-danger" onclick="document.getElementById('delete-form-<%= reply.id %>').submit();" >Delete</button>
                 </li>
               </ul>
@@ -30,7 +30,7 @@
           </div>
           <!-- reply edit tab -->
           <div class="tab-pane fade" id="reply-edit-<%= reply.id %>">
-            <form method="POST" action="/details/<%= earthquake.id %>/reply/<%= reply.id %>/edit/?_method=PUT">
+            <form method="POST" action="/details/<%= earthquake.id %>/comment/<%= comment.id %>/reply/<%= reply.id %>/edit/?_method=PUT">
               <textarea id="replyTextEdit" type="text" rows="3" class="form-control" name="replyTextEdit" ><%= reply.text %></textarea>
               <div class="d-flex w-100 justify-content-between">
                 <input class="btn btn-dark" type="submit">

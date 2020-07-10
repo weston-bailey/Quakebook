@@ -132,5 +132,5 @@ usgsApiService.getData(usgsApiService.urls.allTime.all, toolbox.mSec.hour);
 let port = process.env.PORT || 3000;
 app.listen(port, () => {
   rowdyResults.print();
-  console.log(chalk.black.bgGreen(` ~~~listening on port: ${port}~~~ `)); 
+  console.log(chalk.black.bgYellow(` ~~~listening on port: ${port}~~~ `)); 
 });

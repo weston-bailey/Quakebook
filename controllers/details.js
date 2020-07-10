@@ -25,7 +25,6 @@ router.get('/:earthquakeIndex', (req, res) => {
     include: [db.comment, db.reply]
   })
   .then( (earthquake, comments) => {
-    console.log(earthquake.replies)
     //format the data here to avoid squidiebois later
     earthquake.comments.forEach(comment => {
       //make the created time pretty
@@ -116,15 +115,35 @@ router.put('/:earthquakeIndex/comment/:commentIndex/edit', (req, res) => {
 router.delete('/:earthquakeIndex/comment/:commentIndex/delete', (req, res) => {
   let earthquakeIndex = req.params.earthquakeIndex;
   let commentIndex = req.params.commentIndex;
-  db.comment.destroy({
+  db.comment.findOne({
     where: {
       id: commentIndex
-    }
+    }, 
+    include: [db.reply]
   })
-  .then( () => {
-    res.redirect(`/details/${earthquakeIndex}`)
+  .then( comment => {
+    console.log(comment)
+    comment.dataValues.replies.forEach(reply => {
+      db.reply.destroy({
+        where: {
+          id: reply.id
+        }
+      })
+      .catch( error => toolbox.errorHandler('/details/:earthquakeIndex/comment/:commentIndex/delete', 'db.reply.destroy', error));
+    })
   })
-  .catch( error => toolbox.errorHandler('/details/:earthquakeIndex/comment/:commentIndex/delete', 'db.delete', error));
+  .then( () =>{
+    db.comment.destroy({
+      where: {
+        id: commentIndex
+      }
+    })
+    .then( () => {
+      res.redirect(`/details/${earthquakeIndex}`)
+    })
+    .catch( error => toolbox.errorHandler('/details/:earthquakeIndex/comment/:commentIndex/delete', 'db.comment.delete', error));
+  })
+  .catch( error => toolbox.errorHandler('/details/:earthquakeIndex/comment/:commentIndex/delete', 'db.comment.findOne', error));
 });
 
 // adding a reply
@@ -133,7 +152,6 @@ router.post('/:earthquakeIndex/comment/:commentIndex/reply', (req, res) => {
   let commentIndex = req.params.commentIndex;
   let userId = req.user.dataValues.id;
   let text = req.body.text;
-  console.log(userId)
   db.comment.findOne({
     where: {
       id: commentIndex
@@ -150,10 +168,9 @@ router.post('/:earthquakeIndex/comment/:commentIndex/reply', (req, res) => {
     .then( user =>{
       //get user's full name
       fullName = user.getFullName();
-      user.createReply({
-        commentId: commentIndex,
-        text: text,    
+      comment.createReply({
         userId: userId,
+        text: text,    
         userName: fullName,
         earthquakeId: earthquakeIndex
       })
@@ -170,17 +187,36 @@ router.post('/:earthquakeIndex/comment/:commentIndex/reply', (req, res) => {
 // editing a reply
 router.put('/:earthquakeIndex/comment/:commentIndex/reply/:replyIndex/edit', (req, res) => {
   let earthquakeIndex = req.params.earthquakeIndex;
-  let commentIndex = req.params.commentIndex;
   let replyIndex = req.params.replyIndex;
-  res.send(`<h2>editing reply ${replyIndex} on comment ${commentIndex} on earthquake ${earthquakeIndex}</h2>`);
+  let text = req.body.replyTextEdit;
+  toolbox.log(text)
+  db.reply.update({
+    text: text
+  }, {
+    where: {
+      id: replyIndex
+    }
+  })
+  .then( () => {
+    res.redirect(`/details/${earthquakeIndex}`)
+  })
+  .catch( error => toolbox.errorHandler('/:earthquakeIndex/comment/:commentIndex/reply/:replyIndex/edit', 'db.reply.update', error));
 });
 
 // delete a reply
 router.delete('/:earthquakeIndex/comment/:commentIndex/reply/:replyIndex/delete', (req, res) => {
   let earthquakeIndex = req.params.earthquakeIndex;
-  let commentIndex = req.params.commentIndex;
   let replyIndex = req.params.replyIndex;
-  res.send(`<h2>deleting reply ${replyIndex} on comment ${commentIndex} on earthquake ${earthquakeIndex}</h2>`);
+  db.reply.destroy({
+    where: {
+      id: replyIndex
+    }
+  })
+  .then( () => {
+    res.redirect(`/details/${earthquakeIndex}`);
+  })
+  .catch( error => toolbox.errorHandler('/:earthquakeIndex/comment/:commentIndex/reply/:replyIndex/delete', 'db.reply.destroy', error));
+  
 });
 
 // export router
