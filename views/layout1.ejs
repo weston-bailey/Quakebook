@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Quakebook</title>
+
+  <!-- Bootstrap CSS files -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- gijgo css -->
+  <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+  <!-- mapbox CSS file -->
+  <link href="https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.css" rel="stylesheet" />
+  <style>
+    /* mapbox style */
+    /* #map { 
+      position: absolute; 
+      top: 10%; 
+      bottom: 0%; 
+      left: 2%; 
+      width: 96%; 
+      height: 80%;
+    } */
+    #map { 
+      position: absolute; 
+      top: 0; 
+      bottom: 0; 
+      width: 100%; 
+      }
+    /* div under map */
+    .under-map{
+      position: absolute; 
+      top: 92%; 
+      bottom: 0%; 
+      left: 2%; 
+      width: 96%; 
+    }
+    </style>
+    <!-- local styles -->
+  <link rel="stylesheet" type="text/css" href="../css/style.css"/>
+</head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <!-- navbar if user is logged in -->
+        <% if(currentUser) { %>
+          <a href="/" class="navbar-brand">
+            <img src="./public/images/logo.svg" height="28" alt="Quakebook">
+          </a>
+          <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav">
+              <a href="/users" class="nav-item nav-link active">community</a>
+            </div>
+            <div class="navbar-nav ml-auto">
+              <a href="/users/<%= currentUser.id %>" class="nav-item nav-link">profile</a>
+              <a href="/auth/logout" class="nav-item nav-link active">logout</a>
+            </div>
+          </div>
+        <!-- nav if user is logged out -->
+        <% } else { %>
+          <a href="/" class="navbar-brand">
+            <img src="images/logo.svg" height="28" alt="Quakebook">
+          </a>
+          <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+    
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ml-auto">
+              <a href="/auth/register" class="nav-item nav-link active">register</a>
+              <a href="/auth/login" class="nav-item nav-link active">login</a>
+            </div>
+          </div>
+        <% } %>        
+      </nav>
+    </header>
+    <div class="container h-100">
+      <%- include('../views/partials/alerts.ejs') %>
+      <%- body %>
+    </div>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+      <!-- gijgo js -->
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <!-- bootstrap js -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+
+<div class="col-sm-4" id="left">
+    <p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p><p>Left content</p>
+</div>   
+
+<div class="col-sm-8" id="right">
+  <div id="map"></div>
+</div>
+
+<!-- data for local js -->
+<div id="dataDiv" 
+data-mapkey=<%= mapKey %>
+data-magvalue=<%= searchTerms.mag.value %>
+data-magtype=<%= searchTerms.mag.type %>
+data-timetype=<%= searchTerms.time.type %>
+data-latitude=<%= match.center[0]; %>
+data-longitude=<%= match.center[1]; %>>
+</div>
+
+<!-- mapbox js -->
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.js"></script>
+<!-- axios client js -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- local map js -->
+<script src="/js/map-search.js"></script>

@@ -43,6 +43,7 @@ router.get('/', (req, res) => {
 router.get('/details', (req, res) => {
   //id of earthquake to find
   let search = req.query.search;
+  console.log(search)
   //data to send back
   let earthquakeData;
   db.earthquake.findOne({

@@ -1,0 +1,36 @@
+  <!-- search form TODO change to input group -->
+  <form action="/" method="GET">
+    <h4>Search:</h4>
+      <div class="d-flex w-100 justify-content-between" >
+        <!-- search by magnitude -->
+        <div class="form-inline container">
+          <label for="search-magnitude">Magnitude:&nbsp;&nbsp;&nbsp;</label>
+          <select id="search-magnitude" class="custom-select" name="magType">
+            <option value="greaterThan" <%if(!searchTerms.mag.type || searchTerms.mag.type === "greaterThan") {%> selected  <% } %> >Greater Than</option>
+            <option value="equalTo"  <%if(searchTerms.mag.type === "equalTo") { %> selected  <% } %>>Equal To</option>
+            <option value="lessThan" <%if(searchTerms.mag.type === "lessThan") { %> selected  <% } %>>Less Than</option>
+            <option value="all" <%if(searchTerms.mag.type === "all") { %> selected  <% } %>>All</option>
+          </select>
+          <input id="search-magnitude" class="form-control" type="number" step=".01" name="magValue" value="<%= searchTerms.mag.value || 3.5 %>">
+        </div>
+        <div class="form-inline container">
+        <!-- search by  date -->
+          <label for="search-time">Time:&nbsp;&nbsp;&nbsp;</label>
+          <select id="search-time" class="custom-select" name="timeType">
+            <option value="lastMonth" <%if(!searchTerms.time.type || searchTerms.time.type === "lastMonth") {%> selected  <% } %> >Last Month</option>
+            <option value="lastHour" <%if(searchTerms.time.type === "lastHour") { %> selected  <% } %>>Last Hour</option>
+            <option value="24Hr" <%if(searchTerms.time.type === "24Hr") { %> selected  <% } %>>Last 24</option>
+            <option value="lastWeek"  <%if(searchTerms.time.type === "lastWeek") { %> selected  <% } %>>Last Week</option>
+            <option value="all" <%if(searchTerms.time.type === "all") { %> selected  <% } %>>All Time</option>
+        </select>
+        </div>
+      </div>
+      <!-- begin test zone -->
+  
+      <!-- <div class="form-inline" >
+        <input id="datepicker" width="276" name="date" />
+      </div> -->
+  
+      <!-- end test zone -->
+      <input class="btn btn-dark" type="submit">
+    </form>
