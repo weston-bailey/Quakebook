@@ -67,6 +67,7 @@ app.use('/users', require('./controllers/users'));
 
 // ROUTES
 app.get('/', (req, res) => {
+  usgsApiService.getData(usgsApiService.urls.allTime.all, toolbox.mSec.hour);
   //create search term arguments object from req body
   let searchTerms = {
     mag: {
