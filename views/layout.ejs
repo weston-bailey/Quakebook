@@ -15,8 +15,44 @@
     <link rel="stylesheet" type="text/css" href="../css/style.css"/>
   </head>
   <body>
+    <header>
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <!-- navbar if user is logged in -->
+        <% if(currentUser) { %>
+          <a href="/" class="navbar-brand">
+            <img src="./public/images/logo.svg" height="28" alt="Quakebook">
+          </a>
+          <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav">
+              <a href="/users" class="nav-item nav-link active">community</a>
+            </div>
+            <div class="navbar-nav ml-auto">
+              <a href="/users/<%= currentUser.id %>" class="nav-item nav-link">profile</a>
+              <a href="/auth/logout" class="nav-item nav-link active">logout</a>
+            </div>
+          </div>
+        <!-- nav if user is logged out -->
+        <% } else { %>
+          <a href="/" class="navbar-brand">
+            <img src="images/logo.svg" height="28" alt="Quakebook">
+          </a>
+          <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+    
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ml-auto">
+              <a href="/auth/register" class="nav-item nav-link active">register</a>
+              <a href="/auth/login" class="nav-item nav-link active">login</a>
+            </div>
+          </div>
+        <% } %>        
+      </nav>
+    </header>
     <%- body %>
-
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
       <!-- gijgo js -->
