@@ -1,55 +1,60 @@
-# Project 2
+# Project 2 -- *Quakebook*
 
 ## Overview
 
-*Quakebook* is the world's first social media network with a community centered around seismic activity.
+*Quakebook* is the world's leading social media network with a community centered around seismic activity data.
 
 *Quakebook*'s server collects data from the usgs earthquake API as seismic activity occurs, gives users access to the data in a searchable database, and displays an interactive map of of earthquakes for users to explore. Users can explore the details of a particular earthquake after selecting it from the results of their search.
 
 *Quakebook* users can further engage with the *Quakebook community* by creating a free profile that will allow them to interact with other users by commenting on a particular earthquake.
 
+link to the project deployment:
+
+[Quakebook](https://quakebookapp.herokuapp.com/)
+
+[![Quakebook](./public/img/quakebook-homepage.png)](https://quakebookapp.herokuapp.com/)
+
 ## MVP
 
-[] Create a database of seismic activity updated from the usgs earthquake catalogue API as earthquakes occur in real time.
+[x] Create a database of seismic activity updated from the usgs earthquake catalogue API as earthquakes occur in real time.
 
-[] Plot seismic events on an interactive amp using the mapbox api.
+[x] Plot seismic events on an interactive amp using the mapbox api.
 
-[] display seismic event detail page with just one event on it
+[x] display seismic event detail page with just one event on it
 
-[] allow users to securely login and comment on seismic events. 
+[x] allow users to securely login and comment on seismic events. 
 
-[] allow users to search and filter results of displayed seismic events. (location, date, magnitude, etc)
+[x] allow users to search and filter results of displayed seismic events. (location, date, magnitude, etc)
 
-[] all registered users viewable from users page 
+[x] all registered users viewable from users page 
 
-[] Users have a detail profile page with bio, pfp and comments they have made 
+[x] Users have a detail profile page with bio, pfp and comments they have made 
 
-[] Map is usable when not logged in, but comments and users are hidden until login
+[x] Map is usable when not logged in, but comments and users are hidden until login
 
-[] styled with bootstrap
+[x] styled with bootstrap 4
 
 ## Stretch
 
-[] users can reply to comments
+[x] users can reply to comments
 
-[] users can save seismic events without commenting them
+~~[] users can save seismic events without commenting them~~
 
-[] users can edit/delete comments
+[x] users can edit/delete comments
 
-[] users can edit/delete profile
+[x] users can edit/~~delete profile~~
 
-[] additional ways to display data on map (ie heatmap, map style selection)
+[x] additional ways to display data on map (ie ~~heatmap~~, map style selection)
 
-[] make it a twitter bot that tweets out new earthquakes
+~~[] make it a twitter bot that tweets out new earthquakes~~
 
-[] password/account recovery
+~~[] password/account recovery~~
 
 ## Routes
 
 HTTP Verb | Route | Request | Response | Auth Required
 ----------|-------|---------|----------|--------------|
 GET | / | route hit | render map view/default search | no
-GET | /search | search query | render/redirect map view | no
 GET | /data | data query | send data geoJSON | no
 GET | /details/:earthquakeIndex | request params | render details | no
 ||||
@@ -58,29 +63,31 @@ POST | /auth/login | request body | validate render profile | no
 GET | /auth/register | route hit | render register | no
 POST | /auth/register | request body | create new user render profile | no
 ||||
-POST | /details/:earthquakeIndex/comment | request params request body | create new comment redirect /details/:earthquakeIndex | yes
 GET | /users | route hit | render users | yes
 GET | /users/:userId | request params | render user | yes
+PUT | /users/:userId/edit | request params | edit user's bio redirect to user | yes
+POST | /details/:earthquakeIndex/comment | request params request body | create new comment redirect /details/:earthquakeIndex | yes
+PUT | /details/:earthquakeIndex/comment/edit | request params request body | edit comment redirect /details/:earthquakeIndex | yes
+DELETE | /details/:earthquakeIndex/comment/delete | request params request body | delete comment and replies redirect /details/:earthquakeIndex | yes
+POST | /details/:earthquakeIndex/comment/:commentIndex/reply | request params request body | create new reply to a comment redirect /details/:earthquakeIndex | yes
+PUT | /details/:earthquakeIndex/comment/:commentIndex/reply/:replyIndex/edit | request params request body | edit reply to a comment redirect /details/:earthquakeIndex | yes
+DELETE | /details/:earthquakeIndex/comment/:commentIndex/reply:replyIndex/delete  | request params request body | delete reply to a comment redirect /details/:earthquakeIndex | yes
 
-### Pitch questions
-
-* best practices for json postgres databases
-
-* best practices for mapbox client data
-
-* best practices for file storage vs cloud storage
-
-### APIs
+### APIs used
 
 * [usgs earthquake catalogue](https://earthquake.usgs.gov/fdsnws/event/1/)
 * [mapbox](https://www.mapbox.com/)
 * [axois client api](https://unpkg.com/axios/dist/axios.min.js)
+* [cloudinary](https://cloudinary.com/)
+* [randomuser.me](https://randomuser.me/)
 
 ## Database models
 
 [Database Models](https://drive.google.com/file/d/1Sro1wSSi3B4oBOXUqYn4Z_SLfWl59hPU/view)
 
 ## Wireframes 
+
+the map search page and map detail page where significantly redesigned
 
 [Wireframes](https://app.diagrams.net/?libs=general;mockups#G1up9xol3OMxxRLe34gjBcLpUwVfqxfurd)
 
@@ -94,7 +101,7 @@ GET | /users/:userId | request params | render user | yes
 
 #### Maintaining an updated database of earthquakes
 
-the usgs api will be queried every second or so to check if there are any new earthquakes, and the database will be updated accordingly
+the usgs api will be queried every second or so to check if there are any new earthquakes, and the database will be updated accordingly. In the actual project this portion of the code (found in `./private/toolbox.js`) also updates the database if the usgs flags an earthquake as updated. 
 
 ```javascript
 const axios = require('axios');
@@ -145,23 +152,33 @@ getData();
 
 #### Mapbox client side javascript
 
-mapbox needs be configured from client side javascript (needs more research), and getting complex data from from the server to client using ejs template rendering is difficult/not possible (needs more research). 
+Mapbox needs be configured from client side javascript. Getting complex data from from the server to client using ejs template rendering was a hurdle for this project. 
 
-My current solution is to pass simple values as search terms (strings, integers) from the server to the client when rendering pages, and so the client can make a fetch request back to the server when DOM content is loaded to get large payloads of geoJSON data for mapbox to use.
+After trying various methods such as strinigifying JSONs from the server and creating objects of search values on the server, I decided I preferred to pass simple values as search terms (strings, integers) from the server to the client when rendering pages. The client then makes a fetch request back to the server when DOM content is loaded to get large payloads of geoJSON data for mapbox to use. 
+
+I preferred this method because the DOM load times with large JSONs sent from the server where way too long. Making search objects to pass to client js had to be used in `<script>` tags in ejs templates, since DOM datasets only allow for 150 characters or so per value. My solution was to break searches into smaller variables to use in a client js file. I wanted to avoid working in `<script>` tags, because that can make troubleshooting difficult.
+
+##### ejs pseudo code to pass searches to client js:
 
 ```html
 <!-- ejs passing search terms/mapbox info to client js with -->
 
 <!-- search terms for mapbox -->
-<% var longitude = match.center[1]; %>
-<% var latitude = match.center[0]; %>
+<% var longitude = //desired center latitude; %>
+<% var latitude = //desired center longitude; %>
 <!-- api access key -->
-<% var mapKey = mapKey; %>
-<!-- formated string of database ids for server -->
-<% var earthquakeIds = earthquakeIds; %>
+<% var mapKey = //unique api access key; %>
+
+<!-- id of desired earthquake from database, more complex search params can be made with more variables -->
+<% var earthquakeId = earthquakeId; %>
 
 <!-- load up a div with data attributes -->
-<div id="dataDiv" data-longitude=<%= longitude %> data-latitude=<%= latitude %> data-mapKey=<%= mapKey %> data-earthquakeIds=<%= earthquakeIds %> ></div>
+<div id="dataDiv" 
+data-longitude=<%= longitude %> 
+data-latitude=<%= latitude %> 
+data-mapKey=<%= mapKey %> 
+data-earthquakeId=<%= earthquakeId %> >
+</div>
 
 <!-- include axios client api -->
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -170,22 +187,20 @@ My current solution is to pass simple values as search terms (strings, integers)
 <script src="/js/map.js"></script>
 ```
 
+##### client js to fetch data and render map:
+
 ```javascript
-//mapbox info
-let latitude = document.getElementById('dataDiv').dataset.latitude;
-let longitude = document.getElementById('dataDiv').dataset.longitude;
-let mapKey = document.getElementById('dataDiv').dataset.mapKey;
-//database ids for the server to look up and send back
-//example format "1,3,57,34,12,3,4,5"
-let earthquakeIds = document.getElementById('dataDiv').dataset.earthquakeIds;
+//make a variable with the data from the dom
+//keys in the dataset are NOT camelcase
+let data = document.getElementById('dataDiv').dataset;
 
 //render map
-  mapboxgl.accessToken = mapKey;
+  mapboxgl.accessToken = data.mapkey;
   var map = new mapboxgl.Map({
     container: 'map',
     // style: 'mapbox://styles/mapbox/streets-v11',
     style: 'mapbox://styles/mapbox/satellite-v9',
-    center: [latitude, longitude],
+    center: [data.latitude, data.longitude],
     zoom: 5
   });
 
@@ -195,7 +210,7 @@ let earthquakeIds = document.getElementById('dataDiv').dataset.earthquakeIds;
     method: 'get',
     url: '/data',
     params: {
-      search: earthquakeIds //search terms would go here
+      search: data.earthquakeid //search terms would go here
     }
   })
   .then( response => {
@@ -229,8 +244,11 @@ let earthquakeIds = document.getElementById('dataDiv').dataset.earthquakeIds;
   })
 
 ```
+
+##### server js at the /data route
+
 ```javascript
-//server js route for data retrieval
+//server js route for data retrieval in /data
 router.get('/data', (req, res) => {
   //do some kind of test on incoming query
   if(req.query.search){
@@ -269,4 +287,57 @@ router.get('/data', (req, res) => {
 
 ```
 
+## Sources
 
+### Mapbox:
+
+* https://docs.mapbox.com/mapbox-gl-js/api/
+* https://docs.mapbox.com/mapbox-gl-js/example/setstyle/
+* https://docs.mapbox.com/help/tutorials/#unity
+* https://docs.mapbox.com/mapbox-gl-js/example/heatmap-layer/ (sadly, unused)
+* http://plnkr.co/edit/qjIAiud3aUF11iQPDKj0?p=preview&preview (!important)
+```css
+/*  (from above source) to get the map to behave with dimensions relative to other elements, it has to inherit size from a parent div, otherwise the mapbox needs a position of absolute. This method lets the map be put in bootsrap columns ect. */
+
+/* container for map, cotrols actual map dimensions */
+#map-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+/* mapbox div */
+#map {
+  position: relative;
+  height: inherit; 
+  width: inherit;
+}
+```
+```html
+<div id="map-container">
+    <div id='map'>
+    </div>
+</div>
+```
+
+
+### Bootstrap:
+
+ * https://www.tutorialrepublic.com/twitter-bootstrap-tutorial/
+ * https://www.bootstrapcdn.com/bootswatch/
+ * https://www.w3schools.com/bootstrap4/bootstrap_flex.asp
+ * https://www.codeply.com/go/jbcgzs2Nzq
+ * https://gijgo.com/ (unused in final deliverable -- but the code for a popout date picker is in place for the future)
+ * https://gijgo.com/datepicker/example/bootstrap-4
+* https://www.tiny.cloud/blog/bootstrap-wysiwyg-editor/ (unused)
+* 
+### Express:
+
+* https://www.hacksparrow.com/webdev/express/custom-error-pages-404-and-500.html (unused)
+* https://expressjs.com/en/guide/writing-middleware.html
+* https://www.tutorialspoint.com/expressjs/expressjs_cookies.htm (unused)
+
+
+ ### text emojis for fun console logs:
+
+ * [└[∵┌]└[ ∵ ]┘[┐∵]┘](https://gist.github.com/jordanorelli/11229304)
