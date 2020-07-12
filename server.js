@@ -124,8 +124,8 @@ app.get('/', (req, res) => {
   .catch(error => toolbox.errorHandler(error));
 });
 
-usgsApiService.getData(usgsApiService.urls.pastHour.all, toolbox.mSec.min);
-//usgsApiService.getData(usgsApiService.urls.allTime.all, toolbox.mSec.min);
+//usgsApiService.getData(usgsApiService.urls.pastHour.all, toolbox.mSec.min);
+usgsApiService.getData(usgsApiService.urls.allTime.all, toolbox.mSec.min);
 //usgsApiService.getData(usgsApiService.urls.allTime.all, toolbox.mSec.hour);
 
 // initialize app on port
