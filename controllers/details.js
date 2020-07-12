@@ -46,6 +46,17 @@ router.get('/:earthquakeIndex', (req, res) => {
       //i like to push it
       commentData.push(comment.dataValues);
     })
+    //sort the comments by date
+    commentData.sort((a, b) => {
+      return a.createdAt - b.createdAt;
+    });
+    //go over each comment and sort replies by data
+    commentData.forEach( comment => {
+      comment.replies.sort((a, b) => {
+        return a.createdAt - b.createdAt;
+      });
+    });
+    //finally
     res.render('details/details', { userData, earthquake: earthquake.dataValues, comments: commentData, mapKey: process.env.MAPBOX_TOKEN })
   })
   .catch( error => toolbox.errorHandler('/:earthquakeIndex', 'db.earthquake.findone', error))

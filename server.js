@@ -105,7 +105,7 @@ app.get('/', (req, res) => {
       }
     })
     //set up map after db operations
-   let match = { center: [ -119.699375153073, 37.0743595873 ] };
+   let match = { center: [ -119.699375153073, 20] };
    res.render('index/index', { match, mapKey: process.env.MAPBOX_TOKEN, searchResults, searchTerms });
     /* not needing geocoding right now
     geocodingClient.forwardGeocode({ 
@@ -124,48 +124,9 @@ app.get('/', (req, res) => {
   .catch(error => toolbox.errorHandler(error));
 });
 
-//start api calls
-//usgsApiService.getData(usgsApiService.urls.pastHour.all, toolbox.mSec.min);
+usgsApiService.getData(usgsApiService.urls.pastHour.all, toolbox.mSec.min);
 //usgsApiService.getData(usgsApiService.urls.allTime.all, toolbox.mSec.min);
-//usgsApiService.getData(usgsApiService.urls.allTime.all, toolbox.mSec.hour);
-// db.user.findAll().then( users => {
-//   users.forEach( user => {
-//     user.getComments().then( transcitpions => {
-//       transcitpions.forEach( transcitpion => {
-//         console.log(transcitpion);
-//       })
-//     })
-//     .catch( error => {
-//       console.log('user.getTransciptions', error);
-//     })
-//   })
-// })
-// .catch( error => {
-//   console.log('db.user.findAll', error);
-// })
-
-// // make an empty array to store transcriptions and send them to ejs
-// let transcitpionsData = []
-// // find the user you want
-// db.user.findOne({
-//   where: {
-//     // define condition
-//   }
-// })
-// .then( user => {
-//   // the user's transcitptions
-//   user.getTranscriptions().then( transcitpions => {
-//     // the the db data out of dataValues
-//     transcitpion.forEach( transcitpion => {
-//       //put it in the array to send to ejs
-//        transcitpion.push(transcitpion.dataValues)
-//     })
-//     //then send it to ejs and render
-//     res.redner('ejs', {})
-//   })
-
-//})
-
+usgsApiService.getData(usgsApiService.urls.allTime.all, toolbox.mSec.hour);
 
 // initialize app on port
 let port = process.env.PORT || 3000;

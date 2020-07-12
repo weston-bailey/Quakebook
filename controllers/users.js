@@ -45,6 +45,10 @@ router.get('/:userId', isLoggedIn, function(req, res){
         comment.dataValues.earthquakeTitle = comment.earthquake.dataValues.place;
         userData.comments.push(comment.dataValues)
       });
+      //sort the comments by date
+      userData.comments.sort((a, b) => {
+      return a.createdAt - b.createdAt;
+      });
       res.render('users/profile', { userData })
     })
     .catch(error => toolbox.errorHandler(error));

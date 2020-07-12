@@ -1,13 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../models');
-// import middleware
-const isLoggedIn = require('../middleware/isLoggedIn');
-const flash = require('connect-flash');
-const passport = require('../config/ppConfig');
-const earthquake = require('../models/earthquake');
 const toolbox = require('../private/toolbox');
-const { response } = require('express');
 
 router.get('/', (req, res) => {
   //incoming search

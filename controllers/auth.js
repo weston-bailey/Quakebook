@@ -91,14 +91,6 @@ router.get('/login', function(req, res) {
 // login post route
 router.post('/login', function(req, res, next) {
   passport.authenticate('local', function(error, user, info) {
-    // if no user authenticated
-    // if (!user) {
-    //   req.flash('error', 'Invalid username or password');
-    //   req.session.save(function() {
-        
-    //     return res.redirect('/auth/login');
-    //   });
-    // }
     if (!user) {
       console.log('not user')
       req.flash('error', 'incorrect id/password');
@@ -120,13 +112,6 @@ router.post('/login', function(req, res, next) {
     })
   })(req, res, next);
 })
-
-// router.post('/login', passport.authenticate('local', {
-//   successRedirect: '/',
-//   failureRedirect: '/auth/login',
-//   successFlash: 'Welcome to our app!',
-//   failureFlash: 'Invalid username or password.'
-// }));
 
 router.get('/logout', function(req, res) {
   req.logout();
