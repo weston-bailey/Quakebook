@@ -1,10 +1,10 @@
+<% if(!currentUser) { %>
   <!-- comments if user is logged out -->
-  <% if(!currentUser) { %>
     <div class="d-flex w-100">
       <p><a href="/auth/register">Register</a> or <a href="/auth/login">Login</a> to join in with the Quakebook community and comment on this earthquake!</p>
     </div>
-  <!-- comments if user is logged in -->
-  <% } else { %>
+    <% } else { %>
+    <!-- comments if user is logged in -->
     <!-- comment form -->
     <form action="/details/<%= earthquake.id %>/comment " method="POST">
       <div class="form-group">
@@ -12,14 +12,14 @@
         <textarea type="text" class="form-control" id="text" name="text" required></textarea>
         <input class="btn btn-sm btn-dark" type="submit">
       </div>
-      </form>
+    </form>
     <!-- comment list -->
     <div class="list-group">
       <% comments.forEach(comment => { %>
         <!-- user made the comment -->
         <% if(currentUser.id === comment.userId) { %>
           <!-- comment show tab -->
-          <div class="list-group-item">
+          <div class="list-group-item comment">
             <div class="d-flex w-100 justify-content-between">
                 <h6> <a href="/users/<%= comment.userId %>"> You </a> said:</h6>
                 <small class="text-muted"><%= comment.localTime %></small>
@@ -59,7 +59,7 @@
         </div>
         <!-- comment from a different user-->
         <% } else { %>
-        <div class="list-group-item">
+        <div class="list-group-item comment">
           <div class="d-flex w-100 justify-content-between">
               <h6> <a href="/users/<%= comment.userId %>"> <%= comment.userName %> </a> said:</h6>
               <small class="text-muted"><%= comment.localTime %></small>

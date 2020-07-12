@@ -1,8 +1,12 @@
-/* #mock-body{
-  margin: 0;
-  overflow: hidden;
-  height:100%;
-} */
+/* 
+global styles
+*/
+
+/* the champagne of whites */
+* {
+  color: antiquewhite;
+}
+
 /* have to give body an explicit height so mapbox can inherit it */
 body, html {
   margin: 0;
@@ -10,20 +14,24 @@ body, html {
   height:100%;
 }
 
+/* 
+/index (/) and /detail styles
+*/
+
 /* holds entire page layout of / and /details */
-#column-container {
+.column-container {
   position: relative;
   height: 100%;
   width: 100%;
   margin: 0;
   overflow: hidden;
-  height:100%;
+  height:95%;
   z-index: 0;
 }
 
-/* left column */
-#left {
-  background-color: red;
+/* left column with lists in it */
+.list-column {
+  /* background-color: red; */
   text-align: left;
   height:100%;
   position: absolute;
@@ -36,10 +44,25 @@ body, html {
   z-index: 1;
 }
 
-/* right column */
-#right {
+/* left column with lists of comments (for TODO pin comment form to top of column) in it */
+.list-column-comments {
+  /* background-color: red; */
+  text-align: left;
   height:100%;
-  background-color: #f1c40f;
+  position: absolute;
+  top: 0px;
+  bottom: 0;
+  left: 0;
+  /* width: 75%; */
+  overflow-y: scroll; 
+  /* needs a z-index to scroll in relative div */
+  z-index: 1;
+}
+
+/* right column with map and controls/details in it */
+.map-column {
+  height:100%;
+  /* background-color: #f1c40f; */
   text-align: left;
   position: absolute;
   top: 0;
@@ -50,24 +73,24 @@ body, html {
 }
 
 /* style controls above map */
-#map-style-controls-div{
+.map-style-controls-div{
   height: 4%;
-  background-color: #bee9f7;
-  border: 1px dotted red;
+  /* background-color: #bee9f7; */
+  /* border: 1px dotted red; */
   width: 100%;
 }
 
-/* container for map */
-#map-container {
+/* search controls or details above map */
+.search-controls-details-div{
+  height: 17%;
+  /* background-color: #bee9f7; */
+  width: 100%;
+}
+
+/* container for map, cotrols actual map height */
+.map-container {
   position: relative;
   height: 84%;
-  width: 100%;
-}
-
-/* search controls below map */
-#search-controls-div{
-  height: 17%;
-  background-color: #bee9f7;
   width: 100%;
 }
 
@@ -78,7 +101,11 @@ body, html {
   width: inherit;
 }
 
-/* put scrollable divs in here */
+/* 
+for /users
+*/
+
+/* put scrollable divs in here (actually don't.....just make a new one) */
 .scrollable-div-container {
   position: relative;
   height: 100%;
@@ -91,7 +118,7 @@ body, html {
 
 /* for commnets on user profile */
 #scrollable-profile-comments {
-  background-color: red;
+  /* background-color: red; */
   height:65%;
   width: 100%;
   position: absolute;
@@ -104,5 +131,34 @@ body, html {
   /* needs a z-index to scroll in relative div */
   z-index: 1;
 }
+
+/* for the users page to scroll */
+.scrollable-user-cards-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  height:100%;
+  z-index: 0;
+}
+
+/* for cards on /users */
+#scrollable-user-cards {
+  /* background-color: red; */
+  height:94%;
+  width: 95%;
+  position: absolute;
+  top: 0px;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%);
+  /* width: 75%; */
+  overflow-x: hidden; 
+  overflow-y: scroll; 
+  /* needs a z-index to scroll in relative div */
+  z-index: 1;
+}
+
 
 

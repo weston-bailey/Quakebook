@@ -1,16 +1,20 @@
-<% if (alerts.error) {
-  alerts.error.forEach( message => { %>
-    <div style='background: red; color: white'>
-      <%= message %>
+<% if (alerts.error) {  %>
+  <% alerts.error.forEach( message => { %>
+    <!-- Warning Alert -->
+    <div class="alert alert-danger alert-dismissible fade show">
+      <strong>Error!</strong> <p><%= message %></p>
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
     </div>
-<% }) 
- } else if (alerts.success) {
-    alerts.success.forEach( message => { %>
-      <div style='background: green; color: white'>
-        <%= message %>
+<% }) %>
+<%} else if (alerts.success) { %>
+   <% alerts.success.forEach( message => { %>
+      <!-- Sucessful Alert -->
+      <div class="alert alert-success alert-dismissible fade show">
+        <strong>Success!</strong> <p><%= message %></p>
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
       </div>
-<% }) 
-} %> 
+  <% }) %>
+<% } %> 
 <script> 
   console.log('<%= alerts.error %>')
   console.log('<%= alerts.success %>')

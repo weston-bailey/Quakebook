@@ -122,7 +122,7 @@ router.delete('/:earthquakeIndex/comment/:commentIndex/delete', (req, res) => {
     include: [db.reply]
   })
   .then( comment => {
-    console.log(comment)
+    //console.log(comment)
     comment.dataValues.replies.forEach(reply => {
       db.reply.destroy({
         where: {
