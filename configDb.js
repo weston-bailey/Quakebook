@@ -8,10 +8,11 @@ const axios = require('axios');
 const db = require('./models');
 const toolbox = require('./private/toolbox');
 const beautify = require("json-beautify");
+const cloudinary = require('cloudinary');
 
 function getUsers(){
   let userData = [];
-  axios.get('https://randomuser.me/api/?results=100', {
+  axios.get('https://randomuser.me/api/?results=10', {
     headers: {
       dataType: 'json'
     }
@@ -44,7 +45,9 @@ function getUsers(){
   });
 }
 
-getUsers();
+//getUsers();
+
+
 
 function searchTest(search){
   //data array to send back
