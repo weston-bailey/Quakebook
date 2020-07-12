@@ -8,6 +8,20 @@ let data = document.getElementById('dataDiv').dataset;
 //for the mapbox
 let map;
 
+let markerImages = ['lightBlue.png', 'blue.png', 'green.png', 'yellowGreen.png', 'yellow.png', 'orange.png', 'redOrange.png', 'red.png', 'deepRed.png', 'black.png']
+
+// good old clamp
+function clamp(x, min, max){
+  if (x < min){
+      x = min;
+    } else if (x > max) {
+      x = max;
+    } else {
+      x = x;
+    }
+  return x;
+}
+
 //make a nice looking string out of an epoch timestamp
 function localTimeFormat(timeStamp){
   let months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ];
@@ -59,11 +73,16 @@ function fetchData(){
   })
   .then( response => {
     detail = response.data;
+    //turn mag into marker size and color
+    let imageIndex = clamp(Math.floor(detail.mag), 0, 10);
+    let imagePath = `/img/${markerImages[imageIndex]}`;
+    let markerSize = (clamp(detail.mag, 0, 10) / 10) * 8; //mult by desired max view width 
+    markerSize = `${markerSize}vw`
 
-    let el = document.createElement('img');
-    el.class = 'marker';
-    el.src = '/img/mapbox-icon.png';
-    el.style.width = '4vw';
+     let el = document.createElement('img');
+     el.class = 'marker';
+     el.src = imagePath;
+     el.style.width = markerSize;
 
     var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
       `<h6>${detail.place} </h6> <br />
