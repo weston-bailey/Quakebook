@@ -159,6 +159,11 @@ for /users
   /* needs a z-index to scroll in relative div */
   z-index: 1;
 }
-
-
+/* style to popups */
+.mapboxgl-popup-content {
+  /* font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;
+  padding: 0;
+  width: 180px; */
+  background-color: grey;
+}
 

@@ -28,6 +28,15 @@ function localTimeFormat(timeStamp){
   })();
   return `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()} ${date.getFullYear()} ${hour}:${min} ${date.getHours() >= 12 ? 'pm' : 'am'}`;
 }
+//for setting map style
+const MAP_STYLE_SELECT = document.getElementById('map-style-select');
+const MAP_STYLE_BUTTON = document.getElementById('map-style-button');
+MAP_STYLE_BUTTON.addEventListener('click', (e) => { switchLayer(MAP_STYLE_SELECT.value)}) 
+ 
+function switchLayer(style) {
+  map.setStyle(`mapbox://styles/mapbox/${style}`);
+}
+ 
 
 //make the mapbox after DOM content loaded
 function renderMap(){
@@ -36,7 +45,7 @@ function renderMap(){
     map = new mapboxgl.Map({
       container: 'map',
       // style: 'mapbox://styles/mapbox/streets-v11',
-      style: 'mapbox://styles/mapbox/satellite-v9',
+      style: 'mapbox://styles/mapbox/satellite-streets-v11',
       center: [data.latitude, data.longitude],
       // center: [27.2038, 77.5011],
       zoom: 1

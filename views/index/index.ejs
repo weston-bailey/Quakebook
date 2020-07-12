@@ -1,13 +1,13 @@
 <div class="column-container">
-  <div class="col-sm-3 list-column">
+  <div class="col-sm-3 list-column bg-primary rounded-sm">
     <%- include('list'); %> 
   </div>   
-  <div class="col-sm-9 map-column">
-    <div class="search-controls-details-div">
+  <div class="col-sm-9 map-column mt-2">
+    <div class="search-controls-details-div bg-primary rounded-sm mb-2">
       <%- include('search'); %> 
     </div>
-    <div class="map-style-controls-div">
-      <h3>style controls todo</h3>
+    <div class="map-style-controls-div mb-2 bg-primary rounded-sm">
+      <%- include('style'); %> 
     </div>
     <div class="map-container">
       <div id="map"></div>      

@@ -30,7 +30,7 @@
         <!-- reply edit tab -->
         <div class="tab-pane fade" id="reply-edit-<%= reply.id %>">
           <form method="POST" action="/details/<%= earthquake.id %>/comment/<%= comment.id %>/reply/<%= reply.id %>/edit/?_method=PUT">
-            <textarea id="replyTextEdit" type="text" rows="3" class="form-control" name="replyTextEdit" ><%= reply.text %></textarea>
+            <textarea type="text" rows="3" class="form-control" name="replyTextEdit" ><%= reply.text %></textarea>
             <div class="d-flex w-100 justify-content-between">
               <input class="btn btn-sm btn-dark" type="submit">
               <button type="button" class="btn btn-sm btn-dark" href="#reply-show-<%= reply.id %>" class="" data-toggle="tab">Cancel</button>
@@ -57,7 +57,7 @@
 <form id="reply-form-<%= comment.id %>" method="POST" action="/details/<%= earthquake.id %>/comment/<%= comment.id %>/reply" method="POST">
 <div class="form-group">
   <label for="text">Hi <%= userData.firstName %>, type your reply below:</label>
-  <textarea type="text" class="form-control" id="text" name="text" required></textarea>
+  <textarea type="text" class="form-control" name="text" required></textarea>
   <input class="btn btn-sm btn-dark" type="submit">
 </div>
 </form>
