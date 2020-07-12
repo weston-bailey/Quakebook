@@ -1,0 +1,53 @@
+  <!-- details for earthquake -->
+  <%= //earthquake. %> 
+  <div class="d-flex flex-column">
+    <div class="d-flex w-100 justify-content-between">
+      <div class="containter">
+        <h4> <%= earthquake.place %> </h4>
+      </div>
+    </div>
+      <div class="d-flex w-100 justify-content-between">
+      <div class="containter">
+        <small class="text-muted"> <%= earthquake.localTime %> </small>
+      </div>
+    </div>
+    <div class="d-flex w-100 justify-content-between">
+      <div class="containter">
+        <h5>Mag:</h5>
+        <h6><%= earthquake.mag %></h6>
+      </div>
+      <div class="containter">
+        <h5>Depth:</h5>
+        <h6><%= earthquake.depth %>km</h6>
+      </div>
+      <div class="containter">
+        <h5>Latitude:</h6>
+        <h6><%= earthquake.latitude %></h6>
+      </div>
+      <div class="containter">
+        <h5>Longitude:</h5>
+        <h6><%= earthquake.longitude %></h6>
+      </div>
+    </div>
+    <% if(earthquake.alert === null) { %>
+      <div class="d-flex w-100 justify-content-between">
+        <h6>No alerts issued for this earthquake</h6>
+      </div>
+  <% } else if (earthquake.alert === "green") { %>
+    <div class="d-flex w-100 justify-content-between">
+      <h5><i class="fa fa-warning"></i>This earthquake was issued an alert level of green </h5>
+    </div>
+  <% } else if (earthquake.alert === "yellow") { %>
+    <div class="d-flex w-100 justify-content-between">
+      <h5><i class="fa fa-warning"></i>This earthquake was issued an alert level of yellow </h5>
+    </div>
+  <% } else if (earthquake.alert === "orange") { %>
+    <div class="d-flex w-100 justify-content-between">
+      <h5><i class="fa fa-warning"></i>This earthquake was issued an alert level of orange </h5>
+    </div>
+  <% } else if (earthquake.alert === "red") { %>
+    <div class="d-flex w-100 justify-content-between">
+      <h5><i class="fa fa-warning"></i>This earthquake was issued an alert level of red </h5>
+    </div>
+  <% } %>
+  </div>

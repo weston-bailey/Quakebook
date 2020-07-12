@@ -1,0 +1,36 @@
+
+<% if(currentUser.id === userData.id) { %>
+  <div class="container">
+    <h3>Your comments:</h3>
+  </div>
+  <div class="list-group">
+    <% userData.comments.forEach(comment => { %>
+      <div class="list-group-item">
+        <div class="d-flex w-100 justify-content-between">
+            <h6> <%= comment.userName %> said about <a href="/details/<%= comment.earthquakeId %>"><%= comment.earthquakeTitle %></a></h6>
+            <small class="text-muted"><%= comment.localTime %></small>
+        </div>
+        <div class="container">        
+          <p><%= comment.text %></p>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+<% } else { %>
+  <div class="container">
+    <h3><%= userData.firstName %>'s comments:</h3>
+  </div>
+  <div class="list-group">
+    <% userData.comments.forEach(comment => { %>
+      <div class="list-group-item">
+        <div class="d-flex w-100 justify-content-between">
+            <h6> <%= comment.userName %> said about <a href="/details/<%= comment.earthquakeId %>"><%= comment.earthquakeTitle %></a></h6>
+            <small class="text-muted"><%= comment.localTime %></small>
+        </div>      
+        <div class="container">          
+          <p><%= comment.text %></p>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+<% } %>

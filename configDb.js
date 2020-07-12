@@ -44,7 +44,7 @@ function getUsers(){
   });
 }
 
-//getUsers();
+getUsers();
 
 function searchTest(search){
   //data array to send back

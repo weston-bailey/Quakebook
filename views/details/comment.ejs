@@ -10,7 +10,7 @@
       <div class="form-group">
         <label for="text">Hi <%= userData.firstName %>, type your comment below:</label>
         <textarea type="text" class="form-control" id="text" name="text" required></textarea>
-        <input class="btn btn-dark" type="submit">
+        <input class="btn btn-sm btn-dark" type="submit">
       </div>
       </form>
     <!-- comment list -->
@@ -33,11 +33,11 @@
               <div class="d-flex w-100 flex-row-reverse">
                 <ul class="list-inline">
                   <li class="list-inline-item"> 
-                    <button type="button" class="btn btn-warning" href="#comment-edit-<%= comment.id %>" class="" data-toggle="tab">Edit</button>
+                    <button type="button" class="btn btn-sm btn-warning" href="#comment-edit-<%= comment.id %>" class="" data-toggle="tab">Edit</button>
                   </li>
                   <li class="list-inline-item"> 
                     <form id="delete-form-<%= comment.id %>" method="POST" action="/details/<%= earthquake.id %>/comment/<%= comment.id %>/delete/?_method=DELETE"></form>
-                    <button type="button" class="btn btn-danger" onclick="document.getElementById('delete-form-<%= comment.id %>').submit();" >Delete</button>
+                    <button type="button" class="btn btn-sm btn-danger" onclick="document.getElementById('delete-form-<%= comment.id %>').submit();" >Delete</button>
                   </li>
                 </ul>
               </div>
@@ -47,8 +47,8 @@
               <form method="POST" action="/details/<%= earthquake.id %>/comment/<%= comment.id %>/edit/?_method=PUT">
                 <textarea id="commentTextEdit" type="text" rows="3" class="form-control" name="commentTextEdit" ><%= comment.text %></textarea>
                 <div class="d-flex w-100 justify-content-between">
-                  <input class="btn btn-dark" type="submit">
-                  <button type="button" class="btn btn-dark" href="#comment-show-<%= comment.id %>" class="" data-toggle="tab">Cancel</button>
+                  <input class="btn btn-sm btn-dark" type="submit">
+                  <button type="button" class="btn btn-sm btn-dark" href="#comment-show-<%= comment.id %>" class="" data-toggle="tab">Cancel</button>
                 </div>
               </form>
             </div>
@@ -66,15 +66,6 @@
           </div>      
           <div class="container">  
             <p><%= comment.text %></p>
-          </div>
-          <div class="d-flex w-100 flex-row-reverse">
-            <ul class="list-inline">
-              <li class="list-inline-item">
-                <!-- TODO make accordian for reply -->
-                <form id="reply-form-<%= comment.id %>" method="POST" action="/details/<%= earthquake.id %>/comment/<%= comment.id %>/reply"></form>
-                <button type="button" class="btn btn-dark" onclick="document.getElementById('reply-form-<%= comment.id %>').submit();" >Reply</button>
-              </li>
-            </ul>
           </div>
           <!--  end testing... -->
           <div class="container d-flex w-100 flex-row-start">

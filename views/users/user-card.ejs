@@ -1,0 +1,49 @@
+<div class="card">
+  <div class="row no-gutters">
+    <!-- begin testing... -->
+    <div class="col-sm-5" style="background-image: url(<%= userData.pfp %>); height: auto; width: auto; max-height: 200px; max-width: 200px; background-repeat: no-repeat; background-size: contain, cover;">
+      <!-- <div class="d-flex w-100 flex-row-reverse">
+        <ul class="list-inline">
+          <li class="list-inline-item"> 
+            <button type="button" style="opacity:.5" class="btn btn-warning" href="#pfp-edit" class="" data-toggle="tab">New</button>
+          </li>
+        </ul>
+      </div> -->
+    </div>
+    <!-- end testing... -->
+    <div class="col-sm-7">
+      <div class="card-body">
+        <% if(currentUser.id === userData.id) { %>
+          <h2 class="card-title"> Hi <%= userData.fullName %></h2>
+            <div class="tab-content">
+              <div class="tab-pane fade show active" id="bio-show">
+              <div class="container">
+                <p class="card-text"><%= userData.bio %></p>
+              </div>
+              <!-- nested tab controls -->
+              <div class="d-flex w-100 flex-row-reverse">
+                <ul class="list-inline">
+                  <li class="list-inline-item"> 
+                    <button type="button" class="btn btn-warning" href="#bio-edit" class="" data-toggle="tab">Edit</button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="bio-edit">
+              <form method="POST" action="/users/<%= currentUser.id %>/edit/?_method=PUT">
+                <textarea id="bioTextEdit" type="text" rows="5" class="form-control" name="bioTextEdit" ><%= userData.bio %></textarea>
+                <div class="d-flex w-100 justify-content-between">
+                  <input class="btn btn-dark" type="submit">
+                  <button type="button" class="btn btn-dark" href="#bio-show" class="" data-toggle="tab">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <% } else { %>
+            <h2 class="card-title"><%= userData.fullName %></h2>
+            <p class="card-text"><%= userData.bio %></p>
+            <% } %>
+      </div>
+    </div>
+  </div>
+</div>

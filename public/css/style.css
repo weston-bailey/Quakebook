@@ -20,6 +20,7 @@ body, html {
   height:100%;
   z-index: 0;
 }
+
 /* left column */
 #left {
   background-color: red;
@@ -34,6 +35,7 @@ body, html {
   /* needs a z-index to scroll in relative div */
   z-index: 1;
 }
+
 /* right column */
 #right {
   height:100%;
@@ -49,15 +51,16 @@ body, html {
 
 /* style controls above map */
 #map-style-controls-div{
-  height: 7%;
+  height: 4%;
   background-color: #bee9f7;
+  border: 1px dotted red;
   width: 100%;
 }
 
 /* container for map */
 #map-container {
   position: relative;
-  height: 73%;
+  height: 84%;
   width: 100%;
 }
 
@@ -74,13 +77,32 @@ body, html {
   height: inherit; 
   width: inherit;
 }
-/* to be depricated */
-/* div under map */
-.under-map{
-  position: absolute; 
-  top: 92%; 
-  bottom: 0%; 
-  left: 2%; 
-  width: 96%; 
+
+/* put scrollable divs in here */
+.scrollable-div-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  height:100%;
+  z-index: 0;
 }
+
+/* for commnets on user profile */
+#scrollable-profile-comments {
+  background-color: red;
+  height:65%;
+  width: 100%;
+  position: absolute;
+  top: 0px;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%);
+  /* width: 75%; */
+  overflow-y: scroll; 
+  /* needs a z-index to scroll in relative div */
+  z-index: 1;
+}
+
 

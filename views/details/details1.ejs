@@ -1,18 +1,14 @@
-<div id="column-container">
-  <div class="col-sm-3" id="left">
-    <%- include('comment'); %>
-  </div>   
-  <div class="col-sm-9" id="right">
-    <div id="map-style-controls-div">
-      <h3>style controls todo</h3>
-    </div>
-    <div id="search-controls-div">
-      <%- include('detail-show'); %>
-    </div>
-    <div id="map-container">
-      <div id="map"></div>
-    </div>
+
+<!-- the map -->
+<div class="containter" class="position-static">
+  <div id="map">
   </div>
+</div>
+<!-- all content under the map -->
+<div class="under-map">
+
+  <%- include('detail-show'); %>
+  <%- include('comment'); %>
 </div>
 
 <!-- data for local js -->
