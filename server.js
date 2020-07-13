@@ -129,13 +129,13 @@ app.get('/', (req, res) => {
 });
 
 //timeout so heroku doesn't hang on inital page load
-setTimeout( () => {
-  usgsApiService.getData(usgsApiService.urls.pastHour.all, toolbox.mSec.min);
-}, toolbox.mSec.min);
+// setTimeout( () => {
+//   usgsApiService.getData(usgsApiService.urls.pastHour.all, toolbox.mSec.min);
+// }, toolbox.mSec.min);
 
 //comment out for heroku
-// usgsApiService.getData(usgsApiService.urls.pastHour.all, toolbox.mSec.min);
-// usgsApiService.getData(usgsApiService.urls.allTime.all, toolbox.mSec.hour);
+usgsApiService.getData(usgsApiService.urls.pastHour.all, toolbox.mSec.min);
+usgsApiService.getData(usgsApiService.urls.allTime.all, toolbox.mSec.hour);
 
 // initialize app on port
 let port = process.env.PORT || 3000;
