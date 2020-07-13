@@ -133,9 +133,9 @@ setTimeout( () => {
   usgsApiService.getData(usgsApiService.urls.pastHour.all, toolbox.mSec.min);
 }, toolbox.mSec.min);
 
-//commented out for heroku
-//usgsApiService.getData(usgsApiService.urls.pastHour.all, toolbox.mSec.min);
-//usgsApiService.getData(usgsApiService.urls.allTime.all, toolbox.mSec.hour);
+//comment out for heroku
+// usgsApiService.getData(usgsApiService.urls.pastHour.all, toolbox.mSec.min);
+// usgsApiService.getData(usgsApiService.urls.allTime.all, toolbox.mSec.hour);
 
 // initialize app on port
 let port = process.env.PORT || 3000;
