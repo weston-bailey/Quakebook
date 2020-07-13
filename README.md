@@ -14,23 +14,23 @@ link to the project deployment:
 
 ## *Quakebook* homepage
 
-[![Quakebook](./public/img/quakebook-homepage.png)](https://quakebookapp.herokuapp.com/)
+![Quakebook](./public/img/quakebook-homepage.png)
 
 ## *Quakebook* earthquake details page
 
-[![Quakebook](./public/img/quakebook-details.png)](https://quakebookapp.herokuapp.com/)
+![Quakebook](./public/img/quakebook-details.png)
 
 ## MVP
 
 [x] Create a database of seismic activity updated from the usgs earthquake catalogue API as earthquakes occur in real time.
 
-[x] Plot seismic events on an interactive amp using the mapbox api.
+[x] Plot seismic events on an interactive map using the mapbox api.
 
 [x] display seismic event detail page with just one event on it
 
 [x] allow users to securely login and comment on seismic events. 
 
-[x] allow users to search and filter results of displayed seismic events. (location, date, magnitude, etc)
+[x] allow users to search and filter results of displayed seismic events. (~~location~~, date, magnitude, etc)
 
 [x] all registered users viewable from users page 
 
