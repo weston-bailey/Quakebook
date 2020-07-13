@@ -6,13 +6,19 @@
 
 *Quakebook*'s server collects data from the usgs earthquake API as seismic activity occurs, gives users access to the data in a searchable database, and displays an interactive map of of earthquakes for users to explore. Users can explore the details of a particular earthquake after selecting it from the results of their search.
 
-*Quakebook* users can further engage with the *Quakebook community* by creating a free profile that will allow them to interact with other users by commenting on a particular earthquake or replying to other users comments. Users can edit and delete their comments and replies, view all their comments on their profile explore and *Quakebook Community* but viewing the profiles of other users. Users may upload a profile pic at the time of account creation, and create a bio that can be updated later.
+*Quakebook* users can further engage with the *Quakebook community* by creating a free profile that will allow them to interact with other users by commenting on a particular earthquake or replying to other users comments. Users can edit and delete their comments and replies, view all their comments on their profile and explore the *Quakebook Community* by viewing the profiles of other users. Users may upload a profile pic at the time of account creation, and create a bio that can be updated later.
 
 link to the project deployment:
 
 [Quakebook](https://quakebookapp.herokuapp.com/)
 
+## *Quakebook* homepage
+
 [![Quakebook](./public/img/quakebook-homepage.png)](https://quakebookapp.herokuapp.com/)
+
+## *Quakebook* earthquake details page
+
+[![Quakebook](./public/img/quakebook-details.png)](https://quakebookapp.herokuapp.com/)
 
 ## MVP
 
@@ -95,6 +101,11 @@ the map search page and map detail page where significantly redesigned
 
 [trello board](https://trello.com/b/zcVCIB7s/p2)
 
+## Daily goals plan on hack md
+
+
+[hackmd](https://hackmd.io/cgyQCz0oT0SvSjGNwih8YA)
+
 ## Technical details
 
 ### pseudo code for various aspects of the project
@@ -154,9 +165,9 @@ getData();
 
 Mapbox needs be configured from client side javascript. Getting complex data from from the server to client using ejs template rendering was a hurdle for this project. 
 
-After trying various methods such as strinigifying JSONs from the server and creating objects of search values on the server, I decided I preferred to pass simple values as search terms (strings, integers) from the server to the client when rendering pages. The client then makes a fetch request back to the server when DOM content is loaded to get large payloads of geoJSON data for mapbox to use. 
+After trying various methods such as strinigifying JSONs from the server and creating objects of search values on the server, I decided I preferred to pass simple values as search terms (strings, integers) from the server to the client when rendering pages. The client then makes a fetch request (with axios client api) back to the server when DOM content is loaded to get large payloads of geoJSON data for mapbox to use. 
 
-I preferred this method because the DOM load times with large JSONs sent from the server where way too long. Making search objects to pass to client js had to be used in `<script>` tags in ejs templates, since DOM datasets only allow for 150 characters or so per value. My solution was to break searches into smaller variables to use in a client js file. I wanted to avoid working in `<script>` tags, because that can make troubleshooting difficult.
+I preferred this method because the DOM load times with large string JSONs sent from the server where way too long. Making search objects to pass to client js had to be used in `<script>` tags in ejs templates, since DOM datasets only allow for 150 characters or so per value. My solution was to break searches into smaller variables to use in a client js file. I wanted to avoid working in `<script>` tags, because that can make troubleshooting difficult during development.
 
 ##### ejs pseudo code to pass searches to client js:
 
