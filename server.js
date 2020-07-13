@@ -106,6 +106,10 @@ app.get('/', (req, res) => {
     })
     //set up map after db operations
    let match = { center: [ -119.699375153073, 20] };
+   //limit results to 1500
+   if(searchResults.length > 2000) {
+    searchResults = searchResults.splice(0, 2000)
+   }
    res.render('index/index', { match, mapKey: process.env.MAPBOX_TOKEN, searchResults, searchTerms });
     /* not needing geocoding right now
     geocodingClient.forwardGeocode({ 

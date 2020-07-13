@@ -28,6 +28,10 @@ router.get('/', (req, res) => {
     //for response time test
     clearTimeout(responseTimeout);
     console.log('data response time:', responseInc);
+    //limit results to 1500
+   if(transmitData.length > 2000) {
+     transmitData = transmitData.splice(0, 2000)
+   }
     //tranmist data
     res.send(transmitData);
   })

@@ -2,6 +2,11 @@
   <form action="/" method="GET">
     <div class="d-flex w-100 justify-content-between" >
       <h5>Search:</h5>
+      <% if(searchResults.length === 2000) { %>
+          <h5> <span class="badge badge-warning">Results Limited to <%= searchResults.length %></span></h5>
+      <% } else { %>
+          <h5> <span class="badge badge-success">Found <%= searchResults.length %> results</span></h5>
+      <% } %>
     </div>
       <div class="d-flex w-100 justify-content-between" >
         <!-- search by magnitude -->
@@ -28,7 +33,7 @@
         </div>
       </div>
       <div class="container d-flex flex-row-reverse pt-2">
-        <input class="btn btn-dark btn-sm" type="submit">
+        <input class="btn btn-dark btn-sm" type="submit" value="submit">
       </div>
       <!-- begin test zone -->
   

@@ -2,11 +2,6 @@
 global styles
 */
 
-/* the champagne of whites */
-/* * {
-  color: antiquewhite;
-} */
-
 /* have to give body an explicit height so mapbox can inherit it */
 body, html {
   margin: 0;
@@ -14,7 +9,7 @@ body, html {
   height:100%;
 }
 
-/* antique whiite text color */
+/* antique white text color */
 .h1, h2, h3, h4, h5, h6, p {
   color: antiquewhite;
 }
@@ -99,7 +94,7 @@ body, html {
 /* container for map, cotrols actual map height */
 .map-container {
   position: relative;
-  height: 86%;
+  height: 84%;
   width: 100%;
 }
 
@@ -112,9 +107,6 @@ body, html {
 
 /* style to popups */
 .mapboxgl-popup-content {
-  /* font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;
-  padding: 0;
-  width: 180px; */
   background-color: grey;
 }
 
