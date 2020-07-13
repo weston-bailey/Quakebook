@@ -29,25 +29,43 @@
         <h6><%= earthquake.longitude %></h6>
       </div>
     </div>
+    <!-- the warning box -->
+    <div class="d-flex w-100 justify-content-between">
+    <!-- alert status -->
     <% if(earthquake.alert === null) { %>
-      <div class="d-flex w-100 justify-content-between">
-        <h6>No alerts issued for this earthquake</h6>
-      </div>
+      <a href="https://pubs.usgs.gov/fs/2010/3036/pdf/FS10-3036.pdf" target="_blank">
+        <h4> <span class="badge badge-info">No alerts issued for this earthquake</span></h4>
+      </a>
   <% } else if (earthquake.alert === "green") { %>
-    <div class="d-flex w-100 justify-content-between">
-      <h5><i class="fa fa-warning"></i>This earthquake was issued an alert level of green </h5>
-    </div>
+    <a href="https://pubs.usgs.gov/fs/2010/3036/pdf/FS10-3036.pdf" target="_blank">
+      <h4><span class="badge badge-success"><i class="fa fa-warning"></i>&nbsp;Alert Level Green </span></h4>
+    </a>
   <% } else if (earthquake.alert === "yellow") { %>
-    <div class="d-flex w-100 justify-content-between">
-      <h5><i class="fa fa-warning"></i>This earthquake was issued an alert level of yellow </h5>
-    </div>
+    <a href="https://pubs.usgs.gov/fs/2010/3036/pdf/FS10-3036.pdf" target="_blank">
+      <h4><span class="badge badge-warning"><i class="fa fa-warning"></i>&nbsp;Alert level Yellow</span></h4>
+    </a>
   <% } else if (earthquake.alert === "orange") { %>
-    <div class="d-flex w-100 justify-content-between">
-      <h5><i class="fa fa-warning"></i>This earthquake was issued an alert level of orange </h5>
-    </div>
+    <a href="https://pubs.usgs.gov/fs/2010/3036/pdf/FS10-3036.pdf" target="_blank">
+      <h4><span class="badge badge-warning"><i class="fa fa-warning"></i>&nbsp;Alert Level Orange </span></h4>
+    </a>
   <% } else if (earthquake.alert === "red") { %>
-    <div class="d-flex w-100 justify-content-between">
-      <h5><i class="fa fa-warning"></i>This earthquake was issued an alert level of red </h5>
-    </div>
+    <a href="https://pubs.usgs.gov/fs/2010/3036/pdf/FS10-3036.pdf" target="_blank">
+      <h4> <span class="badge badge-danger"><i class="fa fa-warning"></i>&nbsp;ALert level Red </span></h4>
+    </a>
   <% } %>
+  <!-- tsunami -->
+  <% if(earthquake.tsunami) { %>
+    <a href="https://www.tsunami.gov/" target="_blank">
+      <h4> <span class="badge badge-warning"><i class="fa fa-warning"></i>&nbsp;Tsunami Advisory </span></h4>
+    </a>
+  <% } %>
+  <% if(earthquake.felt != null) { %>
+    <a href="https://earthquake.usgs.gov/data/dyfi/" target="_blank">
+      <h4> <span class="badge badge-info">Felt by <%= earthquake.felt %></span></h4>
+    </a>
+  <% } %>
+  <a href="<%= earthquake.url %>" target="_blank">
+    <h4> <span class="badge badge-secondary">more info</span></h4>
+  </a>
   </div>
+</div>

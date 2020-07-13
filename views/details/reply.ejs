@@ -21,8 +21,8 @@
                 <button type="button" class="btn btn-sm btn-warning" href="#reply-edit-<%= reply.id %>" class="" data-toggle="tab">Edit</button>
               </li>
               <li class="list-inline-item"> 
-                <form id="delete-form-<%= reply.id %>" method="POST" action="/details/<%= earthquake.id %>/comment/<%= comment.id %>/reply/<%= reply.id %>/delete/?_method=DELETE"></form>
-                <button type="button" class="btn btn-sm btn-danger" onclick="document.getElementById('delete-form-<%= reply.id %>').submit();" >Delete</button>
+                <form id="delete-reply-form-<%= reply.id %>" method="POST" action="/details/<%= earthquake.id %>/comment/<%= comment.id %>/reply/<%= reply.id %>/delete/?_method=DELETE"></form>
+                <button type="button" class="btn btn-sm btn-danger" onclick="document.getElementById('delete-reply-form-<%= reply.id %>').submit();" >Delete</button>
               </li>
             </ul>
           </div>
@@ -53,7 +53,7 @@
     <% }  %>
   <!--  end testing... -->
 <% }) %>
-<!-- comment form -->
+<!-- reply form -->
 <form id="reply-form-<%= comment.id %>" method="POST" action="/details/<%= earthquake.id %>/comment/<%= comment.id %>/reply" method="POST">
 <div class="form-group">
   <label for="text">Hi <%= userData.firstName %>, type your reply below:</label>

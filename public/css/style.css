@@ -19,6 +19,10 @@ body, html {
   color: antiquewhite;
 }
 
+.white-text{
+  color: white;
+}
+
 /* 
 /index (/) and /detail styles
 */
@@ -95,7 +99,7 @@ body, html {
 /* container for map, cotrols actual map height */
 .map-container {
   position: relative;
-  height: 84%;
+  height: 86%;
   width: 100%;
 }
 
@@ -172,6 +176,5 @@ for /users
   /* needs a z-index to scroll in relative div */
   z-index: 1;
 }
-
 
 

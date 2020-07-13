@@ -126,6 +126,7 @@ router.put('/:earthquakeIndex/comment/:commentIndex/edit', (req, res) => {
 router.delete('/:earthquakeIndex/comment/:commentIndex/delete', (req, res) => {
   let earthquakeIndex = req.params.earthquakeIndex;
   let commentIndex = req.params.commentIndex;
+  toolbox.log('hit')
   db.comment.findOne({
     where: {
       id: commentIndex
@@ -218,6 +219,7 @@ router.put('/:earthquakeIndex/comment/:commentIndex/reply/:replyIndex/edit', (re
 router.delete('/:earthquakeIndex/comment/:commentIndex/reply/:replyIndex/delete', (req, res) => {
   let earthquakeIndex = req.params.earthquakeIndex;
   let replyIndex = req.params.replyIndex;
+  console.log(`hit`)
   db.reply.destroy({
     where: {
       id: replyIndex

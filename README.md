@@ -6,7 +6,7 @@
 
 *Quakebook*'s server collects data from the usgs earthquake API as seismic activity occurs, gives users access to the data in a searchable database, and displays an interactive map of of earthquakes for users to explore. Users can explore the details of a particular earthquake after selecting it from the results of their search.
 
-*Quakebook* users can further engage with the *Quakebook community* by creating a free profile that will allow them to interact with other users by commenting on a particular earthquake.
+*Quakebook* users can further engage with the *Quakebook community* by creating a free profile that will allow them to interact with other users by commenting on a particular earthquake or replying to other users comments. Users can edit and delete their comments and replies, view all their comments on their profile explore and *Quakebook Community* but viewing the profiles of other users. Users may upload a profile pic at the time of account creation, and create a bio that can be updated later.
 
 link to the project deployment:
 
@@ -75,11 +75,11 @@ DELETE | /details/:earthquakeIndex/comment/:commentIndex/reply:replyIndex/delete
 
 ### APIs used
 
-* [usgs earthquake catalogue](https://earthquake.usgs.gov/fdsnws/event/1/)
-* [mapbox](https://www.mapbox.com/)
-* [axois client api](https://unpkg.com/axios/dist/axios.min.js)
-* [cloudinary](https://cloudinary.com/)
-* [randomuser.me](https://randomuser.me/)
+> * [usgs earthquake catalogue](https://earthquake.usgs.gov/fdsnws/event/1/)
+> * [mapbox](https://www.mapbox.com/)
+> * [axois client api](https://unpkg.com/axios/dist/axios.min.js)
+> * [cloudinary](https://cloudinary.com/)
+> * [randomuser.me](https://randomuser.me/)
 
 ## Database models
 
@@ -291,13 +291,16 @@ router.get('/data', (req, res) => {
 
 ### Mapbox:
 
-* https://docs.mapbox.com/mapbox-gl-js/api/
-* https://docs.mapbox.com/mapbox-gl-js/example/setstyle/
-* https://docs.mapbox.com/help/tutorials/#unity
-* https://docs.mapbox.com/mapbox-gl-js/example/heatmap-layer/ (sadly, unused)
-* http://plnkr.co/edit/qjIAiud3aUF11iQPDKj0?p=preview&preview (!important)
+> * https://docs.mapbox.com/mapbox-gl-js/api/
+> * https://docs.mapbox.com/mapbox-gl-js/example/setstyle/
+> * https://docs.mapbox.com/help/tutorials/#unity
+> * https://docs.mapbox.com/mapbox-gl-js/example/heatmap-layer/ (sadly, unused)
+> * http://plnkr.co/edit/qjIAiud3aUF11iQPDKj0?p=preview&preview (!important)
 ```css
-/*  (from above source) to get the map to behave with dimensions relative to other elements, it has to inherit size from a parent div, otherwise the mapbox needs a position of absolute. This method lets the map be put in bootsrap columns ect. */
+/*  (from above source) to get the map to behave with dimensions relative to other elements, 
+it has to inherit size from a parent div, 
+otherwise the mapbox needs a position of absolute. 
+This method lets the map be put in bootsrap columns ect. */
 
 /* container for map, cotrols actual map dimensions */
 #map-container {
@@ -323,21 +326,21 @@ router.get('/data', (req, res) => {
 
 ### Bootstrap:
 
- * https://www.tutorialrepublic.com/twitter-bootstrap-tutorial/
- * https://www.bootstrapcdn.com/bootswatch/
- * https://www.w3schools.com/bootstrap4/bootstrap_flex.asp
- * https://www.codeply.com/go/jbcgzs2Nzq
- * https://gijgo.com/ (unused in final deliverable -- but the code for a popout date picker is in place for the future)
- * https://gijgo.com/datepicker/example/bootstrap-4
-* https://www.tiny.cloud/blog/bootstrap-wysiwyg-editor/ (unused)
-* 
+> * https://www.tutorialrepublic.com/twitter-bootstrap-tutorial/
+> * https://www.bootstrapcdn.com/bootswatch/
+> * https://www.w3schools.com/bootstrap4/bootstrap_flex.asp
+> * https://www.codeply.com/go/jbcgzs2Nzq
+> * https://gijgo.com/ (unused in final deliverable -- but the code for a popout date picker is in place for the future)
+> * https://gijgo.com/datepicker/example/bootstrap-4
+> *  https://www.tiny.cloud/blog/bootstrap-wysiwyg-editor/ (unused)
+
 ### Express:
 
-* https://www.hacksparrow.com/webdev/express/custom-error-pages-404-and-500.html (unused)
-* https://expressjs.com/en/guide/writing-middleware.html
-* https://www.tutorialspoint.com/expressjs/expressjs_cookies.htm (unused)
+> * https://www.hacksparrow.com/webdev/express/custom-error-pages-404-and-500.html (unused)
+> * https://expressjs.com/en/guide/writing-middleware.html
+> * https://www.tutorialspoint.com/expressjs/expressjs_cookies.htm (unused)
 
 
  ### text emojis for fun console logs:
 
- * [└[∵┌]└[ ∵ ]┘[┐∵]┘](https://gist.github.com/jordanorelli/11229304)
+ > * [└[∵┌]└[ ∵ ]┘[┐∵]┘](https://gist.github.com/jordanorelli/11229304)
