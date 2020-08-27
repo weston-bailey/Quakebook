@@ -10,6 +10,8 @@
 
 link to the project deployment:
 
+**the heroku deployment is currently down due to the database exceeding the size limit for a free account**
+
 [Quakebook](https://quakebookapp.herokuapp.com/)
 
 ## *Quakebook* homepage
