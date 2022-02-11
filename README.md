@@ -24,39 +24,39 @@ link to the project deployment:
 
 ## MVP
 
-[x] Create a database of seismic activity updated from the usgs earthquake catalogue API as earthquakes occur in real time.
+* [x] Create a database of seismic activity updated from the usgs earthquake catalogue API as earthquakes occur in real time.
 
-[x] Plot seismic events on an interactive map using the mapbox api.
+* [x] Plot seismic events on an interactive map using the mapbox api.
 
-[x] display seismic event detail page with just one event on it
+* [x] display seismic event detail page with just one event on it
 
-[x] allow users to securely login and comment on seismic events. 
+* [x] allow users to securely login and comment on seismic events. 
 
-[x] allow users to search and filter results of displayed seismic events. (~~location~~, date, magnitude, etc)
+* [x] allow users to search and filter results of displayed seismic events. (~~location~~, date, magnitude, etc)
 
-[x] all registered users viewable from users page 
+* [x] all registered users viewable from users page 
 
-[x] Users have a detail profile page with bio, pfp and comments they have made 
+* [x] Users have a detail profile page with bio, pfp and comments they have made 
 
-[x] Map is usable when not logged in, but comments and users are hidden until login
+* [x] Map is usable when not logged in, but comments and users are hidden until login
 
-[x] styled with bootstrap 4
+* [x] styled with bootstrap 4
 
 ## Stretch
 
-[x] users can reply to comments
+* [x] users can reply to comments
 
-~~[] users can save seismic events without commenting them~~
+* ~~[ ] users can save seismic events without commenting them~~
 
-[x] users can edit/delete comments
+* [x] users can edit/delete comments
 
-[x] users can edit/~~delete profile~~
+* [x] users can edit/~~delete profile~~
 
-[x] additional ways to display data on map (ie ~~heatmap~~, map style selection)
+* [x] additional ways to display data on map (ie ~~heatmap~~, map style selection)
 
-~~[] make it a twitter bot that tweets out new earthquakes~~
+~~* [ ] make it a twitter bot that tweets out new earthquakes~~
 
-~~[] password/account recovery~~
+~~* [ ] password/account recovery~~
 
 ## Routes
 
@@ -89,7 +89,7 @@ DELETE | /details/:earthquakeIndex/comment/:commentIndex/reply:replyIndex/delete
 > * [cloudinary](https://cloudinary.com/)
 > * [randomuser.me](https://randomuser.me/)
 
-## Database models
+## Entity Relationship Diagrams
 
 [Database Models](https://drive.google.com/file/d/1Sro1wSSi3B4oBOXUqYn4Z_SLfWl59hPU/view)
 
@@ -104,7 +104,6 @@ the map search page and map detail page where significantly redesigned
 [trello board](https://trello.com/b/zcVCIB7s/p2)
 
 ## Daily goals plan on hack md
-
 
 [hackmd](https://hackmd.io/cgyQCz0oT0SvSjGNwih8YA)
 
@@ -159,11 +158,9 @@ function getData(){
 }
 
 getData();
-
-
 ```
 
-#### Mapbox client side javascript
+#### Mapbox -- client side javascript
 
 Mapbox needs be configured from client side javascript. Getting complex data from from the server to client using ejs template rendering was a hurdle for this project. 
 
